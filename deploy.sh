@@ -1,6 +1,6 @@
 #!/bin/bash
 # Radical Programming Timeline Deployment Script
-# Deploys to webroot: /home/claude/public_html/radical-programming-timeline
+# Deploys to webroot: /home/claude/public_html/generated-docs/radical-programming-timeline
 
 set -e
 
@@ -14,9 +14,11 @@ fi
 SSH_HOST="${DEPLOY_SSH_HOST:-zx}"
 SSH_USER="claude"
 # Path relative to chroot (/home/claude is the root)
-REMOTE_BASE="/public_html/radical-programming-timeline"
+REMOTE_PARENT="/public_html/generated-docs"
+REMOTE_BASE="${REMOTE_PARENT}/radical-programming-timeline"
 BUILD_DIR="dist"
-PUBLIC_URL="https://dosmenu.com/radical-programming-timeline/"
+PUBLIC_URL="https://dosmenu.com/generated-docs/radical-programming-timeline/"
+PARENT_README="parent-README.txt"
 
 # Colors for output
 RED='\033[0;31m'
@@ -43,16 +45,23 @@ echo -e "SSH: ${SSH_USER}@${SSH_HOST}"
 echo -e "Target: ${REMOTE_BASE}/"
 echo -e "Public URL: ${PUBLIC_URL}${NC}\n"
 
-echo -e "${GREEN}Creating remote directory if it doesn't exist...${NC}"
-# Create the directory using SFTP (since no SSH access)
+echo -e "${GREEN}Creating remote directories if they don't exist...${NC}"
+# Create the parent and project directories using SFTP (since no SSH access)
 sftp "${SSH_USER}@${SSH_HOST}" << EOF
+-mkdir ${REMOTE_PARENT}
 -mkdir ${REMOTE_BASE}
 bye
 EOF
 
-echo -e "\n${GREEN}Uploading files to webroot...${NC}"
-# Upload files directly to the project folder in webroot
+echo -e "\n${GREEN}Uploading project files...${NC}"
+# Upload project files to the project folder
 scp -r ${BUILD_DIR}/* "${SSH_USER}@${SSH_HOST}:${REMOTE_BASE}/"
+
+# Upload parent README if it exists
+if [ -f "$PARENT_README" ]; then
+    echo -e "${GREEN}Uploading parent README...${NC}"
+    scp "${PARENT_README}" "${SSH_USER}@${SSH_HOST}:${REMOTE_PARENT}/README.txt"
+fi
 
 echo -e "\n${GREEN}=== Deployment Successful! ===${NC}\n"
 echo -e "Deployed to: ${REMOTE_BASE}/"

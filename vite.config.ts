@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/radical-programming-timeline/',
+  base: '/generated-docs/radical-programming-timeline/',
   build: {
     outDir: 'dist',
     emptyOutDir: true,
