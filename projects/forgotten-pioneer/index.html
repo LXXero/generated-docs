@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>James R. Harrington: The Forgotten Pioneer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(135deg, #FF6B9D 0%, #FEC368 25%, #4ECDC4 50%, #6C5CE7 75%, #FF6B9D 100%);
+            margin: 0;
+            padding: 40px 20px;
+            color: #1a1a1a;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #FFD93D;
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: #FF6B9D;
+            border-radius: 50%;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 150px;
+            height: 150px;
+            background: #4ECDC4;
+            transform: rotate(45deg);
+        }
+        
+        h1 {
+            font-size: 3.5em;
+            font-weight: 900;
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+            line-height: 1.1;
+            position: relative;
+            z-index: 1;
+            text-shadow: 4px 4px 0px #000;
+            color: #fff;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1a1a1a;
+            position: relative;
+            z-index: 1;
+            background: white;
+            display: inline-block;
+            padding: 10px 20px;
+            transform: rotate(-2deg);
+            box-shadow: 5px 5px 0px #000;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        h2 {
+            font-size: 2.2em;
+            font-weight: 900;
+            color: #6C5CE7;
+            text-transform: uppercase;
+            margin: 0 0 20px 0;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                #FF6B9D,
+                #FF6B9D 10px,
+                #FFD93D 10px,
+                #FFD93D 20px
+            );
+        }
+        
+        h3 {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #4ECDC4;
+            text-transform: uppercase;
+            margin: 30px 0 15px 0;
+        }
+        
+        p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        
+        .highlight-box {
+            background: #FFD93D;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            border: 5px solid #000;
+            box-shadow: 10px 10px 0px #FF6B9D;
+        }
+        
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: #4ECDC4;
+            border-radius: 50%;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .tech-card {
+            background: #6C5CE7;
+            color: white;
+            padding: 25px;
+            border: 4px solid #000;
+            position: relative;
+            transform: rotate(-1deg);
+        }
+        
+        .tech-card:nth-child(even) {
+            transform: rotate(1deg);
+            background: #FF6B9D;
+        }
+        
+        .tech-card h4 {
+            font-size: 1.2em;
+            font-weight: 900;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 40px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 8px;
+            background: repeating-linear-gradient(
+                0deg,
+                #4ECDC4,
+                #4ECDC4 20px,
+                #FF6B9D 20px,
+                #FF6B9D 40px
+            );
+        }
+        
+        .timeline-item {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -46px;
+            top: 8px;
+            width: 20px;
+            height: 20px;
+            background: #FFD93D;
+            border: 4px solid #000;
+            border-radius: 50%;
+        }
+        
+        .year {
+            font-size: 1.5em;
+            font-weight: 900;
+            color: #6C5CE7;
+            display: inline-block;
+            background: #FFD93D;
+            padding: 5px 15px;
+            border: 3px solid #000;
+            margin-bottom: 10px;
+        }
+        
+        .quote {
+            font-size: 1.3em;
+            font-style: italic;
+            font-weight: 700;
+            color: #6C5CE7;
+            padding: 30px;
+            background: white;
+            border-left: 10px solid #4ECDC4;
+            margin: 40px 0;
+            position: relative;
+        }
+        
+        .quote::before {
+            content: '"';
+            font-size: 5em;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            color: #FFD93D;
+            font-family: Georgia, serif;
+        }
+        
+        .geometric-accent {
+            position: absolute;
+            z-index: -1;
+        }
+        
+        .circle {
+            width: 100px;
+            height: 100px;
+            background: #FF6B9D;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-bottom: 100px solid #4ECDC4;
+            opacity: 0.3;
+        }
+        
+        .conclusion {
+            background: #000;
+            color: white;
+            padding: 50px 40px;
+            margin: 0 -40px -40px -40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .conclusion::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: repeating-linear-gradient(
+                90deg,
+                #FF6B9D,
+                #FF6B9D 30px,
+                #FFD93D 30px,
+                #FFD93D 60px,
+                #4ECDC4 60px,
+                #4ECDC4 90px
+            );
+        }
+        
+        .conclusion h2 {
+            color: #FFD93D;
+        }
+        
+        .conclusion p {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>THE FORGOTTEN PIONEER</h1>
+            <div class="subtitle">James R. Harrington & The Pre-Boolean Computer</div>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>The Problem with History</h2>
+                <p>Computing history often credits the same familiar names: Turing, von Neumann, Shannon, Aiken. But what about the engineers who built the actual hardware that made early computers possible? What about the practical innovators who solved complex problems with electromechanical logic before Boolean algebra was even applied to computing?</p>
+                
+                <p>James R. "Bud" Harrington is one such forgotten pioneer. Between 1927 and 1936, he designed and patented a fire alarm system so sophisticated that it essentially functioned as an electromechanical computer—complete with programmable read-only memory, time-division multiplexing, round-robin arbitration, and human-readable printed output. And he did all of this before Claude Shannon's 1937 thesis introduced Boolean algebra to electrical engineering.</p>
+            </div>
+            
+            <div class="section">
+                <h2>The Timeline</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="year">1927</div>
+                        <p><strong>First Patent Filed (US1950108A)</strong> - Harrington's initial fire alarm system design, quickly superseded by more advanced iterations.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="year">1931</div>
+                        <p><strong>Refined System (US2036330A & US2164324A)</strong> - Patents showing the sophisticated aluminum disc encoder and full-width printer mechanism. The system can now transmit location, alarm type, and device state with human-readable timestamps.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="year">1933</div>
+                        <p><strong>Autocall Acquires Howe Manufacturing</strong> - The Autocall-Howe Plant Protection System is born, combining Harrington's innovations with Howe's superior transmitter designs.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="year">1936</div>
+                        <p><strong>Comprehensive Patent (US2202853A)</strong> - Documents multiple transmitter types and system variations. Harrington creates engineering drawings for massive installations like the Ohio Brass Company system.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="year">1937</div>
+                        <p><strong>Shannon's Thesis Published</strong> - Claude Shannon introduces Boolean algebra to electrical engineering, establishing the theoretical foundation for digital logic. Harrington's system predates this work.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="year">1940s</div>
+                        <p><strong>WWII War Effort</strong> - Autocall produces thousands of precision relays for anti-aircraft fire control systems, refining the electromechanical expertise.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="year">1947-1950s</div>
+                        <p><strong>Harvard Computing</strong> - Autocall supplies "HHA relays" (Howard H. Aiken relays) for Harvard's Mark II and subsequent computers. The relay frames still preserved at Harvard bear the label "Autocall, Shelby, Ohio."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <h3>What Made This System Remarkable?</h3>
+                <p>The Autocall-Howe system wasn't just a fire alarm—it was a complete information processing and communication network that operated for over 50 years in critical facilities including the Pentagon, major airports, universities, and manufacturing plants worldwide.</p>
+            </div>
+            
+            <div class="section">
+                <h2>The Technology</h2>
+                
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h4>Programmable ROM</h4>
+                        <p>Aluminum discs with engraved patterns acting as read-only memory, storing location and alarm type information.</p>
+                    </div>
+                    
+                    <div class="tech-card">
+                        <h4>Counter Logic</h4>
+                        <p>Stepping mechanisms with precise gear teeth, not clockwork, allowing accurate position tracking and code generation.</p>
+                    </div>
+                    
+                    <div class="tech-card">
+                        <h4>Time-Division Multiplexing</h4>
+                        <p>Multiple devices sharing a three-wire Class-A loop, transmitting in coordinated time slots to prevent collisions.</p>
+                    </div>
+                    
+                    <div class="tech-card">
+                        <h4>Round-Robin Arbitration</h4>
+                        <p>Stations opening different sides of the loop at different disc positions, allowing fair access and interleaved transmission.</p>
+                    </div>
+                    
+                    <div class="tech-card">
+                        <h4>Multi-Dimensional Encoding</h4>
+                        <p>Multiple contact rows reading different radial positions simultaneously, encoding location, type, and state in one transmission.</p>
+                    </div>
+                    
+                    <div class="tech-card">
+                        <h4>Human-Readable Output</h4>
+                        <p>Full-width printer producing timestamped records like "ALARM NO. 3 1 5 DOE§Co. 1931 JUNE 4 §6 25"—not just punch tape patterns.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>How It Worked</h2>
+                
+                <h3>The Encoding Disc</h3>
+                <p>At the heart of each station was an aluminum disc approximately 2 inches in diameter with roughly 60 precision teeth around its edge. The face of the disc had a non-conductive coating (likely anodized aluminum) that was selectively engraved away in specific patterns—rectangular slots and circular dots arranged in concentric tracks.</p>
+                
+                <p>Beneath this disc were multiple contact pins positioned at different radii. As the disc rotated one tooth position at a time, different combinations of pins would make contact through the engraved areas. This created a multi-dimensional encoding matrix where each disc position could activate different combinations of contacts—essentially a mechanical ROM chip.</p>
+                
+                <h3>The Communication Protocol</h3>
+                <p>When a station activated, it would begin stepping its disc forward, sending 120V DC pulses on the signal wire with each step. The timing between pulses encoded the transmitted digits:</p>
+                
+                <ul style="font-size: 1.1em; line-height: 1.8;">
+                    <li><strong>Short gap:</strong> Same digit continues (counting pulses: tick-tick-tick = "3")</li>
+                    <li><strong>Long gap:</strong> Next digit begins</li>
+                    <li><strong>Round separator:</strong> Complete code finished, may repeat</li>
+                </ul>
+                
+                <p>A code like "5-3-2-1" would be transmitted as: 5 pulses, long gap, 3 pulses, long gap, 2 pulses, long gap, 1 pulse, very long gap (round complete).</p>
+                
+                <h3>The Multiplexing Magic</h3>
+                <p>Here's where it gets brilliant: At certain disc positions, contacts would open one side of the Class-A loop. At other positions, the opposite side would open. This created time slots where stations on different sides of the loop could transmit without interfering with each other.</p>
+                
+                <p>When multiple stations activated simultaneously, they would interleave their codes round-by-round. Station A might send its first round while Station B waits, then B sends its first round while A sends its second round, and so on. The central panel would decode these interleaved pulse streams, tracking each station's state independently.</p>
+                
+                <h3>State Information</h3>
+                <p>The system encoded alarm states through prefix digits and round counts:</p>
+                <ul style="font-size: 1.1em; line-height: 1.8;">
+                    <li><strong>Normal/Reset:</strong> Base prefix (e.g., "5-3-2-1"), transmits 1 round, then stops</li>
+                    <li><strong>Alarm/Set:</strong> Changed prefix (e.g., "6-3-2-1"), transmits 5 rounds or runs continuously</li>
+                    <li><strong>Supervisory:</strong> Different prefixes for valve open, valve closed, etc.</li>
+                </ul>
+            </div>
+            
+            <div class="quote">
+                This was addressable, multiplexed communication with collision avoidance—concepts that wouldn't become standard in fire alarms until the 1980s-90s with digital systems. Harrington did it mechanically in 1931.
+            </div>
+            
+            <div class="section">
+                <h2>The Computer Connection</h2>
+                
+                <p>In the 1940s, as WWII demanded precision electronics, Autocall manufactured thousands of relays for anti-aircraft fire control systems. This work honed their expertise in high-speed, reliable electromechanical switching—exactly the technology needed for early computers.</p>
+                
+                <p>When Howard H. Aiken needed relays for his Harvard Mark II computer (completed 1947), he turned to Autocall. The company supplied what became known as "HHA relays"—miniature, high-speed relays bearing Howard H. Aiken's initials. These same relays were used in subsequent Harvard computers through the early 1950s.</p>
+                
+                <p>Physical evidence remains: Relay frames at the Harvard computer museum still bear the label "Autocall, Shelby, Ohio." This is the tangible connection between Harrington's fire alarm innovations and the birth of modern computing.</p>
+                
+                <div class="highlight-box">
+                    <h3>The Parallel Development</h3>
+                    <p>Harrington wasn't trying to build a computer—he was solving practical engineering problems in fire safety. But in doing so, he independently discovered and implemented fundamental computing concepts:</p>
+                    <ul style="font-size: 1.1em; line-height: 1.8; margin-top: 15px;">
+                        <li>Data encoding and storage (the disc ROMs)</li>
+                        <li>Sequential state machines (the stepping mechanism)</li>
+                        <li>Network protocols (the pulse timing system)</li>
+                        <li>Collision avoidance (the loop-splitting arbitration)</li>
+                        <li>Data logging (the printer output)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Why This Matters</h2>
+                
+                <p>Computing history tends to focus on the theoretical pioneers—the mathematicians and logicians who developed the abstract concepts. But hardware pioneers like Harrington often go unrecognized, even though they solved equivalent problems from a practical engineering perspective.</p>
+                
+                <h3>Parallel Innovation</h3>
+                <p>Time-division multiplexing has roots in 1850s telegraphy (Moses G. Farmer's 1853 patent, Émile Baudot's 1870s-1880s systems). But those were synchronized systems for telegraph signals. Harrington's implementation appears to have dynamic arbitration where stations control their own access—more sophisticated than simple fixed time slots.</p>
+                
+                <p>Round-robin arbitration doesn't appear in computing literature until the 1990s-2000s for bus arbitration. Yet Harrington implemented a mechanical round-robin system in 1931 for resource sharing on a network medium. He may have independently invented this concept decades before it became formalized in computer science.</p>
+                
+                <h3>Pre-Boolean Computing</h3>
+                <p>Shannon's 1937 thesis "A Symbolic Analysis of Relay and Switching Circuits" introduced Boolean algebra to electrical engineering and laid the foundation for digital logic design. But Harrington's patents from 1927-1936 show a fully functional computing system built without this theoretical framework. He used counter-based logic—stepping switches, sequence control, and mechanical state machines—to achieve computational tasks.</p>
+                
+                <p>This demonstrates that multiple paths led to computing. The Boolean approach won because it scales better and is easier to miniaturize, but mechanical counter logic was viable and, in some ways, more intuitive for engineers of that era.</p>
+            </div>
+            
+            <div class="section">
+                <h2>The Tragedy of Lost Knowledge</h2>
+                
+                <p>The Autocall-Howe system remained in production until the 1970s—over 40 years of continuous manufacturing. Systems were installed in:</p>
+                
+                <ul style="font-size: 1.1em; line-height: 1.8;">
+                    <li>The Pentagon (original fire alarm system)</li>
+                    <li>Major airports worldwide</li>
+                    <li>Ford Motor Company plants globally</li>
+                    <li>Universities (MIT, major state institutions)</li>
+                    <li>Major manufacturers (GE, Union Carbide, Caterpillar, etc.)</li>
+                    <li>Government buildings and military installations</li>
+                </ul>
+                
+                <p>At least one system is reportedly still operational today. Yet by the time the internet emerged in the 1990s, most people who understood how these systems worked had passed away. The institutional knowledge died with them.</p>
+                
+                <p>Harrington's name appears on thousands of engineering drawings in the Autocall archives, but he's virtually unknown in computing history. His connection to the Harvard computers is documented only on relay frames in museum storage, not in the computing history books.</p>
+            </div>
+            
+            <div class="section">
+                <h2>A Life Beyond Fire Alarms</h2>
+                
+                <p>James R. "Bud" Harrington was also an established pilot who helped found Lahm Airport in Mansfield, Ohio, flying there as early as 1933. He organized Harrington Air Service and Harrington Aviation, later forming the Harrington Manufacturing Company.</p>
+                
+                <p>This combination of aviation, electrical engineering, and electromechanical design suggests a mind that thought in systems—someone who understood timing, sequencing, reliability, and the critical importance of fail-safe operation. These were exactly the qualities needed for both aviation and the mission-critical fire alarm systems he designed.</p>
+            </div>
+            
+            <div class="conclusion">
+                <h2>Preserving the Legacy</h2>
+                
+                <p>Today, collectors like the person who initiated this research are preserving these systems—not just as fire alarm artifacts, but as examples of early computing technology. The aluminum encoder discs, the stepping mechanisms, the sophisticated printer output—these are physical evidence of pre-Boolean computational thinking.</p>
+                
+                <p>When we connect an ESP32 microcontroller to decode the pulse trains from an 80-year-old fire alarm station, we're not just reverse-engineering vintage equipment. We're documenting a lost branch of computing history—a path that led to the same destination through different means.</p>
+                
+                <p>James R. Harrington deserves recognition not just as a fire alarm pioneer, but as an early computing innovator who built working systems that implemented concepts we now consider fundamental to computer science. He did it with gears, relays, and engraved aluminum discs, decades before anyone formalized the theory.</p>
+                
+                <p>The relay frames at Harvard, labeled "Autocall, Shelby, Ohio," are a monument to this forgotten connection. They represent the bridge between practical electromechanical problem-solving and the theoretical computer science that would eventually eclipse it.</p>
+                
+                <p style="margin-top: 40px; font-size: 1.3em; font-weight: 700; color: #FFD93D;">Before there were bits and bytes, there were pulses and pauses. Before Boolean logic, there were stepping switches. And before Shannon's theorem, there was Harrington's disc.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
