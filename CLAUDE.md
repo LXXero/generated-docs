@@ -3,7 +3,7 @@
 ## Deployment Structure
 
 All projects are deployed under `/public_html/generated-docs/` with the following structure:
-- `/public_html/generated-docs/` - Parent directory with its own README.txt ("Generated Docs" / "Interactive documentation and visualizations generated from code.")
+- `/public_html/generated-docs/` - Parent directory with its own README.txt ("Generated Documents" / "Interactive documentation and visualizations generated from code.")
 - `/public_html/generated-docs/project-name/` - Individual project folders
 
 Each project folder needs a README.txt formatted as:
