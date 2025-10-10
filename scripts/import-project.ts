@@ -29,9 +29,51 @@ function toTitleCase(str: string): string {
     .join(' ');
 }
 
+function extractTitleFromContent(content: string, type: 'tsx' | 'html'): string | null {
+  // Try to extract title from various sources
+
+  // For TSX: Look for h1 tags in JSX
+  const h1Match = content.match(/<h1[^>]*>([^<]+)<\/h1>/i);
+  if (h1Match) {
+    return h1Match[1].trim().replace(/[{}\[\]]/g, '');
+  }
+
+  // For HTML: Look for title tag or h1
+  if (type === 'html') {
+    const titleMatch = content.match(/<title>([^<]+)<\/title>/i);
+    if (titleMatch) {
+      return titleMatch[1].trim();
+    }
+  }
+
+  // Look for common title patterns in strings
+  const titlePatterns = [
+    /title:\s*['"]([^'"]+)['"]/i,
+    /name:\s*['"]([^'"]+)['"]/i,
+  ];
+
+  for (const pattern of titlePatterns) {
+    const match = content.match(pattern);
+    if (match) {
+      return match[1].trim();
+    }
+  }
+
+  return null;
+}
+
+function slugify(str: string): string {
+  return str
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+}
+
 function processImport(filename: string): void {
   const ext = path.extname(filename);
-  const projectName = path.basename(filename, ext);
+  const defaultProjectName = path.basename(filename, ext);
 
   if (!['.tsx', '.html'].includes(ext)) {
     console.log(`⚠️  Skipping ${filename} (unsupported file type)`);
@@ -40,13 +82,31 @@ function processImport(filename: string): void {
 
   const type = ext === '.tsx' ? 'tsx' : 'html';
   const sourcePath = path.join(IMPORT_DIR, filename);
+
+  // Read file content to extract title
+  const content = fs.readFileSync(sourcePath, 'utf-8');
+  const extractedTitle = extractTitleFromContent(content, type);
+
+  // Determine project name and title
+  let projectName = defaultProjectName;
+  let projectTitle = toTitleCase(defaultProjectName);
+
+  if (extractedTitle) {
+    projectName = slugify(extractedTitle);
+    projectTitle = extractedTitle;
+    console.log(`\n📦 Processing: ${filename}`);
+    console.log(`   Detected title: "${extractedTitle}"`);
+    console.log(`   Project name: ${projectName}`);
+  } else {
+    console.log(`\n📦 Processing: ${filename}`);
+    console.log(`   Project name: ${projectName} (from filename)`);
+  }
+
+  console.log(`   Type: ${type}`);
+
   const projectDir = path.join(PROJECTS_DIR, projectName);
   const targetFile = path.join(projectDir, `index${ext}`);
   const metadataFile = path.join(projectDir, 'project.json');
-
-  console.log(`\n📦 Processing: ${filename}`);
-  console.log(`   Project name: ${projectName}`);
-  console.log(`   Type: ${type}`);
 
   // Create project directory
   if (!fs.existsSync(projectDir)) {
@@ -65,7 +125,7 @@ function processImport(filename: string): void {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${metadata ? metadata.title : toTitleCase(projectName)}</title>
+    <title>${projectTitle}</title>
   </head>
   <body>
     <div id="root"></div>
@@ -112,8 +172,8 @@ body {
   } else {
     metadata = {
       name: projectName,
-      title: toTitleCase(projectName),
-      description: `Interactive ${toTitleCase(projectName)}`,
+      title: projectTitle,
+      description: `Interactive ${projectTitle}`,
       type: type,
     };
     console.log(`   ✓ Created project.json`);
