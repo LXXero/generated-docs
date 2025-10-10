@@ -5,20 +5,27 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "import": "tsx scripts/import-project.ts",
+    "build-all": "tsx scripts/build-projects.ts",
+    "build-project": "tsx scripts/build-projects.ts",
+    "deploy-all": "./scripts/deploy-projects.sh",
+    "deploy": "./scripts/deploy-projects.sh"
   },
   "dependencies": {
+    "lucide-react": "^0.263.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "lucide-react": "^0.263.1"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@types/node": "^24.7.1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.13",
+    "tsx": "^4.20.6",
     "typescript": "^5.5.3",
     "vite": "^5.4.1"
   }
