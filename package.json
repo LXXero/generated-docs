@@ -6,6 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "publish": "./scripts/publish.sh",
     "import": "tsx scripts/import-project.ts",
     "build-all": "tsx scripts/build-projects.ts",
     "build-project": "tsx scripts/build-projects.ts",
