@@ -6,12 +6,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "publish": "./scripts/publish.sh",
+    "deploy": "./scripts/deploy.sh",
     "import": "tsx scripts/import-project.ts",
     "build-all": "tsx scripts/build-projects.ts",
     "build-project": "tsx scripts/build-projects.ts",
-    "deploy-all": "./scripts/deploy-projects.sh",
-    "deploy": "./scripts/deploy-projects.sh"
+    "deploy-all": "./scripts/deploy-projects.sh"
   },
   "dependencies": {
     "lucide-react": "^0.263.1",
