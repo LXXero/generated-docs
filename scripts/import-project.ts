@@ -29,20 +29,43 @@ function toTitleCase(str: string): string {
     .join(' ');
 }
 
+function cleanAndTitleCase(str: string): string {
+  // Extract trailing punctuation (!, ?, ., etc)
+  const punctuationMatch = str.match(/([!?.,;:]+)\s*$/);
+  const trailingPunctuation = punctuationMatch ? punctuationMatch[1] : '';
+
+  // Remove trailing punctuation temporarily
+  let cleaned = str.replace(/[!?.,;:]+\s*$/, '');
+
+  // Remove non-alphanumeric characters except spaces (removes special chars like ⚡)
+  cleaned = cleaned.replace(/[^a-zA-Z0-9\s]/g, '');
+
+  // Convert to title case
+  const titleCased = cleaned
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(word => word.length > 0)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+
+  // Add back trailing punctuation
+  return titleCased + trailingPunctuation;
+}
+
 function extractTitleFromContent(content: string, type: 'tsx' | 'html'): string | null {
   // Try to extract title from various sources
 
   // For TSX: Look for h1 tags in JSX
   const h1Match = content.match(/<h1[^>]*>([^<]+)<\/h1>/i);
   if (h1Match) {
-    return h1Match[1].trim().replace(/[{}\[\]]/g, '');
+    return cleanAndTitleCase(h1Match[1].trim());
   }
 
   // For HTML: Look for title tag or h1
   if (type === 'html') {
     const titleMatch = content.match(/<title>([^<]+)<\/title>/i);
     if (titleMatch) {
-      return titleMatch[1].trim();
+      return cleanAndTitleCase(titleMatch[1].trim());
     }
   }
 
@@ -55,7 +78,7 @@ function extractTitleFromContent(content: string, type: 'tsx' | 'html'): string 
   for (const pattern of titlePatterns) {
     const match = content.match(pattern);
     if (match) {
-      return match[1].trim();
+      return cleanAndTitleCase(match[1].trim());
     }
   }
 
