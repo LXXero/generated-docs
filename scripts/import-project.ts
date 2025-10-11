@@ -40,13 +40,28 @@ function cleanAndTitleCase(str: string): string {
   // Remove non-alphanumeric characters except spaces (removes special chars like ⚡)
   cleaned = cleaned.replace(/[^a-zA-Z0-9\s]/g, '');
 
-  // Convert to title case
-  const titleCased = cleaned
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(word => word.length > 0)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+  // Split into words and preserve original casing for analysis
+  const words = cleaned.split(/\s+/).filter(word => word.length > 0);
+
+  // Convert to title case with smart acronym detection
+  const titleCased = words.map(word => {
+    // 1. Short all-caps (2-4 chars) = likely acronym (ECS, API, CSS, 3D, HTML5)
+    if (word.length >= 2 && word.length <= 4 && word === word.toUpperCase()) {
+      return word;
+    }
+
+    // 2. Has mixed case = preserve it (handles iOS, macOS, WebGL, JavaScript)
+    const hasLower = word !== word.toUpperCase();
+    const hasUpper = word !== word.toLowerCase();
+    const standardTitleCase = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+
+    if (hasLower && hasUpper && word !== standardTitleCase) {
+      return word; // Keep original mixed case
+    }
+
+    // 3. Otherwise, convert to title case
+    return standardTitleCase;
+  }).join(' ');
 
   // Add back trailing punctuation
   return titleCased + trailingPunctuation;
@@ -85,6 +100,47 @@ function extractTitleFromContent(content: string, type: 'tsx' | 'html'): string 
   return null;
 }
 
+function extractDescriptionFromContent(content: string, type: 'tsx' | 'html'): string | null {
+  // Try to extract description from various sources
+
+  // Look for subheadline class (common in newspaper-style layouts)
+  const subheadlineMatch = content.match(/<div class="subheadline"[^>]*>\s*([^<]+)\s*<\/div>/i);
+  if (subheadlineMatch) {
+    return subheadlineMatch[1].trim();
+  }
+
+  // Look for headline class (fallback)
+  const headlineMatch = content.match(/<div class="headline"[^>]*>\s*([^<]+)\s*<\/div>/i);
+  if (headlineMatch) {
+    // Clean up the headline - remove the title prefix if present
+    let headline = headlineMatch[1].trim();
+    // Remove patterns like "TITLE: " from the beginning
+    headline = headline.replace(/^[^:]+:\s*/, '');
+    return headline;
+  }
+
+  // Look for meta description
+  const metaMatch = content.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i);
+  if (metaMatch) {
+    return metaMatch[1].trim();
+  }
+
+  // Look for common description patterns
+  const descPatterns = [
+    /description:\s*['"]([^'"]+)['"]/i,
+    /subtitle:\s*['"]([^'"]+)['"]/i,
+  ];
+
+  for (const pattern of descPatterns) {
+    const match = content.match(pattern);
+    if (match) {
+      return match[1].trim();
+    }
+  }
+
+  return null;
+}
+
 function slugify(str: string): string {
   return str
     .toLowerCase()
@@ -106,15 +162,25 @@ function processImport(filename: string): void {
   const type = ext === '.tsx' ? 'tsx' : 'html';
   const sourcePath = path.join(IMPORT_DIR, filename);
 
-  // Read file content to extract title
+  // Read file content to extract title and description
   const content = fs.readFileSync(sourcePath, 'utf-8');
   const extractedTitle = extractTitleFromContent(content, type);
+  const extractedDescription = extractDescriptionFromContent(content, type);
+
+  // Check for manual title override via environment variable
+  const titleOverride = process.env.IMPORT_TITLE;
 
   // Determine project name and title
   let projectName = defaultProjectName;
   let projectTitle = toTitleCase(defaultProjectName);
 
-  if (extractedTitle) {
+  if (titleOverride) {
+    projectName = slugify(titleOverride);
+    projectTitle = titleOverride;
+    console.log(`\n📦 Processing: ${filename}`);
+    console.log(`   Title override: "${titleOverride}"`);
+    console.log(`   Project name: ${projectName}`);
+  } else if (extractedTitle) {
     projectName = slugify(extractedTitle);
     projectTitle = extractedTitle;
     console.log(`\n📦 Processing: ${filename}`);
@@ -193,13 +259,17 @@ body {
     };
     console.log(`   ✓ Updated existing project.json`);
   } else {
+    const defaultDescription = extractedDescription || `Interactive ${projectTitle}`;
     metadata = {
       name: projectName,
       title: projectTitle,
-      description: `Interactive ${projectTitle}`,
+      description: defaultDescription,
       type: type,
     };
     console.log(`   ✓ Created project.json`);
+    if (extractedDescription) {
+      console.log(`   ✓ Detected description from content`);
+    }
   }
 
   fs.writeFileSync(metadataFile, JSON.stringify(metadata, null, 2));
