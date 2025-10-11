@@ -144,10 +144,10 @@ function extractDescriptionFromContent(content: string, type: 'tsx' | 'html'): s
 function slugify(str: string): string {
   return str
     .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim();
+    .replace(/[^\w\s-]/g, '')     // Remove special chars
+    .replace(/\s+/g, '-')          // Convert spaces to dashes
+    .replace(/-+/g, '-')           // Collapse multiple dashes
+    .replace(/^[-\s]+|[-\s]+$/g, ''); // Remove leading/trailing dashes and spaces
 }
 
 function processImport(filename: string): void {
