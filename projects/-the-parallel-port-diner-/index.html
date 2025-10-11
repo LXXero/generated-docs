@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Parallel Port Diner</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: #0f0;
+            font-family: 'Press Start 2P', cursive;
+            padding: 20px;
+            overflow-x: hidden;
+            animation: scanlines 8s linear infinite;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 255, 0, 0.03) 0px,
+                    transparent 1px,
+                    transparent 2px,
+                    rgba(0, 255, 0, 0.03) 3px
+                );
+        }
+        
+        @keyframes scanlines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100px; }
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0, 20, 0, 0.9);
+            border: 4px solid #0f0;
+            box-shadow: 0 0 30px #0f0, inset 0 0 20px rgba(0, 255, 0, 0.1);
+            padding: 30px;
+        }
+        
+        .neon-sign {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: neon-flicker 3s infinite;
+        }
+        
+        @keyframes neon-flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0, 0 0 40px #0f0;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+        
+        h1 {
+            font-size: 1.5em;
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 0.6em;
+            color: #ffff00;
+            text-shadow: 0 0 5px #ffff00;
+        }
+        
+        .menu-section {
+            margin: 30px 0;
+            border: 2px solid #00ff00;
+            padding: 20px;
+            background: rgba(0, 50, 0, 0.3);
+        }
+        
+        h2 {
+            font-size: 1em;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed #00ffff;
+            padding-bottom: 10px;
+        }
+        
+        .menu-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 4px solid #ff00ff;
+            line-height: 1.8;
+            font-size: 0.5em;
+        }
+        
+        .item-name {
+            color: #ffff00;
+            text-shadow: 0 0 5px #ffff00;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .price {
+            color: #ff0000;
+            text-shadow: 0 0 5px #ff0000;
+            float: right;
+        }
+        
+        .description {
+            color: #0f0;
+            font-size: 0.9em;
+        }
+        
+        .arcade-border {
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff) 1;
+            padding: 15px;
+            margin: 20px 0;
+            background: rgba(0, 0, 50, 0.3);
+        }
+        
+        .blink {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.4em;
+            color: #888;
+        }
+        
+        .pixel-art {
+            text-align: center;
+            font-size: 0.3em;
+            color: #0f0;
+            margin: 20px 0;
+            line-height: 1.2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="neon-sign">
+            <h1>⚡ THE PARALLEL PORT DINER ⚡</h1>
+            <div class="subtitle">EST. 1994 - WHERE LEGACY PERIPHERALS MEET FLAVOR</div>
+        </div>
+        
+        <div class="pixel-art">
+            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓<br>
+            ▓ [█][█][█][█][█] ▓<br>
+            ▓  25-PIN SPECIAL  ▓<br>
+            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+        </div>
+
+        <div class="menu-section">
+            <h2>🍔 THE PARALLEL PORT COMBO PLATTER 🍔</h2>
+            
+            <div class="menu-item">
+                <span class="item-name">THE SCANNER SUPREME</span>
+                <span class="price">★★★</span>
+                <div class="description">
+                    HP, EPSON & VISIONEER STYLE! POPULAR FLATBED GOODNESS BEFORE USB TOOK OVER THE KITCHEN
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <span class="item-name">ZIP & JAZZ DRIVE DELUXE</span>
+                <span class="price">★★★★</span>
+                <div class="description">
+                    IOMEGA'S FINEST REMOVABLE STORAGE! 100MB-2GB OF CHUNKY BACKUP GOODNESS
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <span class="item-name">THE EXTERNAL CD TOWER</span>
+                <span class="price">★★★</span>
+                <div class="description">
+                    CD-ROM & CD-R DRIVES FOR LAPTOPS! STACKED HIGH WITH 650MB OF OPTICAL FLAVOR
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <span class="item-name">HARD DRIVE BURGER</span>
+                <span class="price">★★★★</span>
+                <div class="description">
+                    EXTERNAL STORAGE PATTY! SERVED WITH IOMEGA SECRET SAUCE
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <span class="item-name">TAPE BACKUP WRAP</span>
+                <span class="price">★★★</span>
+                <div class="description">
+                    SMALL BUSINESS SPECIAL! WRAPPED IN RELIABLE QIC CARTRIDGE GOODNESS
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <span class="item-name">NETWORK ADAPTER NUGGETS</span>
+                <span class="price">★★</span>
+                <div class="description">
+                    LESS COMMON BUT TASTY! ETHERNET CONNECTIVITY IN BITE-SIZE PIECES
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <span class="item-name">SCSI ADAPTER SIDES</span>
+                <span class="price">★★</span>
+                <div class="description">
+                    DAISY-CHAIN YOUR PERIPHERALS! SERVED WITH TERMINATION RESISTOR GARNISH
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <span class="item-name">DIGITAL CAMERA CHIPS</span>
+                <span class="price">★★</span>
+                <div class="description">
+                    EARLY DIGICAM TRANSFER CRUNCH! 640x480 PIXELS OF PURE NOSTALGIA
+                </div>
+            </div>
+        </div>
+
+        <div class="arcade-border">
+            <h2>🎮 MANAGER'S SPECIAL: THE MODEM MIX-UP 🎮</h2>
+            <div class="menu-item">
+                <div class="description">
+                    OOPS! YOU WERE THINKING OF SERIAL PORT MODEMS (9-PIN) NOT PARALLEL! <br><br>
+                    ★ HARDWARE MODEMS: SERIAL/ISA - THE GOOD STUFF<br>
+                    ★ WINMODEMS: PCI - THE TERRIBLE STUFF NOBODY ORDERED<br><br>
+                    <span class="blink">★ NO REFUNDS ON CONFUSION ★</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <h2>💎 THE SCSI PREMIUM MENU 💎</h2>
+            <div class="menu-item">
+                <span class="item-name">THE PRO UPGRADE</span>
+                <span class="price">★★★★★★</span>
+                <div class="description">
+                    SAME ITEMS, PROFESSIONAL GRADE!<br><br>
+                    ★ HIGHER COST - PREMIUM INGREDIENTS<br>
+                    ★ BETTER PERFORMANCE - FASTER COOKING<br>
+                    ★ MULTI-DEVICE CHAINING - SHARE WITH 7 FRIENDS<br>
+                    ★ REQUIRES CONTROLLER CARD - BYO KITCHEN<br>
+                    ★ TERMINATION & ID SETTINGS - SOME ASSEMBLY REQUIRED<br><br>
+                    SCSI: FOR WHEN YOU WANT THE SAME MEAL BUT FANCY
+                </div>
+            </div>
+        </div>
+
+        <div class="arcade-border">
+            <h2>🏆 TODAY'S SPECIAL INSIGHT 🏆</h2>
+            <div class="menu-item">
+                <div class="description">
+                    PARALLEL PORT = CONSUMER SWEET SPOT<br><br>
+                    ★ CHEAPER THAN SCSI<br>
+                    ★ BETTER THAN NOTHING<br>
+                    ★ NO CASE OPENING REQUIRED<br>
+                    ★ THE BRIDGE TECH UNTIL USB ARRIVED<br><br>
+                    "EXTERNAL, AFFORDABLE, ACCESSIBLE"<br>
+                    - CHEF'S PHILOSOPHY, 1995
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>★ INSERT COIN TO CONTINUE ★</p>
+            <p>THANK YOU FOR VISITING THE PARALLEL PORT DINER</p>
+            <p class="blink">PRESS START</p>
+        </div>
+    </div>
+</body>
+</html>
