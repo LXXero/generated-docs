@@ -105,7 +105,8 @@ function buildHtmlProject(projectName: string, metadata: ProjectMetadata): void 
 function buildProject(projectName: string): void {
   console.log(`\n📦 Building: ${projectName}`);
 
-  const projectDir = path.join(PROJECTS_DIR, projectName);
+  let currentProjectName = projectName;
+  let projectDir = path.join(PROJECTS_DIR, projectName);
   const metadata = loadProjectMetadata(projectDir);
 
   if (!metadata) {
@@ -113,7 +114,35 @@ function buildProject(projectName: string): void {
     return;
   }
 
-  const buildDir = path.join(BUILDS_DIR, projectName);
+  // Check if directory name matches project.json name field
+  if (metadata.name !== projectName) {
+    console.log(`   🔄 Directory name mismatch detected`);
+    console.log(`      Old: ${projectName}`);
+    console.log(`      New: ${metadata.name}`);
+
+    const newProjectDir = path.join(PROJECTS_DIR, metadata.name);
+
+    // Rename the directory
+    if (fs.existsSync(newProjectDir)) {
+      console.log(`   ⚠️  Target directory already exists, skipping rename`);
+    } else {
+      fs.renameSync(projectDir, newProjectDir);
+      console.log(`   ✓ Renamed directory to: ${metadata.name}`);
+
+      // Clean up old build directory if it exists
+      const oldBuildDir = path.join(BUILDS_DIR, projectName);
+      if (fs.existsSync(oldBuildDir)) {
+        fs.rmSync(oldBuildDir, { recursive: true, force: true });
+        console.log(`   ✓ Cleaned up old build directory`);
+      }
+
+      // Update references
+      currentProjectName = metadata.name;
+      projectDir = newProjectDir;
+    }
+  }
+
+  const buildDir = path.join(BUILDS_DIR, currentProjectName);
 
   // Ensure builds directory exists
   if (!fs.existsSync(buildDir)) {
@@ -122,9 +151,9 @@ function buildProject(projectName: string): void {
 
   // Build based on type
   if (metadata.type === 'tsx') {
-    buildTsxProject(projectName, metadata);
+    buildTsxProject(currentProjectName, metadata);
   } else if (metadata.type === 'html') {
-    buildHtmlProject(projectName, metadata);
+    buildHtmlProject(currentProjectName, metadata);
   }
 
   // Generate README.txt
@@ -133,7 +162,7 @@ function buildProject(projectName: string): void {
   fs.writeFileSync(readmePath, readmeContent);
   console.log(`   ✓ Generated README.txt`);
 
-  console.log(`✅ Successfully built: ${projectName}`);
+  console.log(`✅ Successfully built: ${currentProjectName}`);
 }
 
 function ensureParentReadme(): void {
