@@ -1,0 +1,533 @@
+<HTML>
+<HEAD>
+<TITLE>Progressive Abandonment: Why We Stopped Supporting IE5</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFE0" TEXT="#000000" LINK="#0000EE" VLINK="#551A8B">
+
+<TABLE WIDTH="100%" BGCOLOR="#003366" CELLPADDING=12 CELLSPACING=0 BORDER=0>
+<TR>
+<TD ALIGN="CENTER">
+<FONT SIZE="+3" COLOR="#FFFFFF"><B>Progressive Abandonment</B></FONT><BR>
+<FONT SIZE="+1" COLOR="#FFCC00"><B>Why We Stopped Supporting IE5 (And Why We Didn't Have To)</B></FONT><BR>
+<FONT COLOR="#FFFFFF"><I>A philosophical exploration of web development, progressive enhancement, and the cost of "progress"</I></FONT>
+</TD>
+</TR>
+</TABLE>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#CC0000" CELLPADDING=6 CELLSPACING=0 BORDER=0>
+<TR><TD><FONT COLOR="#FFFFFF" SIZE="+1"><B>"You Call That Classic Web Dev?"</B></FONT></TD></TR>
+</TABLE>
+
+<P>After spending an hour debugging why wide ANSI terminal art was breaking our page layout on a retro browser interface, I called it "classic web dev."</P>
+
+<P>The response: <I>"This is literally why I'm a systems architect and not a frontend designer, LOL"</I></P>
+
+<P>And honestly? Fair. We had just debugged "make wide content stay inside a box" - supposedly the most basic thing in web development. But the journey involved:</P>
+
+<OL>
+<LI>"Elements are disappearing!" (they weren't, they were scrolled off-screen)
+<LI>"Is it CSS corruption?" (no, it was horizontal layout explosion)
+<LI>"Try overflow-x!" (CSS3, won't work on IE5)
+<LI>"Try max-width!" (breaks padding calculations due to box model)
+<LI>"Try table-layout: fixed!" (not sufficient alone)
+<LI>"Try max-width: 0 on cells!" (breaks the entire header)
+<LI>"Add a specific class!" (finally works)
+<LI>"Do we even need overflow-x?" (nope, simpler without it)
+</OL>
+
+<P>All of this just to make a rectangle stay inside another rectangle.</P>
+
+<P>Meanwhile, in systems architecture: "Distributed consensus across 10,000 nodes? Yeah, I can reason about that." But CSS? "Why won't this box behave??"</P>
+
+<P><B>Frontend is chaos held together by duct tape and the tears of developers who just wanted things to line up.</B></P>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#0066CC" CELLPADDING=6 CELLSPACING=0 BORDER=0>
+<TR><TD><FONT COLOR="#FFFFFF" SIZE="+1"><B>The Disgruntled Truth About Node.js and Progressive Enhancement</B></FONT></TD></TR>
+</TABLE>
+
+<P>Then came the kicker: <I>"Insert disgruntled comment here about nodejs bleeding frontend into backend and progressive enhancement kicking all ya'lls ass"</I></P>
+
+<P>The irony is rich. The web development community spent years touting <B>progressive enhancement</B> as a best practice:</P>
+
+<P><B>The Promise:</B> "Build for the baseline, enhance for modern browsers!"</P>
+
+<P><B>The Reality:</B> <I>Builds entire app in React with 47 npm packages, requires ES2020 and WebAssembly, breaks on anything older than Chrome 90</I></P>
+
+<P>We're not doing progressive enhancement. We're doing <B>progressive hope</B> - starting with modern browsers and praying it degrades gracefully to... well, not IE5, that's for sure.</P>
+
+<P>And Node.js bleeding frontend chaos into the backend? It gave backend developers a whole new set of problems:</P>
+
+<UL>
+<LI>Webpack configs for server code
+<LI><FONT FACE="Courier">node_modules</FONT> being 500MB for a "hello world" app
+<LI>"This package requires ESM but that one needs CommonJS"
+<LI>NPM supply chain attacks
+<LI>Dependency hell 15 layers deep
+<LI>Just to <FONT FACE="Courier">leftPad('hello', 10)</FONT> on the server instead of writing 3 lines of code
+</UL>
+
+<P>Meanwhile, this project runs a Go binary that:</P>
+
+<UL>
+<LI>Compiles to a single static executable
+<LI>Serves HTML 4.01 Strict
+<LI>Works on IE5 from a G3 Mac running at 266MHz
+<LI>Also works on modern browsers
+<LI>Has zero npm dependencies (because there's no npm)
+</UL>
+
+<P><B>Frontend complexity is kicking everyone's ass, even when we actively try to avoid it.</B></P>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#009900" CELLPADDING=6 CELLSPACING=0 BORDER=0>
+<TR><TD><FONT COLOR="#FFFFFF" SIZE="+1"><B>The Three Phases of Web Development</B></FONT></TD></TR>
+</TABLE>
+
+<P>The real story isn't just about technical choices. It's about a philosophical shift that happened in three distinct phases:</P>
+
+<TABLE BORDER=2 CELLPADDING=8 CELLSPACING=0 WIDTH="100%">
+<TR BGCOLOR="#0066CC">
+<TH><FONT COLOR="#FFFFFF">Phase 1: Progressive Enhancement<BR>(1990s-2000s)</FONT></TH>
+<TH><FONT COLOR="#FFFFFF">Phase 2: The Great Abandonment<BR>(2010s - The SPA Era)</FONT></TH>
+<TH><FONT COLOR="#FFFFFF">Phase 3: The Rediscovery<BR>(Late 2010s-Present)</FONT></TH>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#E6F2FF">
+<UL>
+<LI>Server-side rendering was the default
+<LI>JavaScript enhanced functionality, it didn't require it
+<LI>Sites worked on everything, degraded gracefully
+<LI>Philosophy: "Build for baseline, enhance up"
+<LI>Accessibility was a natural outcome, not a checkbox
+</UL>
+</TD>
+<TD BGCOLOR="#FFE6E6">
+<UL>
+<LI>"JavaScript is the platform now"
+<LI>Client-side rendering for everything
+<LI>Single Page Applications became the default for EVERYTHING
+<LI>"Progressive enhancement is outdated"
+<LI>SEO died, accessibility died, performance tanked
+<LI>"Just require modern browsers lol"
+<LI>npm packages for the simplest operations
+<LI>Build pipelines that take longer than the code
+</UL>
+</TD>
+<TD BGCOLOR="#E6FFE6">
+<UL>
+<LI>"Wait, SPAs are slow and break everything"
+<LI>Next.js/Remix/Astro bring back server-side rendering (and call it "innovation")
+<LI>htmx/Alpine/"HTML-first" frameworks emerge
+<LI>"Islands architecture" is invented (it's just progressive enhancement with a new name)
+<LI>Performance budgets force everyone to rethink their approach
+<LI>Core Web Vitals punish heavy JavaScript
+</UL>
+</TD>
+</TR>
+</TABLE>
+
+<P><B>The Punchline:</B></P>
+
+<P>We spent a decade:</P>
+<OL>
+<LI>Abandoning progressive enhancement
+<LI>Building SPAs that broke accessibility, SEO, and performance
+<LI>Creating frameworks to "solve" problems we ourselves created
+<LI>Rebranding progressive enhancement as "modern best practices"
+<LI>Acting like we invented something new
+</OL>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#FF9900" CELLPADDING=6 CELLSPACING=0 BORDER=0>
+<TR><TD><FONT COLOR="#FFFFFF" SIZE="+1"><B>What This Project Proves</B></FONT></TD></TR>
+</TABLE>
+
+<P>Meanwhile, this 1999-browser-compatible approach does <B>all of this correctly by default</B>:</P>
+
+<UL>
+<LI>Server-side rendering (Go templates)
+<LI>Works without JavaScript (form submissions)
+<LI>Enhanced with JavaScript (XHR for modern browsers)
+<LI>Accessible (semantic HTML 4.01)
+<LI>Fast (minimal payload, no bundle)
+<LI>SEO-friendly (real HTML, not JS-rendered)
+<LI>Progressive (iframe callbacks for IE5, SSE for modern)
+</UL>
+
+<P>The architecture proves something important: <B>Nothing about web technology required breaking backwards compatibility. We just stopped caring.</B></P>
+
+<H3>The Proof Points</H3>
+
+<P>The tech stack from 25 years ago is completely capable:</P>
+
+<UL>
+<LI>HTML 4.01? Still perfectly functional
+<LI>CSS 2.1? Does everything you need for layout
+<LI>ES3 JavaScript? Totally capable of interactivity
+<LI>HTTP/1.1? Works fine
+<LI>Server-side rendering? Never stopped working
+</UL>
+
+<P>This project runs a <B>2025 AI API</B> through a <B>1999 browser</B>. The limiting factor is CSS box model quirks, not fundamental impossibility.</P>
+
+<P>What changed wasn't capability, it was <B>willingness</B>:</P>
+
+<UL>
+<LI>"Supporting IE is too hard" &rarr; so we stopped
+<LI>"Polyfills are annoying" &rarr; so we required modern JS
+<LI>"Progressive enhancement is extra work" &rarr; so we built SPA-only
+<LI>"Old browsers don't have XMLHttpRequest2" &rarr; so we broke them
+<LI>"Testing on old browsers takes time" &rarr; so we deprecated them
+</UL>
+
+<P>But none of that was <B>necessary</B>. It was a choice. We traded universal compatibility for developer convenience.</P>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#CC0099" CELLPADDING=6 CELLSPACING=0 BORDER=0>
+<TR><TD><FONT COLOR="#FFFFFF" SIZE="+1"><B>The Deeper Realization: We Could Still Support IE5</B></FONT></TD></TR>
+</TABLE>
+
+<P>Here's where it gets interesting. Not only could we have <B>maintained</B> compatibility, but had we stuck to progressive enhancement principles, we could <B>theoretically still support browsers as old as IE5 today</B>.</P>
+
+<P>Imagine a modern framework written with this mindset:</P>
+
+<TABLE BORDER=2 CELLPADDING=6 CELLSPACING=0 WIDTH="100%">
+<TR BGCOLOR="#009900"><TD><FONT COLOR="#FFFFFF"><B>Baseline: HTML 4.01, CSS 2.1, ES3</B> (works on IE5)</FONT></TD></TR>
+<TR><TD BGCOLOR="#E6FFE6">
+<UL>
+<LI>Server-side rendering
+<LI>Semantic HTML
+<LI>Form-based interactions
+<LI>Progressive enhancement via feature detection
+</UL>
+</TD></TR>
+
+<TR BGCOLOR="#0066CC"><TD><FONT COLOR="#FFFFFF"><B>Layer 1: ES5 features</B> (IE9+)</FONT></TD></TR>
+<TR><TD BGCOLOR="#E6F2FF">
+<UL>
+<LI>JSON parsing
+<LI>Array methods
+<LI>Better DOM APIs
+</UL>
+</TD></TR>
+
+<TR BGCOLOR="#FF9900"><TD><FONT COLOR="#FFFFFF"><B>Layer 2: Modern CSS</B> (2010s+)</FONT></TD></TR>
+<TR><TD BGCOLOR="#FFF4E6">
+<UL>
+<LI>Flexbox and Grid for modern browsers
+<LI>CSS variables where available
+<LI>Fallbacks to tables/floats for old browsers
+</UL>
+</TD></TR>
+
+<TR BGCOLOR="#CC0099"><TD><FONT COLOR="#FFFFFF"><B>Layer 3: ES6+</B> (2015+)</FONT></TD></TR>
+<TR><TD BGCOLOR="#FFE6F7">
+<UL>
+<LI>Arrow functions, modules
+<LI>Async/await
+<LI>Modern JavaScript conveniences
+</UL>
+</TD></TR>
+
+<TR BGCOLOR="#CC0000"><TD><FONT COLOR="#FFFFFF"><B>Layer 4: Cutting Edge</B> (present)</FONT></TD></TR>
+<TR><TD BGCOLOR="#FFE6E6">
+<UL>
+<LI>WebAssembly
+<LI>Web Components
+<LI>Modern APIs
+</UL>
+</TD></TR>
+</TABLE>
+
+<P>At every layer, it degrades gracefully. This project proves it's possible because it does exactly this:</P>
+
+<UL>
+<LI>IE5 gets: server-rendered HTML + iframe callbacks
+<LI>Modern browsers get: same HTML + XHR + SSE streaming
+<LI><B>Both work. Same backend. Same HTML structure.</B>
+</UL>
+
+<P>The counterarguments fall apart under scrutiny:</P>
+
+<UL>
+<LI>"But modern apps need modern features!" &rarr; This AI chat works on IE5
+<LI>"But performance!" &rarr; A G3 Mac at 266MHz handles it fine
+<LI>"But developer experience!" &rarr; This was built, it wasn't impossible
+<LI>"But maintenance burden!" &rarr; This stack is simpler than most modern apps
+</UL>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#0099CC" CELLPADDING=6 CELLSPACING=0 BORDER=0>
+<TR><TD><FONT COLOR="#FFFFFF" SIZE="+1"><B>The Thought Experiment: Adaptive Server-Side Rendering</B></FONT></TD></TR>
+</TABLE>
+
+<P>Taking it even further: with a little inventiveness, you could have HTML 4.01 upgrade to newer HTML versions <B>purely server-side</B>. This goes beyond normal progressive enhancement into something more interesting.</P>
+
+<TABLE BORDER=2 CELLPADDING=8 CELLSPACING=0 WIDTH="100%">
+<TR BGCOLOR="#0066CC">
+<TH><FONT COLOR="#FFFFFF">Traditional Progressive Enhancement</FONT></TH>
+<TH><FONT COLOR="#FFFFFF">Adaptive Server-Side Rendering</FONT></TH>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#E6F2FF">
+<UL>
+<LI>Server sends same HTML to everyone
+<LI>Client detects features, enhances with JavaScript
+<LI>Degradation happens client-side
+</UL>
+</TD>
+<TD BGCOLOR="#E6FFE6">
+<UL>
+<LI>Server detects browser capabilities
+<LI>IE5 gets: <FONT FACE="Courier">&lt;table&gt;</FONT>, <FONT FACE="Courier">&lt;div&gt;</FONT>, inline styles
+<LI>Modern browsers get: <FONT FACE="Courier">&lt;article&gt;</FONT>, <FONT FACE="Courier">&lt;section&gt;</FONT>, CSS Grid
+<LI><B>Same logical content, optimal markup for each client</B>
+<LI>No polyfills, no feature detection JavaScript, no wasted bytes
+</UL>
+</TD>
+</TR>
+</TABLE>
+
+<P>We used to do this! Early 2000s had WAP vs desktop detection. Mobile sites served different HTML. Server-side browser sniffing was standard practice.</P>
+
+<P>This goes beyond progressive enhancement - it's <B>capability-aware rendering</B>. Same backend logic, adaptive presentation layer. And CGI scripts could have done this in 1995. We just chose not to keep doing it.</P>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#CC0000" CELLPADDING=6 CELLSPACING=0 BORDER=0>
+<TR><TD><FONT COLOR="#FFFF00" SIZE="+1"><B>Historical Precedent: eBay's C CGI Architecture</B></FONT></TD></TR>
+</TABLE>
+
+<P>This isn't just theory. Real companies scaled to massive success with this exact philosophy.</P>
+
+<P>Early eBay (AuctionWeb, 1995-1997) ran on <B>C/C++ CGI scripts</B> on a single Linux box in Pierre Omidyar's house:</P>
+
+<TABLE BORDER=3 CELLPADDING=8 CELLSPACING=0 WIDTH="100%">
+<TR BGCOLOR="#CC0000">
+<TH><FONT COLOR="#FFFF00" SIZE="+1">The Stack</FONT></TH>
+<TH><FONT COLOR="#FFFF00" SIZE="+1">What It Handled</FONT></TH>
+<TH><FONT COLOR="#FFFF00" SIZE="+1">Why It Worked</FONT></TH>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#FFFFCC">
+<UL>
+<LI>C/C++ CGI scripts
+<LI>Apache on Linux
+<LI>Flat files, then eventually a database
+<LI><B>That's it.</B>
+</UL>
+</TD>
+<TD BGCOLOR="#E6F2FF">
+<UL>
+<LI>Millions of auctions
+<LI>Thousands of concurrent users
+<LI>Payment processing
+<LI>User authentication
+<LI>Search functionality
+<LI>On ONE server for quite a while
+</UL>
+</TD>
+<TD BGCOLOR="#E6FFE6">
+<UL>
+<LI>Server-side rendering = no client complexity
+<LI>Stateless CGI = naturally scalable (just add more processes)
+<LI>Simple HTML forms = worked on ANY browser
+<LI>Direct to the point, no abstraction layers
+</UL>
+</TD>
+</TR>
+</TABLE>
+
+<P>They scaled this to <B>millions of dollars in transactions</B> before having to rewrite. When they did rewrite (to Java/J2EE in the 2000s), it was arguably <B>more complex and harder to maintain</B>.</P>
+
+<P>Compare to today:</P>
+
+<UL>
+<LI><B>Modern startups:</B> React + Node + MongoDB + Redis + Kafka + Kubernetes
+<LI><B>eBay 1996:</B> C CGI + Apache + flat files
+<LI><B>Which one actually made money faster?</B>
+</UL>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#0066CC" CELLPADDING=6 CELLSPACING=0 BORDER=0>
+<TR><TD><FONT COLOR="#FFFFFF" SIZE="+1"><B>Why Go is the Spiritual Successor</B></FONT></TD></TR>
+</TABLE>
+
+<P>This is why Go feels right for this project. It's the closest spiritual successor to "compile a binary that you just run" turning into a webapp - short of actually doing it in C.</P>
+
+<TABLE BORDER=2 CELLPADDING=8 CELLSPACING=0 WIDTH="100%">
+<TR BGCOLOR="#0099CC">
+<TH><FONT COLOR="#FFFFFF" SIZE="+1">Go's Philosophy</FONT></TH>
+<TH><FONT COLOR="#FFFFFF" SIZE="+1">The Connection to C CGI</FONT></TH>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#E6F7FF">
+<UL>
+<LI><FONT FACE="Courier">./proxy</FONT> &larr; that's it. No runtime, no interpreter, no node_modules
+<LI>Compiles to a single static binary
+<LI>Cross-compile for any platform
+<LI>No dependency hell
+<LI>Standard library has HTTP server, templating, everything you need
+<LI>Fast
+<LI><B>Just works</B>
+</UL>
+</TD>
+<TD BGCOLOR="#FFF4E6">
+<UL>
+<LI><B>C CGI (1995):</B> Compile &rarr; Binary &rarr; Run &rarr; Serve HTML
+<LI><B>Go (2025):</B> Compile &rarr; Binary &rarr; Run &rarr; Serve HTML
+<LI><B>30 years apart, same mental model</B>
+</UL>
+<P>The eBay engineers would look at this Go code and say "Yeah, that's basically what we were doing, but with less segfaults."</P>
+</TD>
+</TR>
+</TABLE>
+
+<P><B>Compared to Node.js:</B></P>
+<BLOCKQUOTE>"First install node, then npm install, oh wait wrong node version, install nvm, now install dependencies, oh this package needs python2.7 and node-gyp, oh this package is deprecated, oh security vulnerabilities..."</BLOCKQUOTE>
+
+<P><B>Compared to Go:</B></P>
+<BLOCKQUOTE><FONT FACE="Courier">go build</FONT> &rarr; done.</BLOCKQUOTE>
+
+<P>Go gives you C's simplicity and speed but with:</P>
+<UL>
+<LI>Memory safety (mostly)
+<LI>Standard library that doesn't suck
+<LI>String handling that works
+<LI>Garbage collection (yes, there's a cost, but it's worth it)
+</UL>
+
+<P>Go is <B>"worse is better" incarnate</B>. It deliberately limits features to maintain simplicity. It refuses to add generics for years because they complicate the language. It has a GC because memory safety matters more than the last 5% of performance for most applications.</P>
+
+<P>For web services, CLIs, and network tools? Go is perfect. It's C for people who want to ship code instead of debug pointer arithmetic.</P>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#990000" CELLPADDING=6 CELLSPACING=0 BORDER=0>
+<TR><TD><FONT COLOR="#FFFF00" SIZE="+1"><B>The Uncomfortable Truth</B></FONT></TD></TR>
+</TABLE>
+
+<P>This project isn't just a fun retro experiment or an exercise in nostalgia. It's <B>proof of concept that the entire web industry chose wrong.</B></P>
+
+<P>We didn't <B>have to</B> break backwards compatibility. The web didn't <B>have to</B> leave anyone behind. We could have:</P>
+
+<UL>
+<LI>Maintained compatibility across 25+ years
+<LI>Still had modern features for modern browsers
+<LI>Reduced the digital divide
+<LI>Prevented massive e-waste (old devices could still be useful)
+<LI>Built simpler, more resilient architectures
+<LI>Avoided the framework churn treadmill
+</UL>
+
+<P>Instead we chose:</P>
+
+<UL>
+<LI>"Rewrite your app every 3 years when the framework changes"
+<LI>"Requires Chrome 90+ released last month"
+<LI>"Sorry, your computer from 2015 is too old"
+<LI>npm hell and build pipeline nightmares
+<LI>Shipping megabytes of JavaScript to render a blog post
+<LI>"Best viewed in [current year's browser]"
+</UL>
+
+<P>And the industry is <B>slowly</B> admitting this (htmx, Astro, Remix, server components), but still won't go all the way back to true progressive enhancement because that would mean admitting we wasted 15 years.</P>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#009900" CELLPADDING=6 CELLSPACING=0 BORDER=0>
+<TR><TD><FONT COLOR="#FFFFFF" SIZE="+1"><B>What We Lost</B></FONT></TD></TR>
+</TABLE>
+
+<P>When we abandoned progressive enhancement and backwards compatibility, we lost more than just support for old browsers:</P>
+
+<OL>
+<LI><B>Simplicity</B> - A single HTML file could be a complete, functional application
+<LI><B>Resilience</B> - Sites worked even when JavaScript failed to load
+<LI><B>Accessibility</B> - Semantic HTML made screen readers work by default
+<LI><B>Performance</B> - Server-rendered pages loaded instantly
+<LI><B>Longevity</B> - Old sites still work decades later (if they followed standards)
+<LI><B>Universal Access</B> - The web was truly for everyone, not just the latest hardware
+</OL>
+
+<P>What did we gain?</P>
+
+<UL>
+<LI>Developer convenience (debatable)
+<LI>Rich interactions (at massive cost)
+<LI>"Better" developer experience (subjective)
+<LI>Framework ecosystems (also: lock-in)
+</UL>
+
+<P>Was it worth the trade? This project suggests: <B>probably not</B>.</P>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#FF9900" CELLPADDING=6 CELLSPACING=0 BORDER=0>
+<TR><TD><FONT COLOR="#000000" SIZE="+1"><B>The Path Forward</B></FONT></TD></TR>
+</TABLE>
+
+<P>The uncomfortable realization is that we can't put the genie back in the bottle. The web has moved on. But we can learn from this:</P>
+
+<OL>
+<LI><B>Progressive enhancement still matters</B> - Build for resilience, not just the happy path
+<LI><B>Simplicity is a feature</B> - Fewer dependencies = fewer problems
+<LI><B>Server-side rendering works</B> - It always has, we just forgot
+<LI><B>Backwards compatibility is possible</B> - We chose to abandon it, not forced to
+<LI><B>"Worse is better" isn't just a slogan</B> - It's proof that working solutions beat complex ones
+</OL>
+
+<P>Projects like this serve as reminders. The old way wasn't primitive - it was <B>correct</B>. We abandoned working principles for hype, then had to painfully rediscover them.</P>
+
+<P>The modern web is finally circling back to admitting the old way was right, but with 10x the complexity and 0x the backwards compatibility.</P>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#003366" CELLPADDING=6 CELLSPACING=0 BORDER=0>
+<TR><TD><FONT COLOR="#FFCC00" SIZE="+1"><B>Conclusion</B></FONT></TD></TR>
+</TABLE>
+
+<P>This project runs a 2025 AI API on a 1999 browser. It shouldn't be remarkable, but it is - because we've convinced ourselves it's impossible.</P>
+
+<TABLE WIDTH="80%" ALIGN="CENTER" BGCOLOR="#FFFF00" CELLPADDING=16 CELLSPACING=0 BORDER=4 BORDERCOLOR="#CC0000">
+<TR>
+<TD ALIGN="CENTER">
+<FONT SIZE="+2" COLOR="#000000"><B>It's not impossible. It never was.</B></FONT><BR>
+<BR>
+<FONT SIZE="+2" COLOR="#CC0000"><B>We just stopped trying.</B></FONT>
+</TD>
+</TR>
+</TABLE>
+
+<HR>
+
+<P><I>Written after debugging CSS box model issues for an hour and having an existential crisis about the state of web development. The boxes finally stayed inside other boxes. Frontend is still chaos. We still chose wrong. Go is still great. "Worse is better" is still vindicated.</I></P>
+
+<BR>
+
+<TABLE WIDTH="100%" BGCOLOR="#CCCCCC" CELLPADDING=8 CELLSPACING=0 BORDER=2>
+<TR>
+<TD ALIGN="CENTER">
+<FONT SIZE="-1">
+<B>Generated as a demonstration of the principles discussed within.</B><BR>
+This HTML was written in the style of 1995 eBay - pure, simple, and capable of handling millions.<BR>
+No CSS files. No JavaScript frameworks. No build pipeline. Just HTML.<BR>
+<FONT COLOR="#CC0000" SIZE="+1"><B>It just works.</B></FONT>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+
+<BR>
+
+</BODY>
+</HTML>
