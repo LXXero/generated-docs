@@ -146,6 +146,22 @@ First line is the title, second line is the description.
 - Git commits are automated with descriptive messages
 - The GitHub repo is named "generated-docs"
 
+### Git Safety
+
+**CRITICAL**: Never use `git add -f` (force flag) as it bypasses .gitignore and will commit `node_modules/`, `builds/`, and other ignored files to the repository.
+
+- ✅ **Always use:** `git add .` or `git add projects/` (respects .gitignore)
+- ❌ **Never use:** `git add -f .` (forces adding ignored files)
+
+If you accidentally commit ignored files:
+```bash
+git reset --soft HEAD~1    # Undo commit, keep changes staged
+git reset                   # Unstage everything
+git add projects/           # Stage only what you need
+git commit -m "message"
+git push --force-with-lease origin main  # Fix remote
+```
+
 ## Manual Commands
 
 ```bash
