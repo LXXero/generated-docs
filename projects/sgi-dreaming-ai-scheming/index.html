@@ -94,6 +94,14 @@ a:hover { text-decoration: underline; }
     color: #F6FF9A;
     background: rgba(246,255,154,0.05);
 }
+.price-banner .price-row {
+    display: block;
+}
+.price-banner .price-row + .price-row {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(246,255,154,0.35);
+}
 .callout {
     font-size: 14px;
     color: #ABD7FF;
@@ -122,9 +130,10 @@ a:hover { text-decoration: underline; }
         <h2>Choose your station</h2>
         <p>
             Welcome to the Silicon Graphics Web Navigation Console. Below you can configure the browsing
-            arsenal that powered the artists, physicists, and dreamers of the ’90s. Select a workstation,
-            align an IRIX release, and review the browsers that gave the OpenGL elite their glimpse of
-            cyberspace. Warning: by the time you scroll to the price banner you will want an SGI more than ever.
+            arsenal that powered the artists, physicists, and dreamers of the ’90s—and pit those teal towers
+            against today’s tensor-farm fantasies. Select a workstation, align an IRIX release, and see how the
+            price/performance story evolved from SGI glam to H100 grind. Warning: by the time you scroll to the
+            price banner you will want an SGI, an H100 rack, or both.
         </p>
     </div>
 
@@ -233,7 +242,8 @@ a:hover { text-decoration: underline; }
     </div>
 
     <div class="price-banner">
-        INDIGO STARTER CONFIG: $12,995 &nbsp; | &nbsp; OCTANE2 DUAL-PIPE: $74,995 &nbsp; | &nbsp; TEZRO QUAD: $110,995
+        <span class="price-row">SGI CLASSICS — INDIGO: $12,995 (≈ $26k today) &nbsp; | &nbsp; OCTANE2: $74,995 (≈ $130k today) &nbsp; | &nbsp; TEZRO: $110,995 (≈ $170k today)</span>
+        <span class="price-row">MODERN AI — H100 PCIe (80GB): ≈ $30,000 &nbsp; | &nbsp; HGX 8× H100: ≈ $250,000 &nbsp; | &nbsp; DGX Spark: $3,999 &nbsp; | &nbsp; DUAL RTX 4090: ≈ $3,000</span>
         <div class="callout">Finance? Sure. Just mortgage the render farm.</div>
     </div>
 
