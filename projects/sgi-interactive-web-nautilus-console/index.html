@@ -1,0 +1,246 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>SGI Interactive: Web Nautilus Console</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style type="text/css">
+body {
+    background-color: #001322;
+    color: #A7F0FF;
+    font-family: "Lucida Grande", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+a { color: #67F3FF; text-decoration: none; }
+a:hover { text-decoration: underline; }
+.frame {
+    width: 940px;
+    margin: 0 auto;
+    border-left: 6px solid #01B9FF;
+    border-right: 6px solid #01B9FF;
+    padding: 0 40px 60px 40px;
+    background: linear-gradient(180deg,#021F33 0%, #010910 100%);
+}
+.banner {
+    padding: 45px 0 20px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    font-size: 28px;
+}
+.divider {
+    height: 2px;
+    background: linear-gradient(90deg, rgba(1,185,255,0) 0%, rgba(1,185,255,0.75) 50%, rgba(1,185,255,0) 100%);
+    margin: 20px 0 40px 0;
+}
+.module {
+    margin-bottom: 60px;
+}
+.module h2 {
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    margin: 0 0 12px 0;
+    color: #6EFFDD;
+}
+.module p {
+    line-height: 1.6em;
+}
+.timeline {
+    border-left: 4px solid #01B9FF;
+    padding-left: 28px;
+    margin-left: 8px;
+}
+.timeline-item {
+    margin-bottom: 26px;
+}
+.timeline-item h3 {
+    margin: 0 0 6px 0;
+    font-size: 18px;
+    color: #F6FF9A;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+.timeline-item .era {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: #67F3FF;
+    margin-bottom: 8px;
+}
+.spec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-gap: 18px;
+}
+.spec-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(103,243,255,0.35);
+    padding: 14px 18px;
+}
+.spec-card h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: #AEDFFF;
+}
+.price-banner {
+    margin: 50px 0;
+    padding: 26px 28px;
+    border: 2px solid rgba(246,255,154,0.6);
+    text-align: center;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: #F6FF9A;
+    background: rgba(246,255,154,0.05);
+}
+.callout {
+    font-size: 14px;
+    color: #ABD7FF;
+    margin-top: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+}
+.footer {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: rgba(167,240,255,0.6);
+    margin-top: 40px;
+}
+</style>
+</head>
+<body>
+<div class="frame">
+    <div class="banner">SGI Web Navigation Matrix</div>
+    <div class="divider"></div>
+
+    <div class="module">
+        <h2>Choose your station</h2>
+        <p>
+            Welcome to the Silicon Graphics Web Navigation Console. Below you can configure the browsing
+            arsenal that powered the artists, physicists, and dreamers of the ’90s. Select a workstation,
+            align an IRIX release, and review the browsers that gave the OpenGL elite their glimpse of
+            cyberspace. Warning: by the time you scroll to the price banner you will want an SGI more than ever.
+        </p>
+    </div>
+
+    <div class="module">
+        <h2>Timeline of Machines & Browsers</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="era">1991 – 1993</div>
+                <h3>Indigo / Indy (IRIX&nbsp;4.x → 5.2)</h3>
+                <p>
+                    <strong>CPUs:</strong> MIPS R3000/R4000 &nbsp; | &nbsp; <strong>RAM:</strong> 24–128&nbsp;MB<br>
+                    <strong>Browsers:</strong> NCSA Mosaic (Motif), early Arena builds<br>
+                    Static HTML 1.0, inline GIFs, no frames. Perfect for rendering teapots while you read a CERN press release.
+                </p>
+            </div>
+            <div class="timeline-item">
+                <div class="era">1994 – 1996</div>
+                <h3>Indigo² / High Impact (IRIX&nbsp;5.3 → 6.2)</h3>
+                <p>
+                    R4400 at a blistering 250&nbsp;MHz. Netscape Navigator 2.x arrives: tables, frames,
+                    JavaScript 1.0, and the ability to crash spectacularly on malformed `<blink>` tags.
+                </p>
+            </div>
+            <div class="timeline-item">
+                <div class="era">1996 – 1997</div>
+                <h3>Indy (late) &amp; O2 (IRIX&nbsp;6.3)</h3>
+                <p>
+                    Unified Memory Architecture meets Netscape 3.01 Gold. JavaScript 1.1, animated GIFs, and
+                    livestreaming QuickTime if you sacrificed enough RAM. Great for coding VRML scenes at 3&nbsp;a.m.
+                </p>
+            </div>
+            <div class="timeline-item">
+                <div class="era">1997 – 1999</div>
+                <h3>Octane / Octane2 Launch (IRIX&nbsp;6.4 → 6.5.8)</h3>
+                <p>
+                    Dual-channel graphics, IMPACT rails, Netscape 4.05–4.78. CSS 1, DOM Level&nbsp;0, and the occasional
+                    browser freeze whenever DHTML gets ambitious. Still, you can monitor your render farm and browse Slashdot simultaneously.
+                </p>
+            </div>
+            <div class="timeline-item">
+                <div class="era">2000 – 2003</div>
+                <h3>Octane2 (late) / Fuel</h3>
+                <p>
+                    Community ports of Mozilla 1.0/1.2 via Nekoware. CSS 2 partial support, better PNG handling,
+                    but startup times counted in coffee breaks. Comparable to what a G3 Mac could pull off with Mozilla 1.0.
+                </p>
+            </div>
+            <div class="timeline-item">
+                <div class="era">2003 – 2006</div>
+                <h3>Tezro / Prism</h3>
+                <p>
+                    R16k or Itanium horsepower. Firefox 1.5 ports exist, but most SGI veterans switch to x86/Linux for
+                    modern browsing and keep the SGI purely for Maya, Flame, or massive OpenGL sims.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="module">
+        <h2>Configuration Modules</h2>
+        <div class="spec-grid">
+            <div class="spec-card">
+                <h4>Browser Arsenal</h4>
+                <ul>
+                    <li>NCSA Mosaic (1992) – IRIX 4.x</li>
+                    <li>Netscape 2.x (1995) – HTML 3.2</li>
+                    <li>Netscape 4.78 (1999) – CSS 1, JS 1.2</li>
+                    <li>Mozilla 1.0 (2002) – community port</li>
+                    <li>Links/Lynx – when in doubt, go text</li>
+                </ul>
+            </div>
+            <div class="spec-card">
+                <h4>Hardware Flights</h4>
+                <ul>
+                    <li>Indigo R4000 – Entry imaging suite</li>
+                    <li>Indy Video – Live digitizing + web</li>
+                    <li>O2 Cam – Unified Memory for VRML</li>
+                    <li>Octane MXE – Dual-channel geometry</li>
+                    <li>Tezro – Quad pipe, onyx DNA</li>
+                </ul>
+            </div>
+            <div class="spec-card">
+                <h4>Off-the-shelf Upgrades</h4>
+                <ul>
+                    <li>IRIX&nbsp;6.5 overlay CDs (18+)</li>
+                    <li>Nekoware browser builds (Mozilla/Firefox)</li>
+                    <li>Gopher gateways for time travel</li>
+                    <li>SSH tunnels to your Retro AI Proxy</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="price-banner">
+        INDIGO STARTER CONFIG: $12,995 &nbsp; | &nbsp; OCTANE2 DUAL-PIPE: $74,995 &nbsp; | &nbsp; TEZRO QUAD: $110,995  
+        <div class="callout">Finance? Sure. Just mortgage the render farm.</div>
+    </div>
+
+    <div class="module">
+        <h2>Compatibility Notes</h2>
+        <p>
+            <strong>No Internet Explorer.</strong> Microsoft never ported IE to IRIX. Netscape dominated,
+            with late-era relief from community Mozilla/Firefox builds. Expect IE5-grade content to render
+            better on your G3 Mac than on an SGI; the Octane2 with Mozilla 1.0 will match a Mac running the same vintage build, but nothing beyond that.
+        </p>
+        <p>
+            <strong>JavaScript Reality.</strong> Netscape 4′s JS 1.2 is roughly IE4-level. Dynamic HTML will break.
+            The Retro AI Proxy solves this by rendering psuedo-live UIs that target IE5 features but degrade to
+            iframe polling—exactly the kind of trick an SGI could use to stay useful in 2025.
+        </p>
+        <p>
+            <strong>Use Cases.</strong> Monitor SGI news feeds, order visual effects middleware, render check your
+            latest Maya scene, and yes—run your Retro AI Proxy in a teal window, because you can.
+        </p>
+    </div>
+
+    <div class="footer">
+        SILICON GRAPHICS WEB NAVIGATION CONSOLE &copy;1999 – DREAM BIGGER THAN YOUR BUDGET™
+    </div>
+</div>
+</body>
+</html>
