@@ -71,6 +71,64 @@ scripts/         # Automation scripts
 }
 ```
 
+### Understanding `name` vs `title`
+
+- **`name`**: The slugified directory/URL name (e.g., `sgi-web-browser-timeline`)
+  - Used for directory structure and URLs
+  - Changing this triggers automatic directory rename on next build
+  - Affects the deployment path
+  - **Leaves old directory on remote server!**
+
+- **`title`**: The human-readable display title (e.g., "SGI Web Browser Timeline")
+  - Used in README.txt on the server
+  - Does NOT affect directory structure or URLs
+  - Can be updated without triggering rename
+
+**IMPORTANT for Claude**: When user requests to "update the name" or "update the title":
+- **Always ask for clarification** which field they want to update (or both)
+- Changing `name` will trigger directory rename and require manual cleanup of old remote directory
+- Changing only `title` is safe and won't affect URLs
+
+### Cleaning Up Old Remote Directories
+
+When you rename a project (change the `name` field), the old directory remains on the server and must be manually cleaned up.
+
+**Why not automated?** To prevent accidental deletions of content the user didn't intend to remove.
+
+**Manual cleanup process using SFTP:**
+
+```bash
+# 1. List files in the old directory
+sftp claude@zx <<'EOF'
+ls /public_html/generated-docs/old-project-name/
+bye
+EOF
+
+# 2. Remove each file one by one
+sftp claude@zx <<'EOF'
+rm /public_html/generated-docs/old-project-name/README.txt
+rm /public_html/generated-docs/old-project-name/index.html
+rm /public_html/generated-docs/old-project-name/index.css
+rm /public_html/generated-docs/old-project-name/main.tsx
+# ... remove any other files listed
+bye
+EOF
+
+# 3. Remove the now-empty directory
+sftp claude@zx <<'EOF'
+rmdir /public_html/generated-docs/old-project-name
+bye
+EOF
+
+# 4. Verify cleanup
+sftp claude@zx <<'EOF'
+ls /public_html/generated-docs/ | grep old-project-name
+bye
+EOF
+```
+
+**Note:** SFTP batch commands require removing files one-by-one before removing the directory.
+
 ## README.txt Format (for server)
 
 ```
