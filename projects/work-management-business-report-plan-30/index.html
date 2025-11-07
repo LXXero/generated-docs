@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORK MANAGEMENT BUSINESS REPORT PLAN 3.0</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 900;
+            text-align: center;
+            margin: 0 0 30px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .node-box {
+            fill: white;
+            stroke: #667eea;
+            stroke-width: 3;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .node-text {
+            font-size: 18px;
+            font-weight: 700;
+            text-anchor: middle;
+            fill: #2d3748;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 900;
+            fill: #1a202c;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            font-weight: 600;
+            fill: #4a5568;
+            text-anchor: middle;
+        }
+
+        .arrow {
+            fill: none;
+            stroke: #667eea;
+            stroke-width: 3;
+            filter: drop-shadow(0 2px 4px rgba(102, 126, 234, 0.3));
+        }
+
+        .arrow-marker {
+            fill: #667eea;
+        }
+
+        .trash-icon {
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .confucius-quote {
+            font-size: 12px;
+            font-style: italic;
+            fill: #2d3748;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1 class="title">WORK MANAGEMENT BUSINESS REPORT PLAN 3.0</h1>
+        <svg id="diagram" width="1200" height="800"></svg>
+    </div>
+
+    <script>
+        const svg = d3.select("#diagram");
+        const width = 1200;
+        const height = 800;
+
+        // Define arrow markers
+        const defs = svg.append("defs");
+
+        defs.append("marker")
+            .attr("id", "arrowhead")
+            .attr("markerWidth", 10)
+            .attr("markerHeight", 10)
+            .attr("refX", 9)
+            .attr("refY", 3)
+            .attr("orient", "auto")
+            .append("polygon")
+            .attr("points", "0 0, 10 3, 0 6")
+            .attr("class", "arrow-marker");
+
+        // Smaller green arrowhead for thick lines
+        defs.append("marker")
+            .attr("id", "arrowhead-green")
+            .attr("markerWidth", 8)
+            .attr("markerHeight", 8)
+            .attr("refX", 7)
+            .attr("refY", 2.5)
+            .attr("orient", "auto")
+            .append("polygon")
+            .attr("points", "0 0, 8 2.5, 0 5")
+            .style("fill", "#2ecc71");
+
+        // Create a gradient for the main cycle box
+        const gradient = defs.append("linearGradient")
+            .attr("id", "cycleGradient")
+            .attr("x1", "0%")
+            .attr("y1", "0%")
+            .attr("x2", "100%")
+            .attr("y2", "100%");
+
+        gradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", "#f0f4ff");
+
+        gradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", "#e0e7ff");
+
+        // Main iteration cycle (top left)
+        const cycleGroup = svg.append("g");
+
+        // ITERATE -> DO! -> PLAN -> ACTION cycle (more chaotic spacing)
+        const cycleNodes = [
+            {x: 80, y: 120, text: "ITERATE", fontSize: 16},
+            {x: 180, y: 50, text: "DO!", fontSize: 20},
+            {x: 300, y: 80, text: "PLAN", fontSize: 16},
+            {x: 220, y: 150, text: "ACTION", fontSize: 16}
+        ];
+
+        cycleNodes.forEach(node => {
+            cycleGroup.append("rect")
+                .attr("x", node.x - 45)
+                .attr("y", node.y - 20)
+                .attr("width", 90)
+                .attr("height", 40)
+                .attr("rx", 8)
+                .attr("class", "node-box")
+                .style("fill", "url(#cycleGradient)");
+
+            cycleGroup.append("text")
+                .attr("x", node.x)
+                .attr("y", node.y + 5)
+                .attr("class", "node-text")
+                .style("font-size", node.fontSize + "px")
+                .text(node.text);
+        });
+
+        // Crazy chaotic arrows for cycle with zigzag patterns
+        // ITERATE -> DO! (upward zigzag)
+        svg.append("path")
+            .attr("d", `M 80,100 Q 100,90 120,75 Q 140,60 160,55 L 175,50`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // DO! -> PLAN (curving right and down)
+        svg.append("path")
+            .attr("d", `M 225,50 Q 250,35 270,50 Q 285,65 295,75`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // PLAN -> ACTION (swooping down and left)
+        svg.append("path")
+            .attr("d", `M 280,100 Q 265,115 250,125 Q 235,135 225,145`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // ACTION -> ITERATE (curving left)
+        svg.append("path")
+            .attr("d", `M 175,150 Q 140,155 110,145 Q 90,135 85,125`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // Process cycle (center right)
+        const processNodes = [
+            {x: 600, y: 100, text: "process"},
+            {x: 700, y: 150, text: "activate"},
+            {x: 650, y: 200, text: "review"},
+            {x: 750, y: 250, text: "plan"}
+        ];
+
+        processNodes.forEach(node => {
+            svg.append("rect")
+                .attr("x", node.x - 45)
+                .attr("y", node.y - 20)
+                .attr("width", 90)
+                .attr("height", 40)
+                .attr("rx", 8)
+                .attr("class", "node-box")
+                .style("fill", "url(#cycleGradient)");
+
+            svg.append("text")
+                .attr("x", node.x)
+                .attr("y", node.y + 5)
+                .attr("class", "node-text")
+                .style("font-size", "14px")
+                .text(node.text);
+        });
+
+        // PLAN -> process (from main cycle) - longer chaotic path
+        svg.append("path")
+            .attr("d", `M 345,80 Q 420,60 480,70 Q 540,85 555,100`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // process -> activate
+        svg.append("path")
+            .attr("d", `M 620,120 Q 650,130 690,140`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // activate -> review
+        svg.append("path")
+            .attr("d", `M 680,170 Q 670,180 660,190`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // review -> plan
+        svg.append("path")
+            .attr("d", `M 700,200 Q 720,220 745,230`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // plan -> process (loop back)
+        svg.append("path")
+            .attr("d", `M 730,270 Q 650,300 500,280 Q 450,250 520,180 Q 560,140 590,110`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // Brainstorm loop (right side)
+        svg.append("path")
+            .attr("d", `M 850,150 Q 950,100 1000,150 Q 1050,200 1000,250 Q 950,300 850,250 Q 800,220 850,150`)
+            .attr("class", "arrow")
+            .style("stroke-width", "4")
+            .attr("marker-end", "url(#arrowhead)");
+
+        svg.append("text")
+            .attr("x", 920)
+            .attr("y", 200)
+            .attr("class", "node-text")
+            .style("font-size", "20px")
+            .text("brainstorm");
+
+        // Crazy arrow from PLAN (left cycle) to brainstorm - routed WAY BELOW, avoiding all other lines
+        svg.append("path")
+            .attr("d", `M 345,100 Q 350,220 420,320 Q 520,400 650,420 Q 780,430 880,390 Q 920,340 910,270`)
+            .attr("class", "arrow")
+            .style("stroke-width", "3")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // Convoluted arrow from plan (right cycle) sneaking through gap between confucius and brainstorm to trash
+        svg.append("path")
+            .attr("d", `M 750,230 Q 780,180 800,140 Q 820,105 850,95 Q 920,88 1000,92 Q 1080,95 1120,120 Q 1140,200 1130,350 Q 1110,450 1070,510`)
+            .attr("class", "arrow")
+            .style("stroke-width", "3");
+
+        // Time <-> Money
+        svg.append("text")
+            .attr("x", 80)
+            .attr("y", 250)
+            .attr("class", "node-text")
+            .style("font-size", "18px")
+            .text("time");
+
+        svg.append("text")
+            .attr("x", 250)
+            .attr("y", 250)
+            .attr("class", "node-text")
+            .style("font-size", "18px")
+            .text("money");
+
+        // Bidirectional arrow
+        svg.append("path")
+            .attr("d", `M 145,250 L 210,250`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)")
+            .attr("marker-start", "url(#arrowhead)");
+
+        // ACTION -> money connection
+        svg.append("path")
+            .attr("d", `M 220,170 Q 235,200 245,230`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // LLM -> AI -> VECTOR -> TENSOR -> TENSION -> RAG -> RICHES section (bottom left)
+        const llmNodes = [
+            {x: 80, y: 570, text: "LLM"},
+            {x: 240, y: 590, text: "AI"},
+            {x: 140, y: 640, text: "VECTOR"},
+            {x: 280, y: 700, text: "TENSOR"},
+            {x: 480, y: 570, text: "TENSION"},
+            {x: 360, y: 640, text: "RAG"},
+            {x: 600, y: 650, text: "RICHES"}
+        ];
+
+        // LLM - Trapezoid
+        svg.append("polygon")
+            .attr("points", `${80-55},${570-20} ${80+55},${570-20} ${80+45},${570+20} ${80-45},${570+20}`)
+            .attr("class", "node-box")
+            .style("fill", "url(#cycleGradient)");
+
+        // AI - Parallelogram (slanted right)
+        svg.append("polygon")
+            .attr("points", `${240-40},${590-20} ${240+60},${590-20} ${240+40},${590+20} ${240-60},${590+20}`)
+            .attr("class", "node-box")
+            .style("fill", "url(#cycleGradient)");
+
+        // VECTOR - Hexagon
+        svg.append("polygon")
+            .attr("points", `${140-55},${640} ${140-30},${640-20} ${140+30},${640-20} ${140+55},${640} ${140+30},${640+20} ${140-30},${640+20}`)
+            .attr("class", "node-box")
+            .style("fill", "url(#cycleGradient)");
+
+        // TENSOR - Trapezoid (inverted)
+        svg.append("polygon")
+            .attr("points", `${280-45},${700-20} ${280+45},${700-20} ${280+55},${700+20} ${280-55},${700+20}`)
+            .attr("class", "node-box")
+            .style("fill", "url(#cycleGradient)");
+
+        // TENSION - Parallelogram (slanted left)
+        svg.append("polygon")
+            .attr("points", `${480-60},${570-20} ${480+40},${570-20} ${480+60},${570+20} ${480-40},${570+20}`)
+            .attr("class", "node-box")
+            .style("fill", "url(#cycleGradient)");
+
+        // RAG - Pentagon
+        svg.append("polygon")
+            .attr("points", `${360},${640-25} ${360+45},${640-10} ${360+35},${640+20} ${360-35},${640+20} ${360-45},${640-10}`)
+            .attr("class", "node-box")
+            .style("fill", "url(#cycleGradient)");
+
+        // RICHES - Octagon (because money!)
+        svg.append("polygon")
+            .attr("points", `${600-35},${650-20} ${600+35},${650-20} ${600+50},${650-5} ${600+50},${650+5} ${600+35},${650+20} ${600-35},${650+20} ${600-50},${650+5} ${600-50},${650-5}`)
+            .attr("class", "node-box")
+            .style("fill", "url(#cycleGradient)")
+            .style("stroke", "#2ecc71")
+            .style("stroke-width", "4");
+
+        // Add text labels for all nodes
+        llmNodes.forEach(node => {
+            svg.append("text")
+                .attr("x", node.x)
+                .attr("y", node.y + 5)
+                .attr("class", "node-text")
+                .style("font-size", "16px")
+                .text(node.text);
+        });
+
+        // Chaotic arrows between nodes
+        // LLM -> AI (swoopy up and right)
+        svg.append("path")
+            .attr("d", `M 135,570 Q 160,560 180,575 Q 210,585 220,588`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // AI -> VECTOR (down and left zigzag)
+        svg.append("path")
+            .attr("d", `M 200,605 Q 180,615 165,625 Q 150,632 145,638`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // VECTOR -> TENSOR (crazy arc right and down)
+        svg.append("path")
+            .attr("d", `M 195,640 Q 220,660 245,680 Q 255,688 258,693`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // TENSOR -> TENSION (squiggling under RAG and coming up from below)
+        svg.append("path")
+            .attr("d", `M 335,700 Q 355,705 380,705 Q 410,700 435,685 Q 455,650 468,600 Q 478,580 478,573`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // TENSION -> RAG (crazy zigzag down and left)
+        svg.append("path")
+            .attr("d", `M 450,580 Q 430,595 410,610 Q 390,630 375,637`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)");
+
+        // RAG -> RICHES (THE BIG ONE with dollar signs and zigzags)
+        svg.append("path")
+            .attr("d", `M 405,640 Q 450,642 480,645 Q 520,648 552,649`)
+            .attr("class", "arrow")
+            .style("stroke-width", "5")
+            .style("stroke", "#2ecc71")
+            .attr("marker-end", "url(#arrowhead-green)");
+
+        // RICHES -> TRASH (stock market crash / heartbeat recovery pattern)
+        svg.append("path")
+            .attr("d", `M 650,650 Q 700,630 750,610 Q 800,590 850,570 L 900,550 Q 920,600 940,640 L 960,620 Q 980,590 1000,570 Q 1020,555 1040,550`)
+            .attr("class", "arrow")
+            .style("stroke-width", "3")
+            .style("stroke", "#e74c3c");
+
+        // Dollar emojis around RICHES
+        svg.append("text")
+            .attr("x", 630)
+            .attr("y", 635)
+            .style("font-size", "32px")
+            .text("💰");
+
+        svg.append("text")
+            .attr("x", 650)
+            .attr("y", 660)
+            .style("font-size", "28px")
+            .text("💵");
+
+        svg.append("text")
+            .attr("x", 615)
+            .attr("y", 675)
+            .style("font-size", "24px")
+            .text("🤑");
+
+        // KRANBAN CISTERN
+        svg.append("text")
+            .attr("x", 100)
+            .attr("y", 350)
+            .attr("class", "section-title")
+            .text("KRANBAN CISTERN");
+
+        // Direction arrows
+        const directionY = 400;
+        svg.append("path")
+            .attr("d", `M 50,${directionY} L 350,${directionY}`)
+            .attr("class", "arrow")
+            .style("stroke-width", "4");
+
+        svg.append("path")
+            .attr("d", `M 350,${directionY} L 50,${directionY + 20}`)
+            .attr("class", "arrow")
+            .attr("marker-end", "url(#arrowhead)")
+            .style("stroke-width", "4");
+
+        svg.append("text")
+            .attr("x", 200)
+            .attr("y", directionY - 10)
+            .attr("class", "node-text")
+            .text("Direction");
+
+        // Work -> done flow
+        const workY = 500;
+        svg.append("text")
+            .attr("x", 100)
+            .attr("y", workY)
+            .attr("class", "node-text")
+            .style("font-size", "20px")
+            .text("Work");
+
+        svg.append("path")
+            .attr("d", `M 150,${workY} Q 400,${workY - 30} 650,${workY} Q 900,${workY + 30} 1000,${workY}`)
+            .attr("class", "arrow")
+            .style("stroke-width", "5")
+            .attr("marker-end", "url(#arrowhead)");
+
+        svg.append("text")
+            .attr("x", 1050)
+            .attr("y", workY)
+            .attr("class", "node-text")
+            .style("font-size", "20px")
+            .text("done");
+
+        // Trash/Garbage icon and arrow
+        const trashX = 1050;
+        const trashY = 550;
+
+        // Fancy trash can icon
+        const trashGroup = svg.append("g")
+            .attr("class", "trash-icon")
+            .attr("transform", `translate(${trashX}, ${trashY})`);
+
+        trashGroup.append("rect")
+            .attr("x", -25)
+            .attr("y", -10)
+            .attr("width", 50)
+            .attr("height", 60)
+            .attr("rx", 5)
+            .attr("fill", "#e53e3e")
+            .attr("stroke", "#c53030")
+            .attr("stroke-width", 3);
+
+        trashGroup.append("rect")
+            .attr("x", -30)
+            .attr("y", -15)
+            .attr("width", 60)
+            .attr("height", 8)
+            .attr("rx", 2)
+            .attr("fill", "#c53030");
+
+        trashGroup.append("line")
+            .attr("x1", -10)
+            .attr("y1", 5)
+            .attr("x2", -10)
+            .attr("y2", 35)
+            .attr("stroke", "white")
+            .attr("stroke-width", 3);
+
+        trashGroup.append("line")
+            .attr("x1", 0)
+            .attr("y1", 5)
+            .attr("x2", 0)
+            .attr("y2", 35)
+            .attr("stroke", "white")
+            .attr("stroke-width", 3);
+
+        trashGroup.append("line")
+            .attr("x1", 10)
+            .attr("y1", 5)
+            .attr("x2", 10)
+            .attr("y2", 35)
+            .attr("stroke", "white")
+            .attr("stroke-width", 3);
+
+        // A few curved arrows converging on trash
+        // Arrow from done to trash (curved)
+        svg.append("path")
+            .attr("d", `M 1050,${workY + 10} Q 1070,${workY + 25} 1065,${trashY - 60}`)
+            .attr("class", "arrow")
+            .style("stroke-width", "4");
+
+        // Arrow from brainstorm to trash (swoopy curve)
+        svg.append("path")
+            .attr("d", `M 950,280 Q 1020,350 1010,${trashY - 40} Q 1015,${trashY - 20} 1025,${trashY - 30}`)
+            .attr("class", "arrow")
+            .style("stroke-width", "3");
+
+        // Text below trash
+        svg.append("text")
+            .attr("x", trashX)
+            .attr("y", trashY + 75)
+            .attr("class", "node-text")
+            .style("font-size", "14px")
+            .style("text-anchor", "middle")
+            .text("GARBAGE TIME");
+
+        svg.append("text")
+            .attr("x", trashX)
+            .attr("y", trashY + 95)
+            .attr("class", "node-text")
+            .style("font-size", "14px")
+            .style("text-anchor", "middle")
+            .text("WASTE RECEPTICLE");
+
+        // Confucius quote (top right)
+        const quoteX = 850;
+        const quoteY = 10;
+
+        svg.append("text")
+            .attr("x", quoteX)
+            .attr("y", quoteY)
+            .attr("class", "confucius-quote")
+            .style("font-size", "18px")
+            .text("confucius say:");
+
+        svg.append("text")
+            .attr("x", quoteX)
+            .attr("y", quoteY + 22)
+            .attr("class", "confucius-quote")
+            .style("font-size", "18px")
+            .text("those who do, do");
+
+        svg.append("text")
+            .attr("x", quoteX)
+            .attr("y", quoteY + 44)
+            .attr("class", "confucius-quote")
+            .style("font-size", "18px")
+            .text("those who don't,");
+
+        svg.append("text")
+            .attr("x", quoteX)
+            .attr("y", quoteY + 66)
+            .attr("class", "confucius-quote")
+            .style("font-size", "18px")
+            .text("use diagram");
+
+        // Footer text
+        const footerY = 730;
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", footerY)
+            .attr("class", "footer-text")
+            .style("font-size", "16px")
+            .text("simplicity always reigns supreme over chaos");
+
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", footerY + 25)
+            .attr("class", "footer-text")
+            .style("font-size", "16px")
+            .text("organized chaos is still chaos");
+
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", footerY + 60)
+            .attr("class", "footer-text")
+            .style("font-size", "16px")
+            .style("font-weight", "900")
+            .text("NOW WITH AI FEATURES INCLUDED!");
+    </script>
+</body>
+</html>
