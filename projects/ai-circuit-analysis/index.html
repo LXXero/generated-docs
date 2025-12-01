@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Driven Circuit Analysis: Simplex 2001 Case Study</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --panel-black: #1a1a1a;
+            --deep-black: #0d0d0d;
+            --simplex-red: #c41e3a;
+            --simplex-red-glow: #ff2d55;
+            --led-yellow: #ffcc00;
+            --led-green: #00ff66;
+            --led-red: #ff3333;
+            --pcb-green: #1a3d1a;
+            --copper-trace: #b87333;
+            --solder-silver: #c0c0c0;
+            --resistor-tan: #d2b48c;
+            --capacitor-blue: #4169e1;
+            --text-light: #e0e0e0;
+            --text-dim: #888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--deep-black);
+            color: var(--text-light);
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Animated circuit board background */
+        .circuit-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+            background: 
+                linear-gradient(90deg, var(--copper-trace) 1px, transparent 1px) 0 0 / 50px 50px,
+                linear-gradient(var(--copper-trace) 1px, transparent 1px) 0 0 / 50px 50px;
+            animation: circuitPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes circuitPulse {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.2; }
+        }
+
+        /* Floating components animation */
+        .floating-components {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .component {
+            position: absolute;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            color: var(--copper-trace);
+            opacity: 0.3;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Main container styled like 2001 panel */
+        .panel-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--panel-black);
+            border: 4px solid var(--simplex-red);
+            box-shadow: 
+                0 0 20px rgba(196, 30, 58, 0.3),
+                inset 0 0 100px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        /* Panel header */
+        .panel-header {
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+            border-bottom: 3px solid var(--simplex-red);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .panel-header::before,
+        .panel-header::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--simplex-red);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--simplex-red-glow);
+        }
+
+        .panel-header::before { left: 20px; }
+        .panel-header::after { right: 20px; }
+
+        .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8em;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px var(--simplex-red-glow);
+        }
+
+        .panel-subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9em;
+            color: var(--simplex-red);
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+
+        /* Content area */
+        .content {
+            padding: 40px;
+        }
+
+        /* Section styling like card slots */
+        .section {
+            background: linear-gradient(180deg, #222 0%, #1a1a1a 100%);
+            border: 2px solid var(--simplex-red);
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                var(--simplex-red) 20%, 
+                var(--simplex-red) 80%, 
+                transparent 100%);
+        }
+
+        .section-header {
+            background: var(--simplex-red);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2em;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .led-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--led-yellow);
+            box-shadow: 0 0 10px var(--led-yellow);
+            animation: ledBlink 2s ease-in-out infinite;
+        }
+
+        @keyframes ledBlink {
+            0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--led-yellow); }
+            50% { opacity: 0.7; box-shadow: 0 0 5px var(--led-yellow); }
+        }
+
+        .led-indicator.green {
+            background: var(--led-green);
+            box-shadow: 0 0 10px var(--led-green);
+        }
+
+        .led-indicator.red {
+            background: var(--led-red);
+            box-shadow: 0 0 10px var(--led-red);
+        }
+
+        .section-content {
+            padding: 25px;
+        }
+
+        /* Subsection headers */
+        h3 {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--simplex-red);
+            font-size: 1.1em;
+            margin: 25px 0 15px 0;
+            padding-left: 15px;
+            border-left: 3px solid var(--simplex-red);
+        }
+
+        h4 {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--led-yellow);
+            font-size: 1em;
+            margin: 20px 0 10px 0;
+        }
+
+        /* Paragraph styling */
+        p {
+            margin: 15px 0;
+            color: var(--text-light);
+        }
+
+        /* Lists styled like component specs */
+        ul, ol {
+            margin: 15px 0 15px 20px;
+        }
+
+        li {
+            margin: 10px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        ul li::before {
+            content: '●';
+            position: absolute;
+            left: 0;
+            color: var(--simplex-red);
+            font-size: 0.8em;
+        }
+
+        /* Code/component callouts */
+        .component-callout {
+            background: var(--pcb-green);
+            border: 1px solid var(--copper-trace);
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .component-callout::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(184, 115, 51, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(184, 115, 51, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .component-callout code {
+            color: var(--led-green);
+        }
+
+        /* Highlight boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(196, 30, 58, 0.2) 0%, rgba(196, 30, 58, 0.1) 100%);
+            border-left: 4px solid var(--simplex-red);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box.success {
+            background: linear-gradient(135deg, rgba(0, 255, 102, 0.1) 0%, rgba(0, 255, 102, 0.05) 100%);
+            border-left-color: var(--led-green);
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, rgba(255, 204, 0, 0.1) 0%, rgba(255, 204, 0, 0.05) 100%);
+            border-left-color: var(--led-yellow);
+        }
+
+        /* Component inline styling */
+        .resistor {
+            display: inline-block;
+            background: linear-gradient(90deg, 
+                var(--resistor-tan) 0%, 
+                var(--resistor-tan) 10%,
+                #8B4513 10%,
+                #8B4513 15%,
+                var(--resistor-tan) 15%,
+                var(--resistor-tan) 25%,
+                #FFD700 25%,
+                #FFD700 30%,
+                var(--resistor-tan) 30%,
+                var(--resistor-tan) 40%,
+                #FF0000 40%,
+                #FF0000 45%,
+                var(--resistor-tan) 45%,
+                var(--resistor-tan) 55%,
+                #FFD700 55%,
+                #FFD700 60%,
+                var(--resistor-tan) 60%,
+                var(--resistor-tan) 100%);
+            padding: 2px 20px;
+            border-radius: 3px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85em;
+            color: #333;
+            margin: 0 5px;
+        }
+
+        .capacitor {
+            display: inline-block;
+            background: var(--capacitor-blue);
+            padding: 2px 12px;
+            border-radius: 2px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85em;
+            color: white;
+            margin: 0 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .ic-chip {
+            display: inline-block;
+            background: #1a1a1a;
+            border: 1px solid #444;
+            padding: 2px 15px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin: 0 5px;
+            position: relative;
+        }
+
+        .ic-chip::before,
+        .ic-chip::after {
+            content: '||||';
+            position: absolute;
+            font-size: 6px;
+            color: var(--solder-silver);
+            letter-spacing: 2px;
+        }
+
+        .ic-chip::before { top: -8px; left: 50%; transform: translateX(-50%); }
+        .ic-chip::after { bottom: -8px; left: 50%; transform: translateX(-50%); }
+
+        .transistor {
+            display: inline-block;
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+            border: 1px solid #444;
+            padding: 2px 10px;
+            border-radius: 0 0 50% 50%;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin: 0 5px;
+        }
+
+        /* NOS discovery special callout */
+        .discovery-box {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a1a1a 100%);
+            border: 2px solid var(--led-yellow);
+            padding: 25px;
+            margin: 30px 0;
+            position: relative;
+            text-align: center;
+        }
+
+        .discovery-box::before {
+            content: '★ DISCOVERY ★';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--panel-black);
+            padding: 0 20px;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--led-yellow);
+            font-size: 0.9em;
+            letter-spacing: 3px;
+        }
+
+        .discovery-box .big-year {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3em;
+            color: var(--simplex-red);
+            text-shadow: 0 0 20px var(--simplex-red-glow);
+            margin: 10px 0;
+        }
+
+        /* Card slot styling for appendix */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .card-slot {
+            background: linear-gradient(180deg, #222 0%, #1a1a1a 100%);
+            border: 1px solid var(--copper-trace);
+            padding: 15px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85em;
+            position: relative;
+        }
+
+        .card-slot::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--simplex-red);
+        }
+
+        .card-slot .part-number {
+            color: var(--led-yellow);
+            font-weight: bold;
+        }
+
+        .card-slot .description {
+            color: var(--text-dim);
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        .panel-footer {
+            background: var(--simplex-red);
+            padding: 20px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            letter-spacing: 2px;
+        }
+
+        .simplex-logo {
+            display: inline-block;
+            background: white;
+            color: var(--simplex-red);
+            padding: 5px 15px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .panel-container {
+                margin: 10px;
+                border-width: 2px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .panel-title {
+                font-size: 1.2em;
+                letter-spacing: 2px;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Easter egg: hover effects */
+        .section:hover {
+            box-shadow: 0 0 30px rgba(196, 30, 58, 0.2);
+            transition: box-shadow 0.3s ease;
+        }
+
+        strong {
+            color: var(--simplex-red);
+        }
+
+        a {
+            color: var(--led-yellow);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--led-yellow);
+        }
+
+        a:hover {
+            color: var(--simplex-red-glow);
+            border-bottom-color: var(--simplex-red-glow);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated circuit background -->
+    <div class="circuit-bg"></div>
+    
+    <!-- Floating components -->
+    <div class="floating-components">
+        <script>
+            const components = ['10kΩ', '4.7µF', '2N4403', '1N4004', 'LM339', '100Ω', 'MCR100-8', '6.8µF', 'CD4011', '27K', 'SCR', '5.1V', '2N6426', '33K', '.47µF'];
+            const container = document.querySelector('.floating-components');
+            for(let i = 0; i < 30; i++) {
+                const el = document.createElement('div');
+                el.className = 'component';
+                el.textContent = components[Math.floor(Math.random() * components.length)];
+                el.style.left = Math.random() * 100 + '%';
+                el.style.animationDelay = Math.random() * 20 + 's';
+                el.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(el);
+            }
+        </script>
+    </div>
+
+    <div class="panel-container">
+        <!-- Header styled like 2001 panel -->
+        <div class="panel-header">
+            <div class="panel-title">AI-Driven Circuit Analysis</div>
+            <div class="panel-subtitle">Troubleshooting & Reverse Engineering</div>
+        </div>
+
+        <div class="content">
+            <!-- Title Section -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator green"></div>
+                    <h2>System Status: Active</h2>
+                </div>
+                <div class="section-content" style="text-align: center;">
+                    <h1 style="font-family: 'Orbitron', sans-serif; font-size: 1.8em; color: var(--text-light); margin-bottom: 15px;">
+                        A Case Study in Collaborative Human-AI Technical Problem Solving
+                    </h1>
+                    <p style="font-family: 'Share Tech Mono', monospace; color: var(--simplex-red);">
+                        Featuring the Simplex 2001 Fire Alarm Control Panel
+                    </p>
+                </div>
+            </div>
+
+            <!-- Abstract -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator"></div>
+                    <h2>Abstract</h2>
+                </div>
+                <div class="section-content">
+                    <p>This article documents an extensive collaborative effort between a human technician and an AI assistant in analyzing, troubleshooting, modifying, and reverse-engineering vintage fire alarm control system electronics. Over the course of multiple sessions, we examined dozens of circuit schematics, diagnosed component failures, identified suitable modern replacements for obsolete parts, traced signal paths, compared card variants, and developed novel modifications to extend system capabilities beyond their original design specifications.</p>
+                    <p>This work demonstrates the potential of AI-assisted technical analysis in preserving and extending legacy electronic systems—even when playing a game of telephone with remote troubleshooting, and even when the system turns out to be 45-year-old new-old-stock that had never been commissioned.</p>
+                </div>
+            </div>
+
+            <!-- Introduction -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator"></div>
+                    <h2>Introduction</h2>
+                </div>
+                <div class="section-content">
+                    <p>The Simplex 2001 fire alarm control panel represents a fascinating piece of fire protection history. Manufactured from the late 1970s through the 1990s, these systems used discrete transistor logic, relay-based circuits, operational amplifiers, and later, CMOS logic ICs to provide life safety functions. Unlike modern addressable systems that rely on microprocessors and software, the 2001 series accomplished its functions through carefully designed analog and digital hardware circuits.</p>
+                    
+                    <p>Preserving and restoring these systems presents unique challenges. Original components become obsolete, documentation becomes scarce, and institutional knowledge fades. This case study explores how AI assistance can help bridge these gaps, providing a tireless partner for schematic analysis, component identification, troubleshooting hypotheses, and design modifications.</p>
+                </div>
+            </div>
+
+            <!-- Collaboration Model -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator green"></div>
+                    <h2>The Collaboration Model</h2>
+                </div>
+                <div class="section-content">
+                    <h3>Visual Communication Through Annotated Schematics</h3>
+                    <p>A key innovation in our collaboration was the use of color-coded schematic annotations. The human technician would upload circuit schematics and add colored highlights to indicate specific areas of focus:</p>
+                    
+                    <ul>
+                        <li><strong style="color: #ff3333;">Red lines</strong> to trace power supply rails and positive voltage paths</li>
+                        <li><strong style="color: #4169e1;">Blue lines</strong> to identify signal paths and control inputs</li>
+                        <li><strong style="color: #00ff66;">Green lines</strong> to mark ground connections</li>
+                        <li><strong style="color: #ff9933;">Orange lines</strong> to highlight specific circuit paths under investigation</li>
+                        <li><strong style="color: #ffff00;">Yellow highlights</strong> to indicate components of interest</li>
+                    </ul>
+
+                    <p>This visual communication method proved far more effective than verbal descriptions alone. When debugging a trouble circuit, the technician could highlight the suspected signal path, and the AI could analyze whether the traced route matched the expected circuit behavior.</p>
+
+                    <h3>Iterative Analysis and Correction</h3>
+                    <p>The collaboration was genuinely iterative. The AI would propose circuit interpretations, and the human would correct misunderstandings. For example, when analyzing a zone card schematic, the AI initially confused internal board connection points (numbered circles) with edge connector pins (arrows with letters/numbers). The technician's correction led to a clearer shared understanding of the schematic conventions used by Simplex engineers.</p>
+                    
+                    <p>Similarly, when analyzing transistor configurations, the AI might propose that two transistors formed a Darlington pair, only to have the technician point out that they were actually independent detectors for different fault conditions—one for open circuits (high resistance) and one for shorts (low resistance), creating a window comparator topology. These corrections improved the analysis and led to accurate troubleshooting recommendations.</p>
+                </div>
+            </div>
+
+            <!-- Case Study 1: SCR -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator red"></div>
+                    <h2>Case Study 1: SCR Component Modernization</h2>
+                </div>
+                <div class="section-content">
+                    <h3>The Problem</h3>
+                    <p>The original Simplex zone cards used <span class="transistor">MSCR5035</span> silicon controlled rectifiers (SCRs) for alarm latching circuits. These Motorola parts are long obsolete. The technician attempted to substitute modern <span class="transistor">MCR100-8</span> SCRs, which have similar voltage and current ratings.</p>
+
+                    <h3>The Failure</h3>
+                    <div class="highlight-box">
+                        <p>The replacement failed catastrophically. The MCR100-8 would trigger falsely, latch on inappropriately, and in one case, failed destructively with audible damage. Other indicator LEDs would illuminate incorrectly, suggesting the SCR was creating short-circuit conditions.</p>
+                    </div>
+
+                    <h3>Collaborative Root Cause Analysis</h3>
+                    <p>Through detailed analysis of the SCR specifications and circuit topology, we identified the root cause: <strong>gate sensitivity mismatch</strong>. The original MSCR5035 was an industrial-grade SCR with robust gate characteristics, likely requiring 5-20mA to trigger. The MCR100-8 is a "sensitive gate" device, requiring only 200µA—roughly 25-100 times more sensitive.</p>
+
+                    <p>The original circuit was designed with this robustness in mind. With the acknowledge signal (point 8) disconnected, the original SCR tolerated the floating high-impedance gate. The sensitive MCR100-8, however, would trigger from:</p>
+                    <ul>
+                        <li>Capacitive coupling from nearby traces</li>
+                        <li>Power-on transients</li>
+                        <li>Random electrical noise</li>
+                        <li>Absence of proper bias reference</li>
+                    </ul>
+
+                    <h3>The Solution</h3>
+                    <div class="component-callout">
+                        <p><strong>Gate Protection Circuit:</strong></p>
+                        <p>• Increased gate resistor R31 from <code>510Ω</code> to <code>10kΩ</code> to reduce gate sensitivity</p>
+                        <p>• Added a <code>5.1V 1W zener diode</code> in parallel with R31 (cathode to gate, anode to cathode/ground) to clamp gate voltage and prevent noise-induced triggering</p>
+                    </div>
+
+                    <div class="highlight-box success">
+                        <p><strong>Result:</strong> The modification was successful. The MCR100-8 now operates reliably, and the technician retrofitted the protection circuit to previously modified cards as a preventive measure.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case Study 2: Signal Card - with NOS discovery -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator"></div>
+                    <h2>Case Study 2: Signal Card Trouble Circuit Failure</h2>
+                </div>
+                <div class="section-content">
+                    <h3>The Problem</h3>
+                    <p>A friend's 2001-2073 Signal card's trouble circuit was completely non-functional. This was a "non-ack" variant panel—the simpler configuration. Even with no end-of-line resistor (a definite fault condition), neither the trouble LED nor the system trouble output would activate.</p>
+
+                    <div class="highlight-box warning">
+                        <p><strong>Note:</strong> This was remote troubleshooting—a game of telephone between the AI, the primary technician, and the friend with the actual panel. Despite this communication challenge, we reached a solution through systematic collaborative analysis.</p>
+                    </div>
+
+                    <h3>Collaborative Analysis</h3>
+                    <p>We worked through the schematic systematically, first clarifying the notation conventions (internal board points vs. edge connector pins). Through color-coded annotations, we traced the trouble detection circuit and identified that it used a dual-path detection system:</p>
+                    <ul>
+                        <li><span class="transistor">Q1</span>/<span class="transistor">Q2</span> transistor cascade for open circuit (high resistance) detection</li>
+                        <li><span class="transistor">Q3</span> with zener threshold for short circuit (low resistance) detection</li>
+                    </ul>
+
+                    <p>The blue signal path fed both detection circuits through different components—a regular diode and resistor divider for Q1, and a 5.1V zener with different divider for Q3. This created a "window comparator" that could detect both fault conditions.</p>
+
+                    <h3>The Solution</h3>
+                    <p>After extensive analysis of the power rails and signal paths, we discovered the root cause: <strong>pin 9 (negative flash input) was missing its ground connection</strong>. Without this ground reference, the entire detection circuit had no return path and could not function. Restoring the ground connection immediately fixed the trouble circuit.</p>
+
+                    <div class="highlight-box">
+                        <p><strong>Lesson learned:</strong> Always verify ground connections first. Even the most sophisticated circuit analysis is moot if the basic power infrastructure is incomplete.</p>
+                    </div>
+
+                    <!-- NOS Discovery Box -->
+                    <div class="discovery-box">
+                        <p>Upon further investigation, we discovered something remarkable. The panel didn't even have any knockout holes punched in the cabinet! What we thought was a decommissioned system turned out to be...</p>
+                        <div class="big-year">45-YEAR-OLD NOS</div>
+                        <p style="font-family: 'Orbitron', sans-serif; color: var(--led-yellow);">New-Old-Stock from 1980</p>
+                        <p style="margin-top: 15px; color: var(--text-dim);">This panel had never been commissioned. It sat in storage for over four decades before being powered up for the first time. The missing ground connection wasn't from decommissioning—it was likely never properly configured from the factory or was an assembly oversight that went undetected because the panel was never installed.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case Study 3: 2-Wire Smoke -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator green"></div>
+                    <h2>Case Study 3: Adding 2-Wire Smoke Detection to Resounding Trouble Panels</h2>
+                </div>
+                <div class="section-content">
+                    <h3>The Challenge</h3>
+                    <p>Simplex 2001 systems came in multiple configurations. The resounding trouble panels (2001-1002/1005 control modules) were designed for zone cards that did not support 2-wire smoke detectors. The 2-wire smoke capable zone cards (like the 2001-1027) were designed for a different control module (2001-1007) that lacked resounding trouble capability.</p>
+                    
+                    <p>The technician wanted both features: <strong>2-wire smoke detection AND resounding trouble</strong>. This combination never existed as a factory configuration.</p>
+
+                    <div class="highlight-box warning">
+                        <p><strong>Note:</strong> This modification had already been successfully developed and implemented by the technician through their own reverse-engineering work. The AI's role in this case study was <em>analyzing and explaining</em> the modification back to the technician—providing deeper context on <em>why</em> the changes worked, what each component accomplished, and how the circuit topology enabled the modification. This represents a different mode of AI collaboration: not solving a problem together, but helping document and understand an existing solution.</p>
+                    </div>
+
+                    <h3>The Modification</h3>
+                    <p>Through analysis of both card types and the resounding pulse circuits from other cards (like the audio monitor board), we documented the modification procedure:</p>
+
+                    <div class="component-callout">
+                        <p><strong>1. Added pulse/resounding circuit:</strong></p>
+                        <p><span class="capacitor">0.47µF tantalum</span> + <span class="resistor">10MΩ</span> + <span class="resistor">10kΩ</span> to create the characteristic resounding pulse timing</p>
+                        <br>
+                        <p><strong>2. Modified gate resistors:</strong></p>
+                        <p>Changed R14 and R21 from <code>4.7kΩ</code> to <code>5.1kΩ</code> to adjust the transistor bias for proper reset signal response</p>
+                        <br>
+                        <p><strong>3. Added steering diodes:</strong></p>
+                        <p>Installed <span class="transistor">1N4004</span> diodes from the trouble reset pin to the modified resistors, allowing the reset signal (applying +24V to the comparator side) to turn off the PNP transistors and clear the SCR latch</p>
+                    </div>
+
+                    <h3>The Result</h3>
+                    <div class="highlight-box success">
+                        <p>The technician had successfully created a system configuration that <strong>Simplex never offered</strong>: resounding trouble panels with 2-wire smoke detection capability. Through our collaborative analysis, we were able to document exactly how each modification worked—why the resistor value change from 4.7kΩ to 5.1kΩ affected the reset signal response, how the pulse timing network created the resounding behavior, and why the steering diodes were necessary to route the reset signal properly. This represents genuine innovation built on deep understanding of both the original designs and their interaction.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case Study 4: Sprinkler Card -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator"></div>
+                    <h2>Case Study 4: Sprinkler Card Flash Behavior Modification</h2>
+                </div>
+                <div class="section-content">
+                    <p>Another remote troubleshooting session with the same friend—this time on a different 2001 panel. This one was a "repack" model based on the standard 1007 control card configuration.</p>
+
+                    <div class="highlight-box warning">
+                        <p><strong>Note:</strong> Like Case Study 2, this was telephone debugging—analyzing schematics and proposing solutions while the friend performed the actual hands-on work. Despite the communication overhead, we successfully identified and resolved the issue through collaborative schematic analysis.</p>
+                    </div>
+
+                    <p>The 2001-3052 Sprinkler Alarm card exhibited an unwanted behavior: after reset, the alarm LED would flash rather than remain solidly lit until the next reset. This created timing conflicts with march cards in presignal mode, causing overlapping pulses that produced confusing indications.</p>
+
+                    <p>By comparing the Sprinkler Alarm schematic (556-566) with the Coder Interlock schematic (556-567)—which used the <strong>same PCB but different component population</strong>—we identified the difference: R2 was a <span class="resistor">10MΩ</span> resistor on the Sprinkler card but a jumper on the Coder Interlock.</p>
+
+                    <p>The R2/R3/C1 network formed an oscillator within the <span class="ic-chip">CD4001</span> NOR gate logic. By jumpering R2 (eliminating the timing resistance), the oscillation stopped and the LED maintained a steady state.</p>
+
+                    <div class="highlight-box success">
+                        <p><strong>A simple component change derived from comparative schematic analysis solved the problem.</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparative Analysis -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator"></div>
+                    <h2>Comparative Schematic Analysis</h2>
+                </div>
+                <div class="section-content">
+                    <p>A significant portion of our work involved comparing different card variants to understand the Simplex 2001 product architecture. Through systematic comparison, we uncovered patterns in how Simplex engineers approached product variants.</p>
+
+                    <h3>Shared PCB, Different Population</h3>
+                    <p>Many Simplex cards used identical PCBs with different component populations:</p>
+                    <ul>
+                        <li><strong>Sprinkler Alarm (556-566) vs. Coder Interlock (556-567):</strong> Same board, different timing components and LED/reset provisions</li>
+                        <li><strong>Fire Trouble Control variants (556-237 through 556-240):</strong> Same board, different meter ranges (0.5A, 1.0A, 2.0A) or no meter</li>
+                        <li><strong>Zone card variants:</strong> Basic vs. acknowledge versions differed in SCR latching circuits, resounding pulse components, and jumper configurations</li>
+                    </ul>
+
+                    <h3>Product Family Architecture</h3>
+                    <p>Analysis revealed that the Simplex 2001 was not a single product but a platform consolidating two predecessor product lines:</p>
+                    
+                    <div class="component-callout">
+                        <p><strong>4208 lineage (relay-based):</strong> Evolved into the 2001-2xxx series with relay-heavy zone cards and simpler control modules</p>
+                        <br>
+                        <p><strong>4207/4211 lineage (solid-state):</strong> Evolved into the 2001-1xxx series with <span class="ic-chip">LM339</span> comparators, SCR latching, and 2-wire smoke support</p>
+                    </div>
+
+                    <p>This explained why certain zone cards only worked with certain control modules—they represented parallel product lines unified under a single brand but maintaining their distinct architectural philosophies.</p>
+
+                    <h3>Temporal Code 3 vs. Zone Coder Analysis</h3>
+                    <p>We compared the Temporal Code 3 card (2001-3053) with the Zone Coder card (2001-3050) to explore potential conversions. Despite appearing quite different—one with jumpers for fixed T-3 patterns, the other with 24 DIP switches for arbitrary code programming—they shared extensive common heritage:</p>
+                    <ul>
+                        <li>Same <span class="ic-chip">CD4020AE</span> binary counter (IC4)</li>
+                        <li>Same <span class="ic-chip">CD4011AE</span> quad NAND oscillator topology</li>
+                        <li>Same <span class="ic-chip">CD4023AE</span> gating logic</li>
+                        <li>Same <span class="transistor">2N6426</span> Darlington output driver</li>
+                        <li>Nearly identical oscillator networks (only R3 and C1 values differ)</li>
+                    </ul>
+
+                    <p>This analysis suggested that converting a Zone Coder to produce Temporal 3 patterns might require only changing R3 (<code>39K → 33K</code>) and C1 (<code>0.047µF → 0.22µF</code>), then setting the DIP switches to the appropriate pattern—a much simpler modification than initially expected.</p>
+                </div>
+            </div>
+
+            <!-- Historical Context -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator"></div>
+                    <h2>Historical Context: Fire Alarm Technology Evolution</h2>
+                </div>
+                <div class="section-content">
+                    <p>Our work provided insights into fire alarm technology evolution:</p>
+
+                    <ul>
+                        <li><strong>1970s (420x era):</strong> Split between relay-based (4208) and early solid-state (4207) approaches</li>
+                        <li><strong>Late 1970s-1990s (2001 era):</strong> Consolidated platform supporting both philosophies, with increasing solid-state sophistication over time</li>
+                        <li><strong>1980s transition (2100/2120):</strong> Proto-addressable systems with serial port programming—now largely "lost to time" because site-specific configurations cannot be recovered. The 2001's simpler hardware-based architecture may have actually outlived these more "advanced" systems in practical use.</li>
+                        <li><strong>Modern era (4100+):</strong> Fully addressable, microprocessor-based systems with proper backup and restore capabilities</li>
+                    </ul>
+
+                    <div class="highlight-box warning">
+                        <p>The 2100/2120 represents a cautionary tale: systems sophisticated enough to require programming but without the infrastructure for configuration management. When these systems fail, the knowledge often dies with them. Multiple collectors have acquired 2120 panels, found the programming software, gotten partway through setup... and then "something bad happens." The combination of aging hardware, undocumented protocols, and lost institutional knowledge makes these systems nearly unrecoverable.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Methodology -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator green"></div>
+                    <h2>Methodology for AI-Assisted Circuit Analysis</h2>
+                </div>
+                <div class="section-content">
+                    <p>Based on our experience, we can articulate a methodology for effective AI-assisted circuit analysis:</p>
+
+                    <h3>1. Establish Clear Visual Communication</h3>
+                    <ul>
+                        <li>Use consistent color coding for different signal types</li>
+                        <li>Clarify schematic notation conventions early</li>
+                        <li>Annotate areas of focus rather than relying on verbal descriptions</li>
+                    </ul>
+
+                    <h3>2. Embrace Iterative Correction</h3>
+                    <ul>
+                        <li>Expect the AI to make interpretation errors</li>
+                        <li>Correct misunderstandings explicitly and immediately</li>
+                        <li>Build shared understanding incrementally</li>
+                    </ul>
+
+                    <h3>3. Leverage AI for Systematic Analysis</h3>
+                    <ul>
+                        <li>Component identification and cross-referencing</li>
+                        <li>Hypothesis generation for failure modes</li>
+                        <li>Comparative analysis between similar circuits</li>
+                        <li>Documentation of findings and modifications</li>
+                    </ul>
+
+                    <h3>4. Combine AI Analysis with Human Verification</h3>
+                    <ul>
+                        <li>AI proposes, human verifies with measurements</li>
+                        <li>Physical inspection confirms or refutes hypotheses</li>
+                        <li>Real-world testing validates modifications</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Conclusion -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator green"></div>
+                    <h2>Conclusion</h2>
+                </div>
+                <div class="section-content">
+                    <p>This collaboration demonstrates that AI can serve as a valuable partner in technical preservation and restoration work. The AI assistant provided:</p>
+                    <ul>
+                        <li><strong>Tireless analytical capacity:</strong> Ability to work through complex schematics systematically without fatigue</li>
+                        <li><strong>Pattern recognition:</strong> Identifying similarities between card variants and product families</li>
+                        <li><strong>Documentation synthesis:</strong> Maintaining context across extended troubleshooting sessions</li>
+                        <li><strong>Hypothesis generation:</strong> Proposing potential failure modes and solutions</li>
+                        <li><strong>Knowledge integration:</strong> Connecting component specifications to circuit behavior</li>
+                    </ul>
+
+                    <p>The human technician provided essential capabilities that AI currently cannot:</p>
+                    <ul>
+                        <li><strong>Physical interaction:</strong> Measuring voltages, swapping components, observing behavior</li>
+                        <li><strong>Contextual correction:</strong> Recognizing when AI interpretations were wrong</li>
+                        <li><strong>Historical knowledge:</strong> Understanding product lineage and design philosophy</li>
+                        <li><strong>Creative modification:</strong> Conceiving novel solutions like the 2-wire smoke + resounding trouble hybrid</li>
+                        <li><strong>Quality judgment:</strong> Knowing when a solution was "good enough" vs. needing refinement</li>
+                    </ul>
+
+                    <p>Together, this human-AI partnership accomplished work that neither could have done as efficiently alone. The AI accelerated analysis and provided a sounding board for ideas; the human provided ground truth and creative direction. The result: preserved vintage equipment, novel modifications, and documented knowledge that might otherwise have been lost.</p>
+
+                    <div class="highlight-box success">
+                        <p>As vintage electronic systems age and expertise becomes scarcer, AI-assisted analysis offers a path to preserving not just the hardware but the understanding required to maintain it. This case study suggests that such collaboration can be genuinely productive, creating value for preservation communities and demonstrating new applications for AI in technical domains.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appendix -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="led-indicator"></div>
+                    <h2>Appendix: Cards Analyzed</h2>
+                </div>
+                <div class="section-content">
+                    <h3>Zone Cards</h3>
+                    <div class="card-grid">
+                        <div class="card-slot">
+                            <div class="part-number">2001-2010 (556-218)</div>
+                            <div class="description">Dual zone, relay-based, N/O devices</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-1010 (556-217)</div>
+                            <div class="description">Single zone with acknowledge, SCR latching</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-2013 (556-246)</div>
+                            <div class="description">Class A zone, non-acknowledge</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-1020 (556-540)</div>
+                            <div class="description">Single Class A, 2-wire smoke, test switch</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-1027</div>
+                            <div class="description">Dual Class A, 2-wire smoke (modified for resounding)</div>
+                        </div>
+                    </div>
+
+                    <h3>Control Cards</h3>
+                    <div class="card-grid">
+                        <div class="card-slot">
+                            <div class="part-number">2001-1007 (556-880)</div>
+                            <div class="description">Control for 2-wire smoke systems</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-1030 (562-668)</div>
+                            <div class="description">Verification Control</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-2002/3/4 (556-238/239/240)</div>
+                            <div class="description">Fire Trouble Control with meter</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-2005 (556-660)</div>
+                            <div class="description">Fire/Trouble Control with delay circuit</div>
+                        </div>
+                    </div>
+
+                    <h3>Signal and Auxiliary Cards</h3>
+                    <div class="card-grid">
+                        <div class="card-slot">
+                            <div class="part-number">2001-2073 (556-230)</div>
+                            <div class="description">Signal card with supervision</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-3045 (556-927)</div>
+                            <div class="description">Delay card with RC timing</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-3050 (556-546)</div>
+                            <div class="description">Zone Coder with DIP switch programming</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-3051 (556-567)</div>
+                            <div class="description">Coder Interlock</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-3052 (556-566)</div>
+                            <div class="description">Sprinkler Alarm</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-3053 (562-499)</div>
+                            <div class="description">Temporal Code 3</div>
+                        </div>
+                    </div>
+
+                    <h3>Power and Supervision Cards</h3>
+                    <div class="card-grid">
+                        <div class="card-slot">
+                            <div class="part-number">2001-2066 (556-244)</div>
+                            <div class="description">Battery Monitor</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-3001 (556-269)</div>
+                            <div class="description">Charger Rate Monitor</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">2001-3021 (556-259)</div>
+                            <div class="description">Power Supply Monitor</div>
+                        </div>
+                        <div class="card-slot">
+                            <div class="part-number">Audio Monitor (556-698/556-110)</div>
+                            <div class="description">Dual Pre-Amplifier Monitor</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="panel-footer">
+            <div>FIRE ALARM CONTROL PANEL</div>
+            <div class="simplex-logo">Simplex</div>
+        </div>
+    </div>
+
+</body>
+</html>
