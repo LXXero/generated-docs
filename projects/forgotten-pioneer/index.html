@@ -398,6 +398,11 @@
                         <h4>Human-Readable Output</h4>
                         <p>Full-width printer producing timestamped records like "ALARM NO. 3 1 5 DOE§Co. 1931 JUNE 4 §6 25"—not just punch tape patterns.</p>
                     </div>
+
+                    <div class="tech-card">
+                        <h4>Bidirectional Accumulator</h4>
+                        <p>Summary indicator with ADD/SUBTRACT coils tracking outstanding troubles, plus zero-detection cam for system health status.</p>
+                    </div>
                 </div>
             </div>
             
@@ -432,6 +437,23 @@
                     <li><strong>Alarm/Set:</strong> Changed prefix (e.g., "6-3-2-1"), transmits 5 rounds or runs continuously</li>
                     <li><strong>Supervisory:</strong> Different prefixes for valve open, valve closed, etc.</li>
                 </ul>
+
+                <h3>The Summary Indicator: A Mechanical Accumulator</h3>
+                <p>Perhaps the most computationally sophisticated element was the summary indicator—a bidirectional counter that maintained aggregate system state. This wasn't just logging events; it was computing a running total of unresolved conditions across the entire facility.</p>
+
+                <p>The mechanism used two electromagnetic coils:</p>
+                <ul style="font-size: 1.1em; line-height: 1.8;">
+                    <li><strong>Add coil (517):</strong> Steps the numbered disc forward when a TROUBLE condition arrives</li>
+                    <li><strong>Subtract coil (518):</strong> Steps the numbered disc backward when a TROUBLE-CORRECTED condition arrives</li>
+                </ul>
+
+                <p>The system automatically determined which coil to fire based on the incoming message type. The condition wheel at the recorder used alternating positions—odd positions for "Trouble" conditions (valve closed, low pressure, etc.) and even positions for "Trouble-corrected" or "O.K." conditions. A selector switch mechanically geared to this wheel would route signals to the appropriate coil based on position.</p>
+
+                <p>The visual feedback was equally clever: a numbered disc visible through a window showed the exact count of outstanding issues, while a cam-and-follower mechanism provided instant status indication. When the disc reached zero, the follower dropped into a notch, lighting a GREEN "OK" lamp. Any other position kept the follower riding on the cam periphery, lighting a RED "TROUBLE" lamp.</p>
+
+                <p>Consider the practical result: five trouble conditions come in over an hour, advancing the disc to "5". Engineers fix four of them. Each fix transmits a trouble-corrected signal, the subtract coil fires four times, and the disc returns to "1". The red light stays on because one condition remains unaddressed. Only when all troubles are corrected does the count return to zero and the lamp go green.</p>
+
+                <p>This is a <strong>reference counter with zero-detection</strong>—a concept that wouldn't be formalized in computer science until Dijkstra's work on semaphores in 1965, three decades later. Harrington implemented it in brass, steel, and electromagnets.</p>
             </div>
             
             <div class="quote">
@@ -455,6 +477,7 @@
                         <li>Sequential state machines (the stepping mechanism)</li>
                         <li>Network protocols (the pulse timing system)</li>
                         <li>Collision avoidance (the loop-splitting arbitration)</li>
+                        <li>Bidirectional accumulators with zero-detection (the summary indicator)</li>
                         <li>Data logging (the printer output)</li>
                     </ul>
                 </div>
