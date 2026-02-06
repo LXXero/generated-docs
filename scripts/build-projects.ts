@@ -89,15 +89,23 @@ function buildHtmlProject(projectName: string, metadata: ProjectMetadata): void 
     fs.mkdirSync(buildDir, { recursive: true });
   }
 
-  // Copy all files from project directory
-  const files = fs.readdirSync(projectDir);
-  files.forEach(file => {
-    if (file !== 'project.json') {
-      const src = path.join(projectDir, file);
-      const dest = path.join(buildDir, file);
-      fs.copyFileSync(src, dest);
+  // Copy all files from project directory (recursive for subdirectories)
+  function copyDir(srcDir: string, destDir: string): void {
+    if (!fs.existsSync(destDir)) {
+      fs.mkdirSync(destDir, { recursive: true });
     }
-  });
+    for (const entry of fs.readdirSync(srcDir, { withFileTypes: true })) {
+      if (entry.name === 'project.json' && srcDir === projectDir) continue;
+      const src = path.join(srcDir, entry.name);
+      const dest = path.join(destDir, entry.name);
+      if (entry.isDirectory()) {
+        copyDir(src, dest);
+      } else {
+        fs.copyFileSync(src, dest);
+      }
+    }
+  }
+  copyDir(projectDir, buildDir);
 
   console.log(`   ✓ Copied to: builds/${projectName}/`);
 }
