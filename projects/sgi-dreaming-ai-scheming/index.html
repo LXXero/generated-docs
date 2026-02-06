@@ -141,6 +141,15 @@ a:hover { text-decoration: underline; }
         <h2>Timeline of Machines & Browsers</h2>
         <div class="timeline">
             <div class="timeline-item">
+                <div class="era">1985 – 1992</div>
+                <h3>IRIS 4D / Personal IRIS / IRIS Crimson</h3>
+                <p>
+                    <strong>CPUs:</strong> MIPS R2000/R3000/R4000 &nbsp; | &nbsp; <strong>RAM:</strong> 8–256&nbsp;MB<br>
+                    <strong>Browsers:</strong> None worth mentioning — this was pre-web<br>
+                    The Personal IRIS (1988) brought SGI graphics to individual desks for the first time. The IRIS Crimson (1992) was the bridge between the 4D series and the Indigo² — a deskside tower with RealityEngine graphics that could fill a room with polygons. Browsing the web? Sir, the web barely exists yet. You're running <code>fm</code> and reading man pages.
+                </p>
+            </div>
+            <div class="timeline-item">
                 <div class="era">1991 – 1993</div>
                 <h3>Indigo / Indy (IRIX&nbsp;4.x → 5.2)</h3>
                 <p>
@@ -163,6 +172,26 @@ a:hover { text-decoration: underline; }
                 <p>
                     Unified Memory Architecture meets Netscape 3.01 Gold. JavaScript 1.1, animated GIFs, and
                     livestreaming QuickTime if you sacrificed enough RAM. Great for coding VRML scenes at 3&nbsp;a.m.
+                </p>
+            </div>
+            <div class="timeline-item">
+                <div class="era">1993 – 2000</div>
+                <h3>Onyx / Onyx2 / InfiniteReality</h3>
+                <p>
+                    <strong>CPUs:</strong> R4400 → R10000/R12000 &nbsp; | &nbsp; <strong>RAM:</strong> 256&nbsp;MB – 16&nbsp;GB<br>
+                    <strong>Graphics:</strong> RealityEngine2, InfiniteReality, InfiniteReality2<br>
+                    <strong>Browsers:</strong> Netscape 3–4, eventually Mozilla ports<br>
+                    The visualization supercomputers. The Onyx (1993) powered flight simulators, VR caves, and Hollywood pre-viz. The Onyx2 (1996) with InfiniteReality could push 10M textured polygons/sec and drive multiple high-res displays simultaneously. These were the machines ILM, Pixar, and NASA used when "real-time" meant something. You didn't browse the web on these — you rendered the future.
+                </p>
+            </div>
+            <div class="timeline-item">
+                <div class="era">1996 – 2002</div>
+                <h3>Origin 2000 / Origin 3000</h3>
+                <p>
+                    <strong>CPUs:</strong> Up to 512× R10000/R12000/R14000 &nbsp; | &nbsp; <strong>RAM:</strong> Up to 1&nbsp;TB (ccNUMA)<br>
+                    <strong>Topology:</strong> Hypercube interconnect, NUMAflex<br>
+                    <strong>Browsers:</strong> Whatever your terminal server could handle<br>
+                    SGI's answer to "what if we connected 512 MIPS processors with fat pipes and pretended it was one machine?" The Origin 2000 (1996) introduced ccNUMA to the masses — if by "masses" you mean national labs and oil companies. The Origin 3000 pushed it further with R14000 chips. Nobody browsed the web on these; they modeled nuclear stockpiles and weather systems. But somewhere, someone probably ran Lynx on one, just to flex.
                 </p>
             </div>
             <div class="timeline-item">
@@ -197,10 +226,17 @@ a:hover { text-decoration: underline; }
                 </p>
             </div>
             <div class="timeline-item">
+                <div class="era">2016 – 2024</div>
+                <h3>Google TPU Dynasty</h3>
+                <p>
+                    Google said "NVIDIA? We'll build our own." TPU v1 (2016) was inference-only and powered AlphaGo. TPU v2/v3 added training. TPU v4 (2022) formed the backbone of PaLM and Gemini. TPU v5e/v5p (2023) brought cost efficiency, and TPU v6 Trillium (2024) pushes 4.7× the peak compute of v5e. These ASICs live in massive pods — up to 8,960 chips per cluster — and you can't buy them, only rent them on Google Cloud. The silicon equivalent of "nice chip, shame you can't have it."
+                </p>
+            </div>
+            <div class="timeline-item">
                 <div class="era">2022 – 2025</div>
                 <h3>Tensor Farm Era</h3>
                 <p>
-                    H100, DGX Spark, eight-way HGX trays. PyTorch/LLAMA/Claude on demand. You can serve GPT-4 sized models from your garage if your power company approves.
+                    H100, DGX Spark, eight-way HGX trays, and Google TPU pods. PyTorch/LLAMA/Claude on demand. You can serve GPT-4 sized models from your garage if your power company approves — or rent a TPU pod and let Google handle the thermals.
                 </p>
             </div>
         </div>
@@ -222,9 +258,13 @@ a:hover { text-decoration: underline; }
             <div class="spec-card">
                 <h4>Hardware Flights</h4>
                 <ul>
+                    <li>Personal IRIS – Where the legend began</li>
+                    <li>IRIS Crimson – RealityEngine in a tower</li>
                     <li>Indigo R4000 – Entry imaging suite</li>
                     <li>Indy Video – Live digitizing + web</li>
                     <li>O2 Cam – Unified Memory for VRML</li>
+                    <li>Onyx2 – InfiniteReality viz monster</li>
+                    <li>Origin 2000 – 512-way ccNUMA beast</li>
                     <li>Octane MXE – Dual-channel geometry</li>
                     <li>Tezro – Quad pipe, onyx DNA</li>
                 </ul>
@@ -245,14 +285,17 @@ a:hover { text-decoration: underline; }
                     <li>RTX&nbsp;5090 — Next-gen raytraced hype machine</li>
                     <li>DGX Spark — $3,999 command deck in a box</li>
                     <li>H100 PCIe (80&nbsp;GB) — When you need datacenter swagger</li>
+                    <li>Google TPU v5p — 459 TFLOPS, rent-only flex</li>
+                    <li>Google TPU v6 Trillium — 4.7× v5e, pod-scale only</li>
                 </ul>
             </div>
         </div>
     </div>
 
     <div class="price-banner">
-        <span class="price-row">SGI CLASSICS — INDIGO: $12,995 (≈ $26k today) &nbsp; | &nbsp; OCTANE2: $74,995 (≈ $130k today) &nbsp; | &nbsp; TEZRO: $110,995 (≈ $170k today)</span>
-        <span class="price-row">MODERN AI — H100 PCIe (80GB): ≈ $30,000 &nbsp; | &nbsp; HGX 8× H100: ≈ $250,000 &nbsp; | &nbsp; DGX Spark: $3,999 &nbsp; | &nbsp; DUAL RTX 4090: ≈ $3,000</span>
+        <span class="price-row">SGI CLASSICS — PERSONAL IRIS: $44,900 &nbsp; | &nbsp; CRIMSON: $80k+ &nbsp; | &nbsp; INDIGO: $12,995 &nbsp; | &nbsp; ONYX2: $250k+ &nbsp; | &nbsp; ORIGIN 2000: $500k–$5M</span>
+        <span class="price-row">SGI WORKSTATIONS — OCTANE2: $74,995 &nbsp; | &nbsp; TEZRO: $110,995 &nbsp; | &nbsp; (all prices in original dollars)</span>
+        <span class="price-row">MODERN AI — H100 PCIe: ≈ $30k &nbsp; | &nbsp; HGX 8× H100: ≈ $250k &nbsp; | &nbsp; DGX Spark: $3,999 &nbsp; | &nbsp; DUAL RTX 4090: ≈ $3k &nbsp; | &nbsp; TPU v5p POD: rent only</span>
         <div class="callout">Finance? Sure. Just mortgage the render farm.</div>
     </div>
 
@@ -281,12 +324,28 @@ a:hover { text-decoration: underline; }
         </p>
         <div class="spec-grid">
             <div class="spec-card">
+                <h4>SGI Personal IRIS 4D/35</h4>
+                <p>$44,900 (1988) / ≈ $112,000 today<br>R2000 36&nbsp;MHz, 8–32&nbsp;MB RAM, GT graphics<br><em>AI perf:</em> ≈ 0.000005 tokens/sec — it can barely grep</p>
+            </div>
+            <div class="spec-card">
+                <h4>SGI IRIS Crimson</h4>
+                <p>$80,000+ (1992) / ≈ $170,000 today<br>R4000 100–150&nbsp;MHz, 256&nbsp;MB RAM, RealityEngine<br><em>AI perf:</em> ≈ 0.00008 tokens/sec — but those polygons though</p>
+            </div>
+            <div class="spec-card">
                 <h4>SGI Indigo R4000</h4>
                 <p>$12,995 (1991) / ≈ $26,000 today<br>R4000 100&nbsp;MHz, 64&nbsp;MB RAM, GR2-XZ graphics<br><em>AI perf:</em> ≈ 0.00005 tokens/sec — suitable for ASCII palm trees</p>
             </div>
             <div class="spec-card">
                 <h4>SGI Octane2 Dual-Pipe</h4>
                 <p>$74,995 (1999) / ≈ $130,000 today<br>R12000 400&nbsp;MHz, MXE graphics, 2&nbsp;GB RAM<br><em>AI perf:</em> ≈ 0.0003 GPT-4 tokens/sec (mostly renders teapots)</p>
+            </div>
+            <div class="spec-card">
+                <h4>SGI Onyx2 InfiniteReality</h4>
+                <p>$250,000+ (1996) / ≈ $470,000 today<br>4–8× R10000 195&nbsp;MHz, InfiniteReality2, 16&nbsp;GB RAM<br><em>AI perf:</em> ≈ 0.001 tokens/sec — but it could render the Matrix</p>
+            </div>
+            <div class="spec-card">
+                <h4>SGI Origin 2000</h4>
+                <p>$500,000–$5M+ (1996) / ≈ $1–10M today<br>Up to 512× R10000/R12000, 1&nbsp;TB ccNUMA<br><em>AI perf:</em> ≈ 0.01 tokens/sec total — nuclear stockpile math, not chatbots</p>
             </div>
             <div class="spec-card">
                 <h4>SGI Tezro Quad-Pipe</h4>
@@ -311,6 +370,14 @@ a:hover { text-decoration: underline; }
             <div class="spec-card">
                 <h4>Dual GeForce RTX&nbsp;4090</h4>
                 <p>≈ $3,000 (MSRP×2)<br>48&nbsp;GB combined GDDR6X, 900&nbsp;W<br><em>AI perf:</em> ≈ 750k tokens/min, still cheaper than therapy</p>
+            </div>
+            <div class="spec-card">
+                <h4>Google TPU v5p Pod (8,960 chips)</h4>
+                <p>≈ $??? (Cloud rental only, ~$4.20/chip/hr)<br>459 TFLOPS BF16 per chip, ICI mesh interconnect<br><em>AI perf:</em> Trained Gemini Ultra — enough said</p>
+            </div>
+            <div class="spec-card">
+                <h4>Google TPU v6 Trillium</h4>
+                <p>≈ $??? (Cloud rental, 2024+)<br>4.7× peak compute vs v5e, HBM, liquid-cooled<br><em>AI perf:</em> Google won't tell you, but it's training the next Gemini right now</p>
             </div>
         </div>
         <div class="price-banner" style="margin-top:30px;">
