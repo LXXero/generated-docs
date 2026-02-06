@@ -233,10 +233,17 @@ a:hover { text-decoration: underline; }
                 </p>
             </div>
             <div class="timeline-item">
+                <div class="era">2019 – 2025</div>
+                <h3>AWS Trainium / Inferentia</h3>
+                <p>
+                    Amazon saw Google and NVIDIA printing money and said "we have fabrication partners too." Inferentia (2019) handled inference workloads. Trainium (2021) tackled training. Trainium2 (2024) is where it gets serious — powering Anthropic's Claude models across massive UltraClusters of 100,000+ chips connected via custom NeuronLink fabric. You're literally reading the output of these chips right now. The silicon behind the chatbot you're probably using right now.
+                </p>
+            </div>
+            <div class="timeline-item">
                 <div class="era">2022 – 2025</div>
                 <h3>Tensor Farm Era</h3>
                 <p>
-                    H100, DGX Spark, eight-way HGX trays, and Google TPU pods. PyTorch/LLAMA/Claude on demand. You can serve GPT-4 sized models from your garage if your power company approves — or rent a TPU pod and let Google handle the thermals.
+                    H100, DGX Spark, eight-way HGX trays, Google TPU pods, and AWS Trainium UltraClusters. PyTorch/LLAMA/Claude on demand. Three silicon empires — NVIDIA, Google, and Amazon — all competing to burn the most electricity per token. You can serve GPT-4 sized models from your garage if your power company approves, rent a TPU pod, or just call an API and let someone else worry about the thermals.
                 </p>
             </div>
         </div>
@@ -287,6 +294,8 @@ a:hover { text-decoration: underline; }
                     <li>H100 PCIe (80&nbsp;GB) — When you need datacenter swagger</li>
                     <li>Google TPU v5p — 459 TFLOPS, rent-only flex</li>
                     <li>Google TPU v6 Trillium — 4.7× v5e, pod-scale only</li>
+                    <li>AWS Trainium2 — Powers Claude, 100k+ chip clusters</li>
+                    <li>AWS Inferentia2 — Low-cost inference at scale</li>
                 </ul>
             </div>
         </div>
@@ -295,7 +304,8 @@ a:hover { text-decoration: underline; }
     <div class="price-banner">
         <span class="price-row">SGI CLASSICS — PERSONAL IRIS: $44,900 &nbsp; | &nbsp; CRIMSON: $80k+ &nbsp; | &nbsp; INDIGO: $12,995 &nbsp; | &nbsp; ONYX2: $250k+ &nbsp; | &nbsp; ORIGIN 2000: $500k–$5M</span>
         <span class="price-row">SGI WORKSTATIONS — OCTANE2: $74,995 &nbsp; | &nbsp; TEZRO: $110,995 &nbsp; | &nbsp; (all prices in original dollars)</span>
-        <span class="price-row">MODERN AI — H100 PCIe: ≈ $30k &nbsp; | &nbsp; HGX 8× H100: ≈ $250k &nbsp; | &nbsp; DGX Spark: $3,999 &nbsp; | &nbsp; DUAL RTX 4090: ≈ $3k &nbsp; | &nbsp; TPU v5p POD: rent only</span>
+        <span class="price-row">MODERN AI — H100 PCIe: ≈ $30k &nbsp; | &nbsp; HGX 8× H100: ≈ $250k &nbsp; | &nbsp; DGX Spark: $3,999 &nbsp; | &nbsp; DUAL RTX 4090: ≈ $3k</span>
+        <span class="price-row">CUSTOM SILICON — TPU v5p POD: rent only &nbsp; | &nbsp; AWS TRAINIUM2 ULTRACLUSTER: rent only &nbsp; | &nbsp; INFERENTIA2: $0.76/hr</span>
         <div class="callout">Finance? Sure. Just mortgage the render farm.</div>
     </div>
 
@@ -378,6 +388,14 @@ a:hover { text-decoration: underline; }
             <div class="spec-card">
                 <h4>Google TPU v6 Trillium</h4>
                 <p>≈ $??? (Cloud rental, 2024+)<br>4.7× peak compute vs v5e, HBM, liquid-cooled<br><em>AI perf:</em> Google won't tell you, but it's training the next Gemini right now</p>
+            </div>
+            <div class="spec-card">
+                <h4>AWS Trainium2 UltraCluster</h4>
+                <p>≈ $??? (AWS rental, 100k+ chips per cluster)<br>Custom NeuronLink interconnect, HBM, liquid-cooled<br><em>AI perf:</em> Trains Claude. You're reading its homework right now</p>
+            </div>
+            <div class="spec-card">
+                <h4>AWS Inferentia2</h4>
+                <p>≈ $0.76/hr per chip (AWS on-demand)<br>190 TFLOPS BF16, 32&nbsp;GB HBM per chip<br><em>AI perf:</em> Budget inference king — serves models while your wallet survives</p>
             </div>
         </div>
         <div class="price-banner" style="margin-top:30px;">
