@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DesktopFix</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN SYSTEM: Apple Snow White / Platinum
+   ============================================================ */
+
+:root {
+  /* Platinum palette */
+  --plat-white: #FFFFFF;
+  --plat-highlight: #FEFEFE;
+  --plat-light: #EEEEEE;
+  --plat-mid: #DDDDDD;
+  --plat-base: #CCCCCC;
+  --plat-dark: #AAAAAA;
+  --plat-shadow: #888888;
+  --plat-deep: #666666;
+  --plat-black: #333333;
+
+  /* Apple Rainbow (6-stripe, top to bottom on original logo) */
+  --apple-green:  #61BB46;
+  --apple-yellow: #FDB827;
+  --apple-orange: #F5821F;
+  --apple-red:    #E03A3E;
+  --apple-purple: #963D97;
+  --apple-blue:   #009DDC;
+
+  /* Typography */
+  --font-system: 'VT323', 'Chicago', monospace;
+  --font-code: 'IBM Plex Mono', 'Monaco', 'Courier New', monospace;
+  --font-body: 'Helvetica Neue', Helvetica, -apple-system, sans-serif;
+
+  /* Sizing */
+  --page-max: 860px;
+  --window-radius: 0px;
+  --bevel-width: 2px;
+}
+
+/* ---- Reset & Base ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--plat-black);
+  line-height: 1.6;
+  /* Platinum pinstripe desktop */
+  background:
+    repeating-linear-gradient(
+      180deg,
+      #C8C8C8 0px, #C8C8C8 1px,
+      #D0D0D0 1px, #D0D0D0 2px
+    );
+  padding: 0;
+  min-height: 100vh;
+}
+
+.page-container {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 20px 40px;
+}
+
+a { color: var(--apple-blue); }
+a:visited { color: var(--apple-purple); }
+a:hover { color: var(--apple-red); }
+
+strong { font-weight: 600; }
+
+/* ============================================================
+   RAINBOW BAR
+   ============================================================ */
+.rainbow-bar {
+  height: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--apple-green)  0%,    var(--apple-green)  16.66%,
+    var(--apple-yellow) 16.66%, var(--apple-yellow) 33.33%,
+    var(--apple-orange) 33.33%, var(--apple-orange) 50%,
+    var(--apple-red)    50%,    var(--apple-red)    66.66%,
+    var(--apple-purple) 66.66%, var(--apple-purple) 83.33%,
+    var(--apple-blue)   83.33%, var(--apple-blue)   100%
+  );
+}
+
+.rainbow-bar-thin {
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--apple-green)  0%,    var(--apple-green)  16.66%,
+    var(--apple-yellow) 16.66%, var(--apple-yellow) 33.33%,
+    var(--apple-orange) 33.33%, var(--apple-orange) 50%,
+    var(--apple-red)    50%,    var(--apple-red)    66.66%,
+    var(--apple-purple) 66.66%, var(--apple-purple) 83.33%,
+    var(--apple-blue)   83.33%, var(--apple-blue)   100%
+  );
+}
+
+/* ============================================================
+   SNOW WHITE RIDGES (section dividers)
+   ============================================================ */
+.snow-white-ridges {
+  height: 16px;
+  margin: 28px 0;
+  background: repeating-linear-gradient(
+    180deg,
+    var(--plat-highlight) 0px,   var(--plat-highlight) 1px,
+    var(--plat-dark) 1px,        var(--plat-dark) 2px,
+    var(--plat-light) 2px,       var(--plat-light) 3px,
+    var(--plat-mid) 3px,         var(--plat-mid) 4px
+  );
+  border-top: 1px solid var(--plat-shadow);
+  border-bottom: 1px solid var(--plat-shadow);
+}
+
+/* ============================================================
+   BEVELED BORDERS (Platinum 3D)
+   ============================================================ */
+.bevel-outset {
+  border: var(--bevel-width) solid;
+  border-color: var(--plat-highlight) var(--plat-shadow) var(--plat-shadow) var(--plat-highlight);
+  background: var(--plat-light);
+}
+
+.bevel-inset {
+  border: var(--bevel-width) solid;
+  border-color: var(--plat-shadow) var(--plat-highlight) var(--plat-highlight) var(--plat-shadow);
+  background: var(--plat-white);
+}
+
+/* ============================================================
+   MAC WINDOW CHROME
+   ============================================================ */
+.mac-window {
+  border: 1px solid var(--plat-deep);
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.25);
+  margin: 24px 0;
+  background: var(--plat-light);
+}
+
+.mac-titlebar {
+  height: 22px;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  border-bottom: 1px solid var(--plat-deep);
+  position: relative;
+  /* Pinstripe title bar */
+  background:
+    repeating-linear-gradient(
+      180deg,
+      var(--plat-light) 0px,  var(--plat-light) 1px,
+      var(--plat-mid) 1px,    var(--plat-mid) 2px,
+      var(--plat-highlight) 2px, var(--plat-highlight) 3px,
+      var(--plat-dark) 3px,   var(--plat-dark) 4px
+    );
+}
+
+.mac-closebox {
+  width: 13px;
+  height: 11px;
+  border: 1px solid #000;
+  background: var(--plat-light);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.mac-closebox::after {
+  content: '';
+  position: absolute;
+  top: 1px; left: 1px; right: 1px; bottom: 1px;
+  border: 1px solid;
+  border-color: var(--plat-highlight) var(--plat-shadow) var(--plat-shadow) var(--plat-highlight);
+}
+
+.mac-title {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-system);
+  font-size: 15px;
+  color: #000;
+  letter-spacing: 0.5px;
+  padding-right: 19px; /* balance close box */
+}
+
+.mac-body {
+  padding: 20px 24px;
+}
+
+/* ============================================================
+   CODE BLOCKS
+   ============================================================ */
+.code-block {
+  font-family: var(--font-code);
+  font-size: 12.5px;
+  line-height: 1.7;
+  background: var(--plat-white);
+  border: 2px solid;
+  border-color: var(--plat-shadow) var(--plat-highlight) var(--plat-highlight) var(--plat-shadow);
+  padding: 14px 18px;
+  overflow-x: auto;
+  color: #1a1a1a;
+  margin: 12px 0;
+  white-space: pre;
+}
+
+/* ============================================================
+   CALLOUT BOXES (diagnostic fill colors)
+   ============================================================ */
+.callout {
+  padding: 12px 18px;
+  margin: 12px 0;
+  border-left: 6px solid;
+  font-size: 0.92em;
+}
+
+.callout-red {
+  border-left-color: var(--apple-red);
+  background: rgba(224, 58, 62, 0.07);
+}
+
+.callout-yellow {
+  border-left-color: var(--apple-yellow);
+  background: rgba(253, 184, 39, 0.09);
+}
+
+.callout-purple {
+  border-left-color: var(--apple-purple);
+  background: rgba(150, 61, 151, 0.07);
+}
+
+.callout-green {
+  border-left-color: var(--apple-green);
+  background: rgba(97, 187, 70, 0.08);
+}
+
+.callout-blue {
+  border-left-color: var(--apple-blue);
+  background: rgba(0, 157, 220, 0.07);
+}
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.timeline {
+  position: relative;
+  padding-left: 44px;
+  margin: 20px 0 10px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--plat-dark);
+}
+
+.timeline-entry {
+  position: relative;
+  margin-bottom: 22px;
+  padding: 14px 18px;
+  background: var(--plat-white);
+  border: 1px solid var(--plat-dark);
+}
+
+.timeline-entry::before {
+  content: '';
+  position: absolute;
+  left: -33px;
+  top: 18px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--plat-deep);
+}
+
+/* Rainbow dot cycle */
+.timeline-entry:nth-child(6n+1)::before { background: var(--apple-green); }
+.timeline-entry:nth-child(6n+2)::before { background: var(--apple-yellow); }
+.timeline-entry:nth-child(6n+3)::before { background: var(--apple-orange); }
+.timeline-entry:nth-child(6n+4)::before { background: var(--apple-red); }
+.timeline-entry:nth-child(6n+5)::before { background: var(--apple-purple); }
+.timeline-entry:nth-child(6n+6)::before { background: var(--apple-blue); }
+
+.timeline-version {
+  font-family: var(--font-system);
+  font-size: 18px;
+  color: #000;
+  margin-bottom: 6px;
+}
+
+.timeline-text {
+  font-size: 0.92em;
+  line-height: 1.55;
+}
+
+/* ============================================================
+   PHOTO FRAME
+   ============================================================ */
+.photo-frame {
+  display: inline-block;
+  padding: 10px 10px 36px;
+  background: var(--plat-white);
+  border: 1px solid var(--plat-dark);
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.18);
+}
+
+.photo-frame.tilt-left  { transform: rotate(-1.5deg); }
+.photo-frame.tilt-right { transform: rotate(1.2deg); }
+
+.photo-frame .photo-img {
+  display: block;
+  width: 100%;
+  min-height: 200px;
+  background: var(--plat-mid);
+  border: 1px solid var(--plat-dark);
+  object-fit: cover;
+}
+
+.photo-frame .photo-img.tall {
+  min-height: 320px;
+}
+
+.photo-frame .caption {
+  font-family: var(--font-system);
+  font-size: 15px;
+  text-align: center;
+  margin-top: 10px;
+  color: var(--plat-deep);
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.photo-grid .photo-frame {
+  width: 100%;
+  transform: none;
+}
+
+/* ============================================================
+   FLOW DIAGRAM
+   ============================================================ */
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 20px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.flow-box {
+  padding: 10px 14px;
+  font-family: var(--font-system);
+  font-size: 14px;
+  text-align: center;
+  border: 2px solid;
+  border-color: var(--plat-highlight) var(--plat-shadow) var(--plat-shadow) var(--plat-highlight);
+  background: var(--plat-light);
+  white-space: nowrap;
+}
+
+.flow-box.flow-bad {
+  background: rgba(224, 58, 62, 0.12);
+  border-color: var(--apple-red);
+}
+
+.flow-box.flow-good {
+  background: rgba(97, 187, 70, 0.15);
+  border-color: var(--apple-green);
+}
+
+.flow-arrow {
+  font-size: 20px;
+  color: var(--plat-shadow);
+  padding: 0 6px;
+  font-family: var(--font-system);
+}
+
+/* ============================================================
+   STRUCTURE DIAGRAM (PixPat tree)
+   ============================================================ */
+.struct-tree {
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 1.8;
+  padding: 16px 20px;
+  background: var(--plat-white);
+  border: 2px solid;
+  border-color: var(--plat-shadow) var(--plat-highlight) var(--plat-highlight) var(--plat-shadow);
+  margin: 12px 0;
+  overflow-x: auto;
+  white-space: pre;
+  color: #1a1a1a;
+}
+
+.struct-tree .key {
+  color: var(--apple-blue);
+  font-weight: 600;
+}
+
+.struct-tree .val {
+  color: var(--apple-red);
+}
+
+.struct-tree .comment {
+  color: var(--plat-shadow);
+  font-style: italic;
+}
+
+/* ============================================================
+   SECTION PANELS
+   ============================================================ */
+.sub-panel {
+  border: 2px solid;
+  border-color: var(--plat-shadow) var(--plat-highlight) var(--plat-highlight) var(--plat-shadow);
+  background: var(--plat-white);
+  padding: 18px 20px;
+  margin: 16px 0;
+}
+
+.sub-panel-title {
+  font-family: var(--font-system);
+  font-size: 17px;
+  color: #000;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--plat-dark);
+}
+
+/* ============================================================
+   TWO COLUMNS
+   ============================================================ */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero-title {
+  font-family: var(--font-system);
+  font-size: 56px;
+  color: #000;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.hero-tagline {
+  font-style: italic;
+  color: var(--plat-deep);
+  font-size: 1.1em;
+  margin-bottom: 16px;
+}
+
+.hero-summary {
+  margin: 16px 0;
+  font-size: 0.95em;
+  line-height: 1.65;
+}
+
+.hero-meta {
+  font-family: var(--font-code);
+  font-size: 11.5px;
+  color: var(--plat-shadow);
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--plat-dark);
+}
+
+/* ============================================================
+   IMAGE PLACEHOLDERS
+   ============================================================ */
+.img-container {
+  border: 2px solid;
+  border-color: var(--plat-shadow) var(--plat-highlight) var(--plat-highlight) var(--plat-shadow);
+  background: var(--plat-mid);
+  overflow: hidden;
+}
+
+.img-container img {
+  display: block;
+  width: 100%;
+  min-height: 160px;
+  object-fit: cover;
+  background: var(--plat-base);
+}
+
+.img-label {
+  font-family: var(--font-system);
+  font-size: 13px;
+  text-align: center;
+  padding: 6px 8px;
+  background: var(--plat-light);
+  border-top: 1px solid var(--plat-dark);
+  color: var(--plat-deep);
+}
+
+/* ============================================================
+   ORDERED LIST STYLING
+   ============================================================ */
+.step-list {
+  counter-reset: steps;
+  list-style: none;
+  padding: 0;
+}
+
+.step-list li {
+  counter-increment: steps;
+  padding: 6px 0 6px 32px;
+  position: relative;
+  font-size: 0.92em;
+  line-height: 1.55;
+}
+
+.step-list li::before {
+  content: counter(steps);
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 22px;
+  height: 22px;
+  background: var(--plat-mid);
+  border: 1px solid var(--plat-shadow);
+  border-radius: 50%;
+  font-family: var(--font-system);
+  font-size: 14px;
+  text-align: center;
+  line-height: 22px;
+  color: #000;
+}
+
+.guard-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+
+.guard-list li {
+  padding: 3px 0 3px 20px;
+  position: relative;
+  font-size: 0.88em;
+  color: var(--plat-deep);
+}
+
+.guard-list li::before {
+  content: '\25B8';
+  position: absolute;
+  left: 4px;
+  color: var(--apple-red);
+}
+
+/* ============================================================
+   SECTION HEADINGS
+   ============================================================ */
+h2.section-heading {
+  font-family: var(--font-system);
+  font-size: 22px;
+  color: #000;
+  margin-bottom: 14px;
+  letter-spacing: 0.3px;
+}
+
+h3.sub-heading {
+  font-family: var(--font-system);
+  font-size: 18px;
+  color: #000;
+  margin: 18px 0 8px;
+}
+
+p + p { margin-top: 10px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer-content {
+  text-align: center;
+  padding: 20px 0 8px;
+  font-size: 0.88em;
+  color: var(--plat-deep);
+}
+
+.footer-content a {
+  margin: 0 6px;
+}
+
+.footer-content .copyright {
+  margin-top: 12px;
+  font-family: var(--font-system);
+  font-size: 14px;
+  color: var(--plat-shadow);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 700px) {
+  .hero-title { font-size: 38px; }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .mac-body { padding: 16px; }
+
+  .flow-diagram {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .flow-arrow {
+    transform: rotate(90deg);
+    padding: 2px 0;
+  }
+
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-frame { transform: none !important; }
+
+  .timeline { padding-left: 36px; }
+  .timeline-entry::before { left: -25px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== TOP RAINBOW BAR ====== -->
+<div class="rainbow-bar"></div>
+
+<div class="page-container">
+
+<!-- ============================================================
+     SECTION 1: HERO
+     ============================================================ -->
+<div class="mac-window" style="margin-top: 28px;">
+  <div class="mac-titlebar">
+    <div class="mac-closebox"></div>
+    <div class="mac-title">DesktopFix</div>
+  </div>
+  <div class="mac-body">
+    <div class="hero-title">DesktopFix</div>
+    <div class="hero-tagline">Fixing Apple's homework 30 years later.</div>
+    <div class="rainbow-bar-thin"></div>
+    <p class="hero-summary">
+      A system extension (INIT) for 68k Macs that fixes desktop pattern corruption at 32bpp
+      (Millions of Colors) on Mac OS 7.6 through 8.1. QuickDraw's <code>FillCRgn</code> and
+      <code>EraseRect</code> traps produce garbled rainbow pixels behind desktop icon labels,
+      masks, and text editing areas. DesktopFix tail-patches both traps, reading the
+      <code>PixPat</code> tile data directly and rendering correct 32bpp pixels to the
+      framebuffer &mdash; bypassing the broken code path entirely.
+    </p>
+    <div class="hero-meta">
+      Mac OS 7.6 &ndash; 8.1 &nbsp;&bull;&nbsp;
+      Any 68k Mac with 32-bit Color QuickDraw &nbsp;&bull;&nbsp;
+      Confirmed on Quadra 700 + QEMU Q800 &nbsp;&bull;&nbsp;
+      Public Domain
+    </div>
+  </div>
+</div>
+
+<div class="snow-white-ridges"></div>
+
+<!-- ============================================================
+     SECTION 2: THE BUG
+     ============================================================ -->
+<div class="mac-window">
+  <div class="mac-titlebar">
+    <div class="mac-closebox"></div>
+    <div class="mac-title">The Bug</div>
+  </div>
+  <div class="mac-body">
+    <div class="two-col">
+      <div>
+        <h2 class="section-heading">32bpp Pattern Corruption</h2>
+        <p>
+          At Millions of Colors (32bpp), QuickDraw's <code>FillCRgn</code> and
+          <code>EraseRect</code> traps fail to properly tile the desktop <code>PixPat</code>
+          pattern. Instead of the familiar Mac OS watermark background, you get corrupted
+          rainbow garbage pixels behind icon labels, masks, and text editing areas.
+        </p>
+        <p>
+          The bug was first discovered on a <strong>real Quadra 700</strong> running Mac OS 8.1
+          at Millions of Colors, and later confirmed on <strong>QEMU Quadra 800</strong>
+          emulation. Any 68k Mac capable of 32bpp output can hit this bug.
+        </p>
+        <p>
+          It went unnoticed for decades because 32bpp was uncommon on 68k Macs &mdash; most
+          machines like the Quadra 800 only have 1MB of onboard VRAM, not enough for Millions
+          of Colors at usable resolutions. You needed a NuBus video card or expanded VRAM.
+          QEMU provides 4MB, making the bug trivially reproducible.
+        </p>
+      </div>
+      <div>
+        <div class="img-container" style="margin-bottom: 14px;">
+          <img src="images/qemu_quadra800_bug.png" alt="Corrupted rainbow pixels behind desktop icon labels at 32bpp">
+          <div class="img-label">Before: corrupted pattern behind icon labels at 32bpp</div>
+        </div>
+        <div class="img-container">
+          <img src="images/quadra_800_clean.png" alt="Clean desktop with DesktopFix installed - correct Mac OS watermark pattern">
+          <div class="img-label">After: clean desktop with DesktopFix</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="snow-white-ridges"></div>
+
+<!-- ============================================================
+     SECTION 3: THE JOURNEY
+     ============================================================ -->
+<div class="mac-window">
+  <div class="mac-titlebar">
+    <div class="mac-closebox"></div>
+    <div class="mac-title">The Journey</div>
+  </div>
+  <div class="mac-body">
+    <h2 class="section-heading">14 Versions to Get It Right</h2>
+    <p>
+      Finding the right trap to patch took extensive diagnostic work &mdash; injecting bright
+      colored fills into different QuickDraw traps to see which one actually draws behind
+      desktop icons. The answer wasn't obvious.
+    </p>
+
+    <div class="timeline">
+
+      <!-- v1-v9 -->
+      <div class="timeline-entry">
+        <div class="timeline-version">v1 &ndash; v9</div>
+        <div class="timeline-text">
+          Patched <code>EraseRect</code> (trap $A8A3) &mdash; <strong>wrong trap entirely.</strong>
+          EraseRect handles menus and titlebars, not icon backgrounds. Nine versions chasing the
+          wrong QuickDraw call.
+        </div>
+        <div class="callout callout-red">
+          <strong>Nuclear red diagnostic:</strong> Painting EraseRect bright red proved it handles
+          menus and titlebars, NOT icon backgrounds. Everything was red except the icons.
+        </div>
+      </div>
+
+      <!-- v10 -->
+      <div class="timeline-entry">
+        <div class="timeline-version">v10</div>
+        <div class="timeline-text">
+          Found <code>FillCRgn</code> (trap $AA12) with solid color fill. <strong>Right trap!</strong>
+          But the fix painted a solid purple bar over the icon column &mdash; the desktop is a tiled
+          <em>pattern</em>, not a solid color.
+        </div>
+        <div class="callout callout-yellow">
+          <strong>Yellow breakthrough:</strong> Painting FillCRgn yellow turned the <em>entire
+          desktop</em> yellow, including all icon areas. That was the moment we knew.
+        </div>
+      </div>
+
+      <!-- v11 -->
+      <div class="timeline-entry">
+        <div class="timeline-version">v11</div>
+        <div class="timeline-text">
+          <code>PtInRgn</code> region-accurate fill with corruption detection. But rainbow corruption
+          defies simple heuristics &mdash; false positives during icon drags, false negatives on
+          actual corruption. Color distance sampling, local variance, uniform-far-from-desktop checks
+          &mdash; nothing worked reliably.
+        </div>
+        <div class="callout callout-purple">
+          <em>"are you forgetting that it's not a 'desktop color'? it's literally a tiled image."</em>
+        </div>
+      </div>
+
+      <!-- v12 -->
+      <div class="timeline-entry">
+        <div class="timeline-version">v12</div>
+        <div class="timeline-text">
+          <strong>THE BREAKTHROUGH.</strong> Read the <code>PixPat</code> tile data directly, render
+          pattern ourselves at 32bpp. Bypass QuickDraw entirely. Don't detect corruption &mdash; just
+          always render it correctly.
+        </div>
+        <div class="callout callout-green">
+          <strong>The fix:</strong> Read the pattern tile bitmap, look up CLUT colors, convert to
+          32bpp, write directly to the framebuffer. If QuickDraw can't do it right, we'll do it
+          ourselves.
+        </div>
+      </div>
+
+      <!-- v13 -->
+      <div class="timeline-entry">
+        <div class="timeline-version">v13</div>
+        <div class="timeline-text">
+          Clean build, diagnostics removed. <strong>Confirmed working</strong> for icon backgrounds.
+          No ghosting, no purple bars, no black fills. The desktop pattern renders correctly.
+        </div>
+      </div>
+
+      <!-- v14 -->
+      <div class="timeline-entry">
+        <div class="timeline-version">v14</div>
+        <div class="timeline-text">
+          Added <code>EraseRect</code> patch for text rename corruption. <strong>Both bugs
+          fixed.</strong> Key discovery: Finder does text editing in its own <code>CGrafPort</code>,
+          not <code>WMgrCPort</code> &mdash; so the EraseRect patch reads <code>bkPixPat</code> from
+          whatever color port is current.
+        </div>
+        <div class="callout callout-blue">
+          <strong>Port discovery:</strong> The EraseRect patch initially only checked WMgrCPort and
+          did nothing. A magenta diagnostic (no port filter) proved EraseRect IS called for text areas
+          &mdash; just through the Finder's own CGrafPort.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="snow-white-ridges"></div>
+
+<!-- ============================================================
+     SECTION 4: THE FIX
+     ============================================================ -->
+<div class="mac-window">
+  <div class="mac-titlebar">
+    <div class="mac-closebox"></div>
+    <div class="mac-title">The Fix</div>
+  </div>
+  <div class="mac-body">
+    <h2 class="section-heading">Two Trap Patches</h2>
+    <p>
+      DesktopFix installs as a standard INIT at boot (shows a wrench icon in the startup parade).
+      It tail-patches two QuickDraw traps &mdash; after the originals run and produce corruption,
+      DesktopFix overwrites with correct pixels:
+    </p>
+
+    <!-- Flow diagram -->
+    <div class="flow-diagram">
+      <div class="flow-box">FillCRgn called</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box">Original runs</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box flow-bad">Garbage at 32bpp</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box">DesktopFix overwrites</div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box flow-good">Correct pixels!</div>
+    </div>
+
+    <!-- FillCRgn panel -->
+    <div class="sub-panel">
+      <div class="sub-panel-title">FillCRgn (Trap $AA12) &mdash; Icon Backgrounds</div>
+      <ol class="step-list">
+        <li>Original <code>FillCRgn</code> runs (produces corruption at 32bpp)</li>
+        <li>Read <code>PixPat</code>'s tile bitmap (<code>patData</code> &mdash; raw 8bpp pixel indices)</li>
+        <li>Look up each pixel index in the color table (<code>pmTable-&gt;ctTable[pixVal]</code>)</li>
+        <li>Convert 16-bit-per-channel <code>RGBColor</code> to 32bpp framebuffer format</li>
+        <li>Write pixels directly to the screen via <code>GDevice</code> <code>PixMap</code></li>
+        <li><code>PtInRgn</code> respects the exact region shape (not just bounding box)</li>
+      </ol>
+      <ul class="guard-list">
+        <li>Only fires through WMgrCPort (Window Manager port)</li>
+        <li>Region bounding box 1&ndash;250px in each dimension</li>
+        <li>Below the menu bar</li>
+        <li>Does not overlap any window's structure region</li>
+        <li>Recursion guard prevents infinite loops</li>
+        <li>Re-validates pixel depth on every call (handles resolution changes)</li>
+      </ul>
+    </div>
+
+    <!-- EraseRect panel -->
+    <div class="sub-panel">
+      <div class="sub-panel-title">EraseRect (Trap $A8A3) &mdash; Text Rename</div>
+      <p style="font-size: 0.92em; line-height: 1.55;">
+        Same rendering approach, but for rectangles. When you rename a desktop icon, the Finder
+        erases the text editing area and its surroundings. At 32bpp, this produces the same
+        corruption.
+      </p>
+      <p style="font-size: 0.92em; line-height: 1.55; margin-top: 8px;">
+        <strong>Key difference:</strong> the Finder does text editing in <strong>its own port</strong>,
+        not WMgrCPort. So this patch reads the background <code>PixPat</code> from whatever
+        <code>CGrafPort</code> is current (checking <code>portVersion &amp; $C000</code> to confirm
+        it's a color port).
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="snow-white-ridges"></div>
+
+<!-- ============================================================
+     SECTION 5: TECHNICAL DEEP DIVE
+     ============================================================ -->
+<div class="mac-window">
+  <div class="mac-titlebar">
+    <div class="mac-closebox"></div>
+    <div class="mac-title">Technical Deep Dive</div>
+  </div>
+  <div class="mac-body">
+
+    <h2 class="section-heading">Why the Bug Exists</h2>
+    <p>
+      The Mac OS desktop background is drawn using a <code>PixPat</code> (pixel pattern) &mdash;
+      typically the Mac OS watermark pattern stored at 8bpp with a CLUT (Color Lookup Table). When
+      QuickDraw needs to fill a region with this pattern at 32bpp, it must convert 8bpp indexed
+      pixels to 32bpp direct color. This conversion path is broken. It likely saw minimal testing
+      because 32bpp was uncommon on 68k Macs.
+    </p>
+
+    <h3 class="sub-heading">PixPat Structure</h3>
+    <div class="struct-tree"><span class="key">PixPat</span> (Handle)
+ &#9500;&#9472;&#9472; <span class="key">patType</span>: <span class="val">1</span>          <span class="comment">// color pixel pattern</span>
+ &#9500;&#9472;&#9472; <span class="key">patMap</span>: PixMapHandle
+ &#9474;    &#9500;&#9472;&#9472; <span class="key">bounds</span>        <span class="comment">// tile width x height</span>
+ &#9474;    &#9500;&#9472;&#9472; <span class="key">rowBytes</span>      <span class="comment">// bytes per tile row (mask 0x3FFF)</span>
+ &#9474;    &#9500;&#9472;&#9472; <span class="key">pixelSize</span>: <span class="val">8</span>  <span class="comment">// 8 bits per pixel (indexed)</span>
+ &#9474;    &#9492;&#9472;&#9472; <span class="key">pmTable</span>: CTabHandle
+ &#9474;         &#9492;&#9472;&#9472; <span class="key">ctTable</span>[0..255]: <span class="val">RGBColor</span> entries
+ &#9492;&#9472;&#9472; <span class="key">patData</span>: Handle
+      &#9492;&#9472;&#9472; raw 8bpp pixel indices (the tile bitmap)</div>
+
+    <h3 class="sub-heading">The Pixel Conversion</h3>
+    <p>For each pixel in the region or rectangle:</p>
+    <div class="code-block"><span style="color: var(--apple-blue);">tx</span> = x % tileW;                              <span style="color: var(--plat-shadow);">// tile-relative X</span>
+<span style="color: var(--apple-blue);">ty</span> = y % tileH;                              <span style="color: var(--plat-shadow);">// tile-relative Y</span>
+<span style="color: var(--apple-blue);">pixVal</span> = patData[ty * tileRowBytes + tx];     <span style="color: var(--plat-shadow);">// 8bpp index</span>
+<span style="color: var(--apple-blue);">cs</span> = &amp;ctab-&gt;ctTable[pixVal];                  <span style="color: var(--plat-shadow);">// CLUT lookup</span>
+<span style="color: var(--apple-blue);">pixel32</span> = (cs-&gt;rgb.red &gt;&gt; 8) &lt;&lt; 16 |         <span style="color: var(--plat-shadow);">// convert to 32bpp</span>
+          (cs-&gt;rgb.green &gt;&gt; 8) &lt;&lt; 8 |
+          (cs-&gt;rgb.blue &gt;&gt; 8);
+<span style="color: var(--apple-blue);">framebuffer</span>[y][x] = pixel32;                  <span style="color: var(--plat-shadow);">// direct write</span></div>
+
+    <h3 class="sub-heading">What Won't Work</h3>
+
+    <div class="callout callout-red">
+      <strong>GetCPixel:</strong> Also broken at 32bpp. Returns black instead of the actual pixel
+      value. Can't use it to sample existing screen pixels.
+    </div>
+    <div class="callout callout-red">
+      <strong>Corruption detection:</strong> Rainbow corruption has no consistent color signature.
+      White checks, black checks, color distance thresholds, local variance analysis &mdash; all
+      produce both false positives (painting over clean areas) and false negatives (missing actual
+      corruption).
+    </div>
+    <div class="callout callout-red">
+      <strong>Solid color fill:</strong> The desktop is a tiled pattern (Mac OS watermarks), not a
+      solid color. Filling with any single color &mdash; even sampled from adjacent pixels &mdash;
+      looks wrong.
+    </div>
+    <div class="callout callout-red">
+      <strong>EraseRgn trap $A8A9:</strong> This is the WRONG trap number. The correct EraseRgn is
+      $A8D4. Using $A8A9 patches something else entirely and causes a
+      <strong>DOUBLE MMU FAULT</strong> crash.
+    </div>
+  </div>
+</div>
+
+<div class="snow-white-ridges"></div>
+
+<!-- ============================================================
+     SECTION 6: HARDWARE / PHOTOS
+     ============================================================ -->
+<div class="mac-window">
+  <div class="mac-titlebar">
+    <div class="mac-closebox"></div>
+    <div class="mac-title">The Hardware</div>
+  </div>
+  <div class="mac-body" style="text-align: center;">
+
+    <!-- Main Quadra 700 photo -->
+    <div class="photo-frame tilt-left" style="max-width: 480px;">
+      <img class="photo-img tall" src="images/quadra_700_cropped.png"
+           alt="Quadra 700 - the machine where the bug was first discovered">
+      <div class="caption">The Quadra 700 where it all started</div>
+    </div>
+
+    <!-- Screenshot grid -->
+    <div class="photo-grid" style="margin-top: 28px; text-align: left;">
+      <div class="photo-frame">
+        <img class="photo-img" src="images/qemu_v10.png"
+             alt="v10 diagnostic showing solid purple fill over icon background regions">
+        <div class="caption">v10: purple diagnostic reveals FillCRgn regions</div>
+      </div>
+      <div class="photo-frame">
+        <img class="photo-img" src="images/qemu_v12_cropped.png"
+             alt="v12 showing black fill behind icon labels instead of the desktop pattern">
+        <div class="caption">v12: black fill &mdash; rendering but not passing through the pattern</div>
+      </div>
+      <div class="photo-frame">
+        <img class="photo-img" src="images/qemu_fullscreen.png"
+             alt="QEMU Quadra 800 running Mac OS 8.1 at 32bpp with DesktopFix installed - clean desktop">
+        <div class="caption">The fix: clean desktop at Millions of Colors</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="snow-white-ridges"></div>
+
+<!-- ============================================================
+     SECTION 7: BUILD & INSTALL
+     ============================================================ -->
+<div class="mac-window">
+  <div class="mac-titlebar">
+    <div class="mac-closebox"></div>
+    <div class="mac-title">Build &amp; Install</div>
+  </div>
+  <div class="mac-body">
+
+    <div class="sub-panel">
+      <div class="sub-panel-title">Building</div>
+      <p style="font-size: 0.92em; margin-bottom: 10px;">
+        Requires the <a href="https://github.com/autc04/Retro68" target="_blank">Retro68</a>
+        cross-compiler toolchain for 68k Macs.
+      </p>
+      <div class="code-block"># Set up build directory (first time only)
+mkdir build && cd build
+cmake .. -DCMAKE_TOOLCHAIN_FILE=/path/to/Retro68-build/toolchain/m68k-apple-macos/cmake/retro68.toolchain.cmake
+
+# Build
+make</div>
+      <p style="font-size: 0.88em; color: var(--plat-deep); margin-top: 8px;">
+        Produces <code>DesktopFix.dsk</code> (HFS disk image) and <code>DesktopFix.bin</code> (MacBinary).
+      </p>
+    </div>
+
+    <div class="sub-panel">
+      <div class="sub-panel-title">Installing</div>
+      <h3 class="sub-heading" style="margin-top: 0;">On an HFS disk image (for QEMU)</h3>
+      <p style="font-size: 0.92em; margin-bottom: 8px;">
+        Using <a href="https://www.mars.org/home/rob/proj/hfs/" target="_blank">hfsutils</a>:
+      </p>
+      <div class="code-block"># Extract from build disk
+hmount build/DesktopFix.dsk
+hcopy -m ":DesktopFix" DesktopFix.bin
+humount
+
+# Install to OS disk image
+hmount your-os-disk.hda
+hcopy -m DesktopFix.bin ":System Folder:Extensions:DesktopFix"
+humount</div>
+      <h3 class="sub-heading">On a real Mac</h3>
+      <p style="font-size: 0.92em;">
+        Copy <code>DesktopFix</code> to your <code>System Folder:Extensions</code> folder and restart.
+        A pre-built <code>DesktopFix.sit</code> (StuffIt archive) is available in the
+        <a href="https://github.com/LXXero/DesktopFix" target="_blank">GitHub repository</a>.
+      </p>
+    </div>
+
+    <div class="sub-panel">
+      <div class="sub-panel-title">QEMU Setup</div>
+      <p style="font-size: 0.92em; margin-bottom: 8px;">
+        Reference QEMU command for Quadra 800 at 32bpp:
+      </p>
+      <div class="code-block">qemu-system-m68k -M q800 -m 128 \
+    -bios /path/to/Q800.ROM \
+    -display gtk -g 800x600x24 \
+    -drive file=pram.img,format=raw,if=mtd \
+    -device scsi-hd,scsi-id=0,drive=hd0 \
+    -drive file=your-os-disk.hda,media=disk,format=raw,if=none,id=hd0 \
+    -device nubus-virtio-mmio,romfile=declrom \
+    -device virtio-tablet-device \
+    -nic user,model=dp83932</div>
+      <p style="font-size: 0.88em; color: var(--plat-deep); margin-top: 8px;">
+        Note: <code>-g 800x600x24</code> requests 32bpp (the <code>24</code> refers to 24 bits of
+        color data, stored in 32-bit pixels). This is what triggers the bug. At 256 Colors or
+        Thousands of Colors, the desktop renders fine.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SECTION 8: FOOTER
+     ============================================================ -->
+<div class="snow-white-ridges"></div>
+<div class="rainbow-bar"></div>
+
+<div class="footer-content">
+  <p>
+    Mac OS 7.6 &ndash; 8.1 &nbsp;&bull;&nbsp;
+    Any 68k Mac with 32-bit Color QuickDraw &nbsp;&bull;&nbsp;
+    Public Domain
+  </p>
+  <p style="margin-top: 8px;">
+    <a href="https://github.com/LXXero/DesktopFix" target="_blank">GitHub</a>
+    &bull;
+    <a href="https://68kmla.org/bb/threads/quadra-700-desktop-icon-corruption-24bit-in-7-6-8-1.51634/" target="_blank">68kmla Thread</a>
+  </p>
+  <p class="copyright">&copy; 2026 &mdash; Fixing Apple's homework 30 years later</p>
+</div>
+
+<div class="rainbow-bar" style="margin-bottom: 20px;"></div>
+
+</div><!-- .page-container -->
+
+</body>
+</html>
