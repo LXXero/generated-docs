@@ -387,7 +387,7 @@
 
                 <div class="highlight-box">
                     <h3>What This Proposes</h3>
-                    <p>Watchman is a frequency-hopping overlay for MeshCore-style LoRa meshes: a 192-channel plan, a pseudorandom hop sequence derived from the mesh key, and a four-level synchronization ladder that degrades gracefully from GPS-grade time down to purely relative timing. The routing, encryption, and application layers above the radio are untouched. Flood routing is preserved by design. Every mechanism in it is borrowed from a system that already survived decades of field abuse.</p>
+                    <p>Watchman is a frequency-hopping overlay for MeshCore-style LoRa meshes: a 192-channel plan, a pseudorandom hop sequence derived from the mesh key, and a four-stratum synchronization hierarchy, in the NTP sense of stratum, that degrades gracefully from GPS-grade time down to purely relative timing. The routing, encryption, and application layers above the radio are untouched. Flood routing is preserved by design. Every mechanism in it is borrowed from a system that already survived decades of field abuse.</p>
                 </div>
             </div>
 
@@ -416,7 +416,7 @@
                 <div class="timeline">
                     <div class="timeline-item">
                         <div class="year">1927&ndash;1970s</div>
-                        <p><strong>Autocall-Howe Plant Protection System</strong> &mdash; <a href="https://dosmenu.com/generated-docs/forgotten-pioneer/">James R. Harrington</a> multiplexed fire, watchman rounds, tank levels, and pressure telemetry over one shared Class-A loop, arbitrated by the loop's own state, with zero clocks anywhere. Early SCADA, filed by history under fire alarms because it protected factories instead of cities. Watchman borrows its event-chained slot anchoring, its deterministic interleaving instead of random backoff, its priority-as-repetition, and its supervision principle: silence is itself an alarm.</p>
+                        <p><strong>Autocall-Howe Plant Protection System</strong> &mdash; <a href="https://dosmenu.com/generated-docs/forgotten-pioneer/">James R. Harrington</a> multiplexed fire, watchman rounds, tank levels, and pressure telemetry over one shared Class-A loop, arbitrated by the loop's own state, with zero clocks anywhere. Early SCADA, filed by history under fire alarms because it protected factories instead of cities. Watchman borrows its reference-broadcast slot anchoring, its deterministic backoff instead of random backoff, its repetition coding by priority, and its supervision principle: a supervised circuit in which silence is itself an alarm.</p>
                     </div>
 
                     <div class="timeline-item">
@@ -431,7 +431,7 @@
 
                     <div class="timeline-item">
                         <div class="year">1980s&ndash;present</div>
-                        <p><strong>Rolling-code remotes (KeeLoq, HOTP)</strong> &mdash; one-way, clockless transmitters stay synchronized for decades through look-ahead windows and a cheap resync ritual. Watchman's rejoin-after-sleep procedure treats recovery as a first-class path, not a prayer.</p>
+                        <p><strong>Rolling-code remotes (KeeLoq, HOTP)</strong> &mdash; one-way, clockless transmitters stay synchronized for decades through look-ahead windows and a cheap resync ritual. Watchman's look-ahead window for rejoining after sleep treats recovery as a designed procedure, not a prayer.</p>
                     </div>
 
                     <div class="timeline-item">
@@ -459,38 +459,38 @@
 
                     <div class="tech-card">
                         <h4>Hop Sequence</h4>
-                        <p>350 ms slots numbered by a 32-bit counter, 10 ms guards at each edge. Channel for slot N is <code>PRF(key, N) mod |active set|</code>. No short cycle, so periodic traffic cannot lock onto one channel. One global sequence: every node on the same channel in the same slot, so flood routing survives unchanged.</p>
+                        <p>350 ms slots numbered by a 32-bit counter, 10 ms guards at each edge. Channel for slot N is <code>PRF(key, N) mod |channel map|</code>. No short cycle, so periodic traffic cannot lock onto one channel. One global sequence: every node on the same channel in the same slot, so flood routing survives unchanged.</p>
                     </div>
 
                     <div class="tech-card">
                         <h4>Collision Handling</h4>
-                        <p>Listen-before-talk through the SX126x channel-activity detector, then deterministic alternation ordered by node key when two senders collide repeatedly, after the Howe interleaving pattern, rather than randomized backoff.</p>
+                        <p>Listen-before-talk through the SX126x channel-activity detector, then deterministic backoff ordered by node key when two senders collide repeatedly, after the Howe interleaving pattern, rather than randomized backoff.</p>
                     </div>
 
                     <div class="tech-card">
-                        <h4>Priority as Repetition</h4>
+                        <h4>Repetition Coding</h4>
                         <p>Join beacons and alarms repeat across 3&ndash;5 consecutive slots, and therefore across different channels; chat gets 1&ndash;2 slots; telemetry gets one. Criticality buys airtime diversity: the Howe five-rounds rule reborn.</p>
                     </div>
 
                     <div class="tech-card">
-                        <h4>Adaptive Avoidance</h4>
-                        <p>Every node scores each channel: idle noise floor, CAD-busy rate, and traffic expected but not heard. Scores ride in check-ins to the repeater, which accumulates trouble per channel. Channels bad for many nodes leave the active set via an epoch-numbered mask; the set never shrinks below 60. This is Bluetooth's adaptive hopping, and it is the conduct 15.247(h) expressly permits.</p>
+                        <h4>Adaptive Frequency Hopping</h4>
+                        <p>Every node classifies each channel: idle noise floor, CAD-busy rate, and traffic expected but not heard. Scores ride in check-ins to the repeater, which accumulates trouble per channel. Channels bad for many nodes are removed from the channel map by an epoch-numbered update; the map never shrinks below 60 channels. This is Bluetooth's adaptive frequency hopping and TSCH's channel blacklisting, and it is the conduct 15.247(h) expressly permits.</p>
                     </div>
 
                     <div class="tech-card">
                         <h4>Watchman Supervision</h4>
-                        <p>Repeaters and infrastructure nodes own scheduled check-in slots. A node that misses its round is flagged by its neighbors. Silence is a signal, exactly as a missed watchman station was in 1933. Today's meshes lack this; a dead repeater is merely quiet.</p>
+                        <p>Repeaters and infrastructure nodes own scheduled check-in slots. A node that misses its round is flagged by its neighbors: silence is itself a supervisory signal, in the NFPA 72 sense of a supervised circuit, exactly as a missed watchman station was in 1933. Today's meshes lack this; a dead repeater is merely quiet.</p>
                     </div>
                 </div>
 
-                <h3>The Synchronization Ladder</h3>
-                <p>Nodes take time from the best level available and degrade gracefully.</p>
+                <h3>Synchronization Strata</h3>
+                <p>Nodes take time from the best stratum available and degrade gracefully.</p>
                 <table>
-                    <tr><th>Level</th><th>Source</th><th>Accuracy</th><th>Role</th></tr>
+                    <tr><th>Stratum</th><th>Source</th><th>Accuracy</th><th>Role</th></tr>
                     <tr><td>0</td><td>GPS (PPS or NMEA)</td><td>ns to ms</td><td>Absolute slot numbering from satellite time; instant cold join; partitions containing any GPS node merge pre-synchronized</td></tr>
                     <tr><td>1</td><td>In-band mesh time</td><td>sub-ms</td><td>Every frame carries its slot index; receive-interrupt timestamps discipline every hearer, TSCH-style</td></tr>
-                    <tr><td>2</td><td>Event chaining</td><td>ms</td><td>Any heard transmission's end re-anchors the next slot boundary; pure relative timing, Howe-style</td></tr>
-                    <tr><td>3</td><td>Rejoin window</td><td>&mdash;</td><td>A waking node bounds its drift, scans the few candidate channels its window allows, and snaps back in</td></tr>
+                    <tr><td>2</td><td>Reference-broadcast synchronization</td><td>ms</td><td>Any heard transmission's end re-anchors the next slot boundary; pure relative timing, Howe-style</td></tr>
+                    <tr><td>3</td><td>Look-ahead window</td><td>&mdash;</td><td>A waking node bounds its drift, scans the few candidate channels its window allows, and snaps back in</td></tr>
                 </table>
 
                 <p>A node asleep for an hour accumulates roughly 72 ms of drift at 20 ppm, well inside one slot: it wakes and resumes. A node asleep for a day drifts about 1.7 s and scans a handful of slots to reacquire. Recovery is a designed ritual with a bounded cost.</p>
@@ -580,7 +580,7 @@
                     </div>
                     <div class="timeline-item">
                         <div class="year">Phase 1</div>
-                        <p><strong>Full ladder.</strong> Add the repeater as GPS-disciplined anchor broadcasting slot numbering; run the full 192-channel plan. Measure time error at each node versus GPS truth, cold-join time with and without GPS, throughput and loss versus the flat-channel baseline, and behavior beside a deliberate interferer parked on one channel.</p>
+                        <p><strong>Full stratum hierarchy.</strong> Add the repeater as GPS-disciplined anchor broadcasting slot numbering; run the full 192-channel plan. Measure time error at each node versus GPS truth, cold-join time with and without GPS, throughput and loss versus the flat-channel baseline, and behavior beside a deliberate interferer parked on one channel.</p>
                     </div>
                     <div class="timeline-item">
                         <div class="year">Phase 2</div>
