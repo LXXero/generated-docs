@@ -382,12 +382,12 @@
 
         <div class="content">
             <div class="section">
-                <h2>The Third Door</h2>
-                <p>There is a third door out of the LoRa mesh compliance crisis, and it has been open the whole time. <a href="https://www.ecfr.gov/current/title-47/part-15/section-15.247">47 CFR 15.247(a)(1)</a> permits frequency-hopping systems in the 902&ndash;928 MHz band to keep narrow channels and transmit at up to one full watt, provided they hop across at least 50 channels. The community debate assumes the only choices are a painful 500 kHz migration or ongoing non-compliance. Hopping keeps the 62.5 kHz bandwidth that makes dense-urban meshes work, keeps the 1 W repeaters legal, and averages transmissions over the noise instead of parking in it.</p>
+                <h2>The Third Option</h2>
+                <p>There is a third option in the LoRa mesh compliance crisis, and it has been available the whole time. <a href="https://www.ecfr.gov/current/title-47/part-15/section-15.247">47 CFR 15.247(a)(1)</a> permits frequency-hopping systems in the 902&ndash;928 MHz band to keep narrow channels and transmit at up to one full watt, provided they hop across at least 50 channels. The community debate assumes the only choices are a painful 500 kHz migration or ongoing non-compliance. Hopping keeps the 62.5 kHz bandwidth that makes dense-urban meshes work, keeps the 1 W repeaters legal, and averages transmissions over the noise instead of parking in it.</p>
 
                 <div class="highlight-box">
                     <h3>What This Proposes</h3>
-                    <p>Watchman is a frequency-hopping overlay for MeshCore-style LoRa meshes: a 192-channel plan, a pseudorandom hop sequence derived from the mesh key, and a four-rung synchronization ladder that degrades gracefully from GPS-grade time down to purely relative timing. The routing, encryption, and application layers above the radio are untouched. Flood routing is preserved by design. Every mechanism in it is borrowed from a system that already survived decades of field abuse.</p>
+                    <p>Watchman is a frequency-hopping overlay for MeshCore-style LoRa meshes: a 192-channel plan, a pseudorandom hop sequence derived from the mesh key, and a four-level synchronization ladder that degrades gracefully from GPS-grade time down to purely relative timing. The routing, encryption, and application layers above the radio are untouched. Flood routing is preserved by design. Every mechanism in it is borrowed from a system that already survived decades of field abuse.</p>
                 </div>
             </div>
 
@@ -484,9 +484,9 @@
                 </div>
 
                 <h3>The Synchronization Ladder</h3>
-                <p>Nodes take time from the best rung available and degrade gracefully.</p>
+                <p>Nodes take time from the best level available and degrade gracefully.</p>
                 <table>
-                    <tr><th>Rung</th><th>Source</th><th>Accuracy</th><th>Role</th></tr>
+                    <tr><th>Level</th><th>Source</th><th>Accuracy</th><th>Role</th></tr>
                     <tr><td>0</td><td>GPS (PPS or NMEA)</td><td>ns to ms</td><td>Absolute slot numbering from satellite time; instant cold join; partitions containing any GPS node merge pre-synchronized</td></tr>
                     <tr><td>1</td><td>In-band mesh time</td><td>sub-ms</td><td>Every frame carries its slot index; receive-interrupt timestamps discipline every hearer, TSCH-style</td></tr>
                     <tr><td>2</td><td>Event chaining</td><td>ms</td><td>Any heard transmission's end re-anchors the next slot boundary; pure relative timing, Howe-style</td></tr>
