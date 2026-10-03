@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watchman: Frequency Hopping for LoRa Mesh</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap');
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(135deg, #FF6B9D 0%, #FEC368 25%, #4ECDC4 50%, #6C5CE7 75%, #FF6B9D 100%);
+            margin: 0;
+            padding: 40px 20px;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #FFD93D;
+            padding: 60px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: #FF6B9D;
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 150px;
+            height: 150px;
+            background: #4ECDC4;
+            transform: rotate(45deg);
+        }
+
+        h1 {
+            font-size: 3.5em;
+            font-weight: 900;
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+            line-height: 1.1;
+            position: relative;
+            z-index: 1;
+            text-shadow: 4px 4px 0px #000;
+            color: #fff;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1a1a1a;
+            position: relative;
+            z-index: 1;
+            background: white;
+            display: inline-block;
+            padding: 10px 20px;
+            transform: rotate(-2deg);
+            box-shadow: 5px 5px 0px #000;
+        }
+
+        .byline {
+            position: relative;
+            z-index: 1;
+            margin-top: 25px;
+            font-weight: 700;
+            font-size: 0.95em;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            font-weight: 900;
+            color: #6C5CE7;
+            text-transform: uppercase;
+            margin: 0 0 20px 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                #FF6B9D,
+                #FF6B9D 10px,
+                #FFD93D 10px,
+                #FFD93D 20px
+            );
+        }
+
+        h3 {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #4ECDC4;
+            text-transform: uppercase;
+            margin: 30px 0 15px 0;
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #6C5CE7;
+            font-weight: 700;
+            text-decoration: none;
+            border-bottom: 3px solid #FFD93D;
+        }
+
+        a:hover {
+            background: #FFD93D;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #FFD93D;
+            padding: 2px 8px;
+            font-weight: 700;
+        }
+
+        ul, ol {
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        .highlight-box {
+            background: #FFD93D;
+            padding: 30px;
+            margin: 30px 0;
+            position: relative;
+            border: 5px solid #000;
+            box-shadow: 10px 10px 0px #FF6B9D;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: #4ECDC4;
+            border-radius: 50%;
+        }
+
+        .highlight-box h3 {
+            color: #1a1a1a;
+            margin-top: 0;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .tech-card {
+            background: #6C5CE7;
+            color: white;
+            padding: 25px;
+            border: 4px solid #000;
+            position: relative;
+            transform: rotate(-1deg);
+        }
+
+        .tech-card:nth-child(even) {
+            transform: rotate(1deg);
+            background: #FF6B9D;
+        }
+
+        .tech-card h4 {
+            font-size: 1.2em;
+            font-weight: 900;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+        }
+
+        .tech-card p {
+            font-size: 1em;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .tech-card code {
+            background: #000;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 8px;
+            background: repeating-linear-gradient(
+                0deg,
+                #4ECDC4,
+                #4ECDC4 20px,
+                #FF6B9D 20px,
+                #FF6B9D 40px
+            );
+        }
+
+        .timeline-item {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -46px;
+            top: 8px;
+            width: 20px;
+            height: 20px;
+            background: #FFD93D;
+            border: 4px solid #000;
+            border-radius: 50%;
+        }
+
+        .year {
+            font-size: 1.5em;
+            font-weight: 900;
+            color: #6C5CE7;
+            display: inline-block;
+            background: #FFD93D;
+            padding: 5px 15px;
+            border: 3px solid #000;
+            margin-bottom: 10px;
+        }
+
+        .quote {
+            font-size: 1.3em;
+            font-style: italic;
+            font-weight: 700;
+            color: #6C5CE7;
+            padding: 30px;
+            background: white;
+            border-left: 10px solid #4ECDC4;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .quote::before {
+            content: '"';
+            font-size: 5em;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            color: #FFD93D;
+            font-family: Georgia, serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0 35px 0;
+            font-size: 1em;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0px #4ECDC4;
+        }
+
+        th {
+            background: #FFD93D;
+            text-transform: uppercase;
+            font-weight: 900;
+            text-align: left;
+            padding: 12px 14px;
+            border: 3px solid #000;
+        }
+
+        td {
+            padding: 12px 14px;
+            border: 3px solid #000;
+            line-height: 1.5;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) td {
+            background: #fdf6dc;
+        }
+
+        .conclusion {
+            background: #000;
+            color: white;
+            padding: 50px 40px;
+            margin: 0 -40px -40px -40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conclusion::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: repeating-linear-gradient(
+                90deg,
+                #FF6B9D,
+                #FF6B9D 30px,
+                #FFD93D 30px,
+                #FFD93D 60px,
+                #4ECDC4 60px,
+                #4ECDC4 90px
+            );
+        }
+
+        .conclusion h2 {
+            color: #FFD93D;
+        }
+
+        .conclusion p, .conclusion li {
+            color: white;
+        }
+
+        .conclusion a {
+            color: #4ECDC4;
+            border-bottom-color: #FF6B9D;
+        }
+
+        .conclusion a:hover {
+            background: #6C5CE7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>WATCHMAN</h1>
+            <div class="subtitle">Frequency Hopping for LoRa Mesh &mdash; Harrington's Loop, Reborn on the Air</div>
+            <div class="byline">A design proposal &middot; October 2026 &middot; drafted for the <a href="https://github.com/meshcore-dev/MeshCore/issues/945">MeshCore #945</a> conversation</div>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>The Third Door</h2>
+                <p>There is a third door out of the LoRa mesh compliance crisis, and it has been open the whole time. <a href="https://www.ecfr.gov/current/title-47/part-15/section-15.247">47 CFR 15.247(a)(1)</a> permits frequency-hopping systems in the 902&ndash;928 MHz band to keep narrow channels and transmit at up to one full watt, provided they hop across at least 50 channels. The community debate assumes the only choices are a painful 500 kHz migration or ongoing non-compliance. Hopping keeps the 62.5 kHz bandwidth that makes dense-urban meshes work, keeps the 1 W repeaters legal, and averages transmissions over the noise instead of parking in it.</p>
+
+                <div class="highlight-box">
+                    <h3>What This Proposes</h3>
+                    <p>Watchman is a frequency-hopping overlay for MeshCore-style LoRa meshes: a 192-channel plan, a pseudorandom hop sequence derived from the mesh key, and a four-rung synchronization ladder that degrades gracefully from GPS-grade time down to purely relative timing. The routing, encryption, and application layers above the radio are untouched. Flood routing is preserved by design. Every mechanism in it is borrowed from a system that already survived decades of field abuse.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>The Problem</h2>
+                <p>US LoRa mesh defaults do not fit any Part 15 provision at the power levels people actually run. Section 15.247(a)(2) allows digital modulation in 902&ndash;928 MHz only with a minimum 6 dB bandwidth of 500 kHz; MeshCore's USA preset is 62.5 kHz and Meshtastic's LongFast is 250 kHz. Below 500 kHz the only blanket authorization is 15.249, which caps radiated power near one milliwatt. A one-watt narrowband repeater on a fixed frequency therefore has no rule to stand under. An FCC test lab's <a href="https://www.sunfiretesting.com/LoRa-FCC-Certification-Guide/">LoRa certification guide</a> and Semtech's own compliance guidance both read the rule this way.</p>
+
+                <p>The problem was raised in <a href="https://github.com/meshcore-dev/MeshCore/issues/945">MeshCore issue #945</a> in October 2025 and has run to roughly 377 comments without resolution. No FCC enforcement, advisory, or acknowledgment has occurred as of October 2026 (<a href="https://hackaday.com/2026/09/17/fcc-ism-rules-may-shatter-lora-mesh-communities/">Hackaday covered the standoff</a>); enforcement in this band is historically complaint-driven.</p>
+
+                <p>The obvious fix is failing, socially and technically. Meshtastic shipped alpha 500 kHz presets that cannot interoperate with deployed nodes and fractured communities; Philadelphia's mesh tested 500 kHz, found it worse in dense urban noise, and switched protocols instead. Seattle operators report utility smart-meter channels every 300 kHz across the band, with noise floors 30 dB higher at wide bandwidths. Narrowband is not an aesthetic preference. It is why these meshes work in cities.</p>
+
+                <div class="quote">The minimum 6 dB bandwidth shall be at least 500 kHz.<br><span style="font-size:0.7em; font-weight:400;">&mdash; 47 CFR 15.247(a)(2), the sentence that started 377 comments</span></div>
+
+                <p>The hopping provision, which legalizes narrowband at full power, has been mentioned in passing (<a href="https://housedillon.com/blog/meshcore-and-lorawan/">one commenter sketched LoRaWAN-style concentrators</a>) but never developed into a concrete design. This is that design.</p>
+            </div>
+
+            <div class="section">
+                <h2>Why Narrow Wins</h2>
+                <p>Channel <em>bandwidth</em> and channel <em>spacing</em> are different things, and conflating them is how the band got misread. Watchman keeps 62.5 kHz LoRa modulation throughout; only the distance between channel centers changes. A receiver's noise is proportional to its bandwidth, so 62.5 kHz captures one eighth the noise of 500 kHz, roughly 9 dB of sensitivity at equal spreading factor, and a narrow signal is far less likely to overlap a smart-meter channel. The costs are real but bounded: twice the airtime per byte compared with 125 kHz, and a carrier-accuracy requirement of about 16 ppm at 915 MHz, which means TCXO-equipped radios only. The SX1262 offers narrower modes still, but below 62.5 kHz the crystal budget turns vicious. The community found the floor empirically; 62.5 kHz is the narrowest channel stock hardware can hold.</p>
+            </div>
+
+            <div class="section">
+                <h2>Design Lineage</h2>
+                <p>Watchman is an assembly, not an invention. Each mechanism below was lifted from something that already works.</p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="year">1927&ndash;1970s</div>
+                        <p><strong>Autocall-Howe Plant Protection System</strong> &mdash; <a href="https://dosmenu.com/generated-docs/forgotten-pioneer/">James R. Harrington</a> multiplexed fire, watchman rounds, tank levels, and pressure telemetry over one shared Class-A loop, arbitrated by the loop's own state, with zero clocks anywhere. Early SCADA, filed by history under fire alarms because it protected factories instead of cities. Watchman borrows its event-chained slot anchoring, its deterministic interleaving instead of random backoff, its priority-as-repetition, and its supervision principle: silence is itself an alarm.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="year">1940s&ndash;present</div>
+                        <p><strong>Military FHSS and Bluetooth</strong> &mdash; a shared seed plus shared time yields coordinated hopping with no on-air negotiation. Watchman's hop channel is a pseudorandom function of the mesh key and the slot index.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="year">1980s&ndash;present</div>
+                        <p><strong>RSA SecurID and TOTP</strong> &mdash; time-stepped shared-secret sequences tolerate sloppy clocks through acceptance windows. The hop sequence is TOTP with a 350 ms step.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="year">1980s&ndash;present</div>
+                        <p><strong>Rolling-code remotes (KeeLoq, HOTP)</strong> &mdash; one-way, clockless transmitters stay synchronized for decades through look-ahead windows and a cheap resync ritual. Watchman's rejoin-after-sleep procedure treats recovery as a first-class path, not a prayer.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="year">1990s&ndash;present</div>
+                        <p><strong>GPS and LoRaWAN Class B</strong> &mdash; satellite time is a free stratum-0 anchor; LoRaWAN gateways already beacon GPS-timed slots in production. Optional GPS nodes pin Watchman's absolute slot numbering for instant join and partition merge.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="year">2000s&ndash;present</div>
+                        <p><strong>TSCH (802.15.4e, WirelessHART)</strong> &mdash; industrial meshes carry their own time; every packet disciplines its hearers. Watchman transfers time in-band with a slot index in every frame header.</p>
+                    </div>
+                </div>
+
+                <div class="quote">Watchman is, in part, the alternate timeline where Harrington's relay logic became a networking protocol instead of a footnote.</div>
+            </div>
+
+            <div class="section">
+                <h2>The Protocol</h2>
+
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h4>Channel Plan</h4>
+                        <p>192 channels of 62.5 kHz LoRa, centered every 125 kHz from 903.0 to 927.0 MHz. A 1 MHz guard at each band edge keeps spectral skirts clear of restricted bands; 125 kHz spacing comfortably exceeds the roughly 80 kHz 20 dB bandwidth of the signal. The channel table is configuration data, not code.</p>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Hop Sequence</h4>
+                        <p>350 ms slots numbered by a 32-bit counter, 10 ms guards at each edge. Channel for slot N is <code>PRF(key, N) mod |active set|</code>. No short cycle, so periodic traffic cannot lock onto one channel. One global sequence: every node on the same channel in the same slot, so flood routing survives unchanged.</p>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Collision Handling</h4>
+                        <p>Listen-before-talk through the SX126x channel-activity detector, then deterministic alternation ordered by node key when two senders collide repeatedly, after the Howe interleaving pattern, rather than randomized backoff.</p>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Priority as Repetition</h4>
+                        <p>Join beacons and alarms repeat across 3&ndash;5 consecutive slots, and therefore across different channels; chat gets 1&ndash;2 slots; telemetry gets one. Criticality buys airtime diversity: the Howe five-rounds rule reborn.</p>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Adaptive Avoidance</h4>
+                        <p>Every node scores each channel: idle noise floor, CAD-busy rate, and traffic expected but not heard. Scores ride in check-ins to the repeater, which accumulates trouble per channel. Channels bad for many nodes leave the active set via an epoch-numbered mask; the set never shrinks below 60. This is Bluetooth's adaptive hopping, and it is the conduct 15.247(h) expressly permits.</p>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Watchman Supervision</h4>
+                        <p>Repeaters and infrastructure nodes own scheduled check-in slots. A node that misses its round is flagged by its neighbors. Silence is a signal, exactly as a missed watchman station was in 1933. Today's meshes lack this; a dead repeater is merely quiet.</p>
+                    </div>
+                </div>
+
+                <h3>The Synchronization Ladder</h3>
+                <p>Nodes take time from the best rung available and degrade gracefully.</p>
+                <table>
+                    <tr><th>Rung</th><th>Source</th><th>Accuracy</th><th>Role</th></tr>
+                    <tr><td>0</td><td>GPS (PPS or NMEA)</td><td>ns to ms</td><td>Absolute slot numbering from satellite time; instant cold join; partitions containing any GPS node merge pre-synchronized</td></tr>
+                    <tr><td>1</td><td>In-band mesh time</td><td>sub-ms</td><td>Every frame carries its slot index; receive-interrupt timestamps discipline every hearer, TSCH-style</td></tr>
+                    <tr><td>2</td><td>Event chaining</td><td>ms</td><td>Any heard transmission's end re-anchors the next slot boundary; pure relative timing, Howe-style</td></tr>
+                    <tr><td>3</td><td>Rejoin window</td><td>&mdash;</td><td>A waking node bounds its drift, scans the few candidate channels its window allows, and snaps back in</td></tr>
+                </table>
+
+                <p>A node asleep for an hour accumulates roughly 72 ms of drift at 20 ppm, well inside one slot: it wakes and resumes. A node asleep for a day drifts about 1.7 s and scans a handful of slots to reacquire. Recovery is a designed ritual with a bounded cost.</p>
+            </div>
+
+            <div class="section">
+                <h2>Compliance Mapping</h2>
+                <p>Each requirement of <a href="https://www.ecfr.gov/current/title-47/part-15/section-15.247">15.247</a> for frequency-hopping systems in 902&ndash;928 MHz, against the design.</p>
+                <table>
+                    <tr><th>Requirement (paraphrased)</th><th>Watchman answer</th></tr>
+                    <tr><td>Channel 20 dB bandwidth under 250 kHz requires at least 50 hopping channels</td><td>192 channels, with a 60-channel floor after adaptive blacklisting; the signal's 20 dB bandwidth is roughly 80 kHz</td></tr>
+                    <tr><td>Channel separation at least the 20 dB bandwidth, or 25 kHz</td><td>125 kHz spacing against roughly 80 kHz</td></tr>
+                    <tr><td>Average occupancy of any channel at most 0.4 s within 20 s</td><td>350 ms per visit, each channel visited about once per 67 s on average, several times below the limit</td></tr>
+                    <tr><td>Pseudorandom sequence; each frequency used equally on average by each transmitter</td><td>Keyed-hash PRF over a 32-bit slot counter is uniform with no short cycle; periodic transmissions are jittered so no transmitter favors a channel</td></tr>
+                    <tr><td>Receiver hops in synchrony with the transmitter, with matching input bandwidth</td><td>The entire mesh shares one sequence and one timebase; every receiver runs the same 62.5 kHz bandwidth</td></tr>
+                    <tr><td>Maximum 1 W conducted output for 50 or more channels; antenna gain above 6 dBi reduces it dB for dB</td><td>1 W only on fixed repeaters feeding modest antennas; power budgeted as EIRP</td></tr>
+                </table>
+
+                <p>Honest caveats, so this section cannot be accused of lawyering by enthusiasm: this is an engineering reading, not legal advice. The certification-versus-operation distinction for home-assembled nodes, argued at length in #945, is unresolved and matters mostly to vendors who sell preconfigured hardware. The hop sequence must be enforced by firmware, not left as a user-defeatable setting, for any vendor who wants to certify a product on this basis.</p>
+
+                <p>Finally, 15.247(h) cuts two ways. It permits a system to independently sense and avoid occupied channels, Bluetooth-style. It prohibits separate systems from coordinating their sequences with one another to avoid collisions. One mesh sharing one key is one system and may synchronize internally without limit; the rules in fact require its receivers to hop in synchrony. Two distinct meshes agreeing to interleave their schedules would cross the line. Harrington's loop was fully coordinated within one plant; the band is many plants sharing the air, and the rule only asks that no plant wire its loop to the neighbors'.</p>
+            </div>
+
+            <div class="section">
+                <h2>Feasibility</h2>
+                <h3>Airtime versus the 330 ms usable slot</h3>
+                <p>350 ms slot less guards; 62.5 kHz, CR 4/5, explicit header, 8-symbol preamble. Figures approximate.</p>
+                <table>
+                    <tr><th>Spreading factor</th><th>50-byte frame</th><th>Verdict</th></tr>
+                    <tr><td>SF7</td><td>~195 ms</td><td>Comfortable; frames up to about 80 bytes fit</td></tr>
+                    <tr><td>SF8</td><td>~350 ms</td><td>Over the slot at 50 bytes; cap payloads near 40 bytes (~310 ms)</td></tr>
+                    <tr><td>SF9</td><td>~660 ms</td><td>Only ~15-byte frames fit; otherwise fragment</td></tr>
+                    <tr><td>SF10+</td><td>over 1 s</td><td>Excluded; hopping trades away the slowest long-range modes</td></tr>
+                </table>
+                <p>The current USA preset is SF7, so the mainstream configuration fits with room to spare, and fragmentation across slots comes nearly free since the radio was changing channels anyway. The slot is deliberately shorter than the 400 ms regulatory maximum: 50 ms of margin absorbs clock error and whatever occupancy-measurement method a test lab applies.</p>
+
+                <h3>Timing budget</h3>
+                <p>A 20 ppm crystal drifts about 200 microseconds across a 10 s gap between heard packets, roughly 0.06 percent of a slot. Receive-interrupt timestamping on the SX1262 is deterministic to well under a millisecond. A 10 ms guard interval at each slot edge absorbs all of it. The synthesizer retunes in well under 1 ms, and channel-activity detection costs one to two symbol times, 2&ndash;4 ms at SF7.</p>
+
+                <h3>Hardware</h3>
+                <p>Every deployed SX1262 node is hop-capable; this is firmware, not new radios. GPS anchors already exist across the ecosystem (T-Beam, T-Deck Plus, T-Echo, T1000-E, assorted trackers; WisBlock repeaters accept a $15 GNSS module), and MeshCore's firmware already maps GPS pins, including PPS, and ships <code>gps sync</code> in its CLI. A later refinement puts an SX1302 concentrator, which listens to eight channels at once, in wall-powered repeaters, LoRaWAN-gateway style, relaxing sync requirements for the whole neighborhood.</p>
+
+                <h3>Firmware scope</h3>
+                <p>The change is confined to the radio scheduler: a slot clock, a retune between slots, a slot index in the frame header, and a time-discipline module feeding it. Routing, contact books, encryption, and the companion protocol sit above and do not change.</p>
+            </div>
+
+            <div class="section">
+                <h2>Regulatory Margin</h2>
+                <p>Watchman is designed to clear the rules by a margin, not to touch them. Three current-rule traps shaped the numbers above: slots run 350 ms against a 400 ms dwell limit; the sequence has no short cycle, because the rule demands equal channel use per transmitter and a periodic beacon on a short cycle would violate it; and channels stay 1 MHz clear of the band edges, where 1 W spectral skirts meet restricted bands. Two more are policy rather than protocol: high power lives only on fixed nodes, so handheld companions never raise RF-exposure questions, and hop plan and power limits are enforced by firmware per region profile rather than exposed as free settings, the posture the FCC's software-defined-radio rules expect of any product that might one day be certified.</p>
+
+                <div class="highlight-box">
+                    <h3>The Band Itself May Move</h3>
+                    <p>NextNav's 2024 petition asked the FCC to restructure 902&ndash;928 MHz around a 15 MHz carve-out for terrestrial positioning, over broad opposition from Part 15 interests; its current status should be checked before any firmware ships. A channel table held as data survives such a change: a remaining 907&ndash;918 MHz would still hold 88 channels at 125 kHz spacing.</p>
+                </div>
+
+                <h3>Regional profiles</h3>
+                <table>
+                    <tr><th>Region</th><th>Governing rule</th><th>What it demands</th><th>Watchman profile</th></tr>
+                    <tr><td>United States, Canada</td><td>FCC 15.247, ISED RSS-247</td><td>50+ channels, 0.4 s dwell, 1 W</td><td>192 channels, 350 ms slots, EIRP-budgeted power</td></tr>
+                    <tr><td>European Union, UK</td><td>ETSI EN 300 220</td><td>Duty cycle of 1&ndash;10 percent, or listen-before-talk with airtime caps; about 25 mW ERP</td><td>56 channels in 863&ndash;870 MHz, mandatory CAD, per-node airtime accounting, reduced power</td></tr>
+                    <tr><td>Japan</td><td>ARIB STD-T108</td><td>Mandatory carrier sense, 400 ms maximum transmission, about 20 mW</td><td>CAD mandatory, frames capped under the slot, low power</td></tr>
+                    <tr><td>Australia, New Zealand</td><td>AS/NZS 4268</td><td>FCC-like hopping in 915&ndash;928 MHz</td><td>104 channels</td></tr>
+                    <tr><td>India</td><td>865&ndash;867 MHz, low power</td><td>2 MHz of spectrum</td><td>Hopping infeasible; a non-hopping low-power profile</td></tr>
+                </table>
+                <p>The convergence is the point: every regime outside the US already wants listen-before-talk, airtime accounting, and narrow spacing. Built in as pillars, they make one protocol with region profiles rather than a US design with ports. Figures for non-US regimes are approximate; a profile for any region needs its current rule text checked before use.</p>
+            </div>
+
+            <div class="section">
+                <h2>Open Problems</h2>
+                <ul>
+                    <li><strong>Cold join without GPS.</strong> A newcomer with no time source must scan until it hears traffic. Expected wait scales inversely with mesh activity; a quiet mesh needs sparse sync beacons, or the newcomer parks on one channel until the sequence lands on it, about 67 s on average with 192 channels. Needs measurement, not speculation.</li>
+                    <li><strong>Partition merge without GPS.</strong> Two long-separated islands re-meeting need an epoch arbitration rule. Any island containing one GPS node merges pre-synchronized; the pure-relative case is the fiddly one.</li>
+                    <li><strong>Range ceiling.</strong> Excluding SF10+ costs the extreme-range fringe links. Whether real deployments depend on those modes, versus repeater density doing the work, is an empirical question the testbed should answer.</li>
+                    <li><strong>Battery cost of discipline.</strong> Listening for time is nearly free when traffic flows; a silent mesh trades some idle listening or beacon airtime for sync. Duty-cycle math needed.</li>
+                    <li><strong>Migration.</strong> The genuinely hard part, and it is social, not technical. A dual-stack transition is plausible but ugly; opt-in regional meshes adopting it wholesale, the way Philadelphia switched protocols overnight, is likelier. A proposal with working code and measurements moves this conversation; another forum argument does not.</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>The Testbed</h2>
+                <p>Three nodes, one owner, every rooftop consented: two Heltec V4 companions (ESP32-S3, SX1262) and one RAK WisMesh 1W repeater (RAK3401 with a SKY66122 amplifier, wall-powered) carrying a RAK12500 GNSS module as the stratum-0 anchor.</p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="year">Phase 0</div>
+                        <p><strong>Two-node hop.</strong> Fork the radio scheduler on the two Heltecs; point-to-point hopping with event-chained slots only. Measure sync hold time across silence, drift versus the model, rejoin latency after forced sleep.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="year">Phase 1</div>
+                        <p><strong>Full ladder.</strong> Add the repeater as GPS-disciplined anchor broadcasting slot numbering; run the full 192-channel plan. Measure time error at each node versus GPS truth, cold-join time with and without GPS, throughput and loss versus the flat-channel baseline, and behavior beside a deliberate interferer parked on one channel.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="year">Phase 2</div>
+                        <p><strong>Publish.</strong> Waterfall captures, scripts, and raw numbers alongside this document, posted to #945 and the wider community. Spectrum screenshots have moved that thread more than statutes; the plan is to argue in that currency.</p>
+                    </div>
+                </div>
+
+                <p>Success looks like a week of unattended three-node operation on the hopping schedule with sync maintained, rejoin under ten seconds from cold, and throughput within 20 percent of the flat-channel baseline. Failure on any of those is itself a publishable result, and either way the thread finally gets data.</p>
+            </div>
+
+            <div class="conclusion">
+                <h2>Why This, Why Now</h2>
+                <p>The 902&ndash;928 band is a shared Class-A loop serving a whole continent's worth of alarm boxes: utility meters, home automation, hobby meshes, all on one wire. Harrington's boxes stayed polite for fifty years because politeness was built into the wheel. Part 15 is the same interlock cam, specified in legalese instead of milled brass. Watchman proposes building the politeness into the protocol, keeping the narrow channels cities need and the power repeaters need, and doing it with mechanisms that have each already run for decades somewhere else.</p>
+                <p>Sources and further reading: <a href="https://www.ecfr.gov/current/title-47/part-15/section-15.247">47 CFR 15.247</a> &middot; <a href="https://github.com/meshcore-dev/MeshCore/issues/945">MeshCore issue #945</a> &middot; <a href="https://hackaday.com/2026/09/17/fcc-ism-rules-may-shatter-lora-mesh-communities/">Hackaday, September 2026</a> &middot; <a href="https://www.sunfiretesting.com/LoRa-FCC-Certification-Guide/">SunFire LoRa FCC certification guide</a> &middot; <a href="https://housedillon.com/blog/meshcore-and-lorawan/">MeshCore and LoRaWAN</a> &middot; <a href="https://dosmenu.com/generated-docs/forgotten-pioneer/">The Forgotten Pioneer</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
