@@ -479,7 +479,7 @@
 
                     <div class="tech-card">
                         <h4>Watchman Supervision</h4>
-                        <p>Repeaters and infrastructure nodes own scheduled check-in slots. A node that misses its round is flagged by its neighbors: silence is itself a supervisory signal, in the NFPA 72 sense of a supervised circuit, exactly as a lost testing current was in 1927. Supervision costs the supervisor, not the supervised: scheduled check-ins belong to mains-powered nodes, and a battery companion's existing periodic advert is its heartbeat. Today's meshes lack this; a dead repeater is merely quiet.</p>
+                        <p>Repeaters and other infrastructure nodes own scheduled check-in slots, which ride on the periodic adverts they already send, so supervision costs a solar repeater almost nothing. A node that misses its round is flagged by its neighbors: silence is itself a supervisory signal, in the NFPA 72 sense of a supervised circuit, exactly as a lost testing current was in 1927. A solar repeater that browns out at 4 a.m. and returns at 9 generates a trouble and a restoration, which is information the mesh has never had. Companions are not supervised; a phone in a drawer is not an incident. Today's meshes lack this; a dead repeater is merely quiet.</p>
                     </div>
                 </div>
 
@@ -492,6 +492,8 @@
                     <tr><td>2</td><td>Reference-broadcast synchronization</td><td>ms</td><td>Any heard transmission's end re-anchors the next slot boundary; pure relative timing, Howe-style</td></tr>
                     <tr><td>3</td><td>Look-ahead window</td><td>&mdash;</td><td>A waking node bounds its drift, scans the few candidate channels its window allows, and snaps back in</td></tr>
                 </table>
+
+                <p>Nothing here depends on mains power or on any single node. Any node that transmits is a time source for its hearers; when the mesh is silent, the node with the best stratum beacons and the others back off, and a sync beacon costs about 50 ms of transmit every 30 s, roughly 2 percent of the receive current a node already spends. A mesh of solar repeaters and battery companions keeps time collectively. GPS and mains power are preferences, not dependencies; a design that needed one anchor node would be the single point of failure off-grid meshes already reject.</p>
 
                 <p>A node asleep for an hour accumulates roughly 72 ms of drift at 20 ppm, well inside one slot: it wakes and resumes. A node asleep for a day drifts about 1.7 s and scans a handful of slots to reacquire. Recovery is a designed ritual with a bounded cost.</p>
             </div>
