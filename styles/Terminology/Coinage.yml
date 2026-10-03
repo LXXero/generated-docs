@@ -1,0 +1,9 @@
+# Coined metaphor-words standing in for plain terms. See CLAUDE.md "Terminology".
+# Word-boundary, case-insensitive. Field-legitimate uses (carrier frequency, carrier
+# sense, battery cell, unit test) are exempted via TokenIgnores in .vale.ini.
+extends: existence
+message: "'%s' is a coined term here — use the field's word (CLAUDE.md terminology table)"
+level: warning
+ignorecase: true
+tokens:
+  - '\b(?:cell|slice|unit|surface|face|door|adopter|rung|ladder|carrier|lane|seam|cockpit)s?\b'

@@ -1,6 +1,6 @@
 {
   "name": "watchman-fhss",
   "title": "Watchman: FHSS for LoRa Mesh",
-  "description": "A frequency-hopping overlay that keeps narrowband LoRa mesh legal at a full watt. Harrington's loop, reborn on the air.",
+  "description": "A frequency-hopping overlay that keeps narrowband LoRa mesh legal at a full watt. Harrington's signaling loop, reborn on the air.",
   "type": "html"
 }

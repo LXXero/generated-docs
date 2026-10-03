@@ -376,7 +376,7 @@
     <div class="container">
         <div class="header">
             <h1>WATCHMAN</h1>
-            <div class="subtitle">Frequency Hopping for LoRa Mesh &mdash; Harrington's Loop, Reborn on the Air</div>
+            <div class="subtitle">Frequency Hopping for LoRa Mesh &mdash; Harrington's Signaling Loop, Reborn on the Air</div>
             <div class="byline">A design proposal &middot; October 2026 &middot; drafted for the <a href="https://github.com/meshcore-dev/MeshCore/issues/945">MeshCore #945</a> conversation</div>
         </div>
 
@@ -416,7 +416,7 @@
                 <div class="timeline">
                     <div class="timeline-item">
                         <div class="year">1927&ndash;1970s</div>
-                        <p><strong>Autocall-Howe Plant Protection System</strong> &mdash; <a href="https://dosmenu.com/generated-docs/forgotten-pioneer/">James R. Harrington</a> multiplexed fire, watchman rounds, tank levels, and pressure telemetry over one shared Class-A loop, arbitrated by the loop's own state, with zero clocks anywhere. Early SCADA, filed by history under fire alarms because it protected factories instead of cities. Watchman borrows its reference-broadcast slot anchoring, its deterministic backoff instead of random backoff, its repetition coding by priority, and its supervision principle: a supervised circuit in which silence is itself an alarm.</p>
+                        <p><strong>Autocall-Howe Plant Protection System</strong> &mdash; <a href="https://dosmenu.com/generated-docs/forgotten-pioneer/">James R. Harrington</a> multiplexed fire, watchman rounds, tank levels, and pressure telemetry over one shared three-conductor circuit (conductors P, N and S: a box operating circuit and a signaling loop, per US 1,950,108 and US 2,202,853), arbitrated by the signaling loop's own state, with zero clocks anywhere. The 1936 patent even names the states outright, as a common wire, a trouble wire, and a trouble-corrected wire: normal, trouble, restored. Early SCADA, filed by history under fire alarms because it protected factories instead of cities. Watchman borrows its reference-broadcast slot anchoring, its deterministic backoff instead of random backoff, its repetition coding by priority, and its supervision principle: a supervised circuit in which silence is itself an alarm, which the 1936 patent's trouble wire and trouble-corrected wire make a citation rather than a slogan.</p>
                     </div>
 
                     <div class="timeline-item">
@@ -511,7 +511,7 @@
 
                 <p>Honest caveats, so this section cannot be accused of lawyering by enthusiasm: this is an engineering reading, not legal advice. The certification-versus-operation distinction for home-assembled nodes, argued at length in #945, is unresolved and matters mostly to vendors who sell preconfigured hardware. The hop sequence must be enforced by firmware, not left as a user-defeatable setting, for any vendor who wants to certify a product on this basis.</p>
 
-                <p>Finally, 15.247(h) cuts two ways. It permits a system to independently sense and avoid occupied channels, Bluetooth-style. It prohibits separate systems from coordinating their sequences with one another to avoid collisions. One mesh sharing one key is one system and may synchronize internally without limit; the rules in fact require its receivers to hop in synchrony. Two distinct meshes agreeing to interleave their schedules would cross the line. Harrington's loop was fully coordinated within one plant; the band is many plants sharing the air, and the rule only asks that no plant wire its loop to the neighbors'.</p>
+                <p>Finally, 15.247(h) cuts two ways. It permits a system to independently sense and avoid occupied channels, Bluetooth-style. It prohibits separate systems from coordinating their sequences with one another to avoid collisions. One mesh sharing one key is one system and may synchronize internally without limit; the rules in fact require its receivers to hop in synchrony. Two distinct meshes agreeing to interleave their schedules would cross the line. Harrington's three-conductor circuit was fully coordinated within one plant; the band is many plants sharing the air, and the rule only asks that no plant wire its signaling loop to the neighbors'.</p>
             </div>
 
             <div class="section">
@@ -593,7 +593,7 @@
 
             <div class="conclusion">
                 <h2>Why This, Why Now</h2>
-                <p>The 902&ndash;928 band is a shared Class-A loop serving a whole continent's worth of alarm boxes: utility meters, home automation, hobby meshes, all on one wire. Harrington's boxes stayed polite for fifty years because politeness was built into the wheel. Part 15 is the same interlock cam, specified in legalese instead of milled brass. Watchman proposes building the politeness into the protocol, keeping the narrow channels cities need and the power repeaters need, and doing it with mechanisms that have each already run for decades somewhere else.</p>
+                <p>The 902&ndash;928 band is a shared signaling loop serving a whole continent's worth of alarm boxes: utility meters, home automation, hobby meshes, all on one wire. Harrington's boxes stayed polite for fifty years because politeness was built into the wheel. Part 15 is the same interlock cam, specified in legalese instead of milled brass. Watchman proposes building the politeness into the protocol, keeping the narrow channels cities need and the power repeaters need, and doing it with mechanisms that have each already run for decades somewhere else.</p>
                 <p>Sources and further reading: <a href="https://www.ecfr.gov/current/title-47/part-15/section-15.247">47 CFR 15.247</a> &middot; <a href="https://github.com/meshcore-dev/MeshCore/issues/945">MeshCore issue #945</a> &middot; <a href="https://hackaday.com/2026/09/17/fcc-ism-rules-may-shatter-lora-mesh-communities/">Hackaday, September 2026</a> &middot; <a href="https://www.sunfiretesting.com/LoRa-FCC-Certification-Guide/">SunFire LoRa FCC certification guide</a> &middot; <a href="https://housedillon.com/blog/meshcore-and-lorawan/">MeshCore and LoRaWAN</a> &middot; <a href="https://dosmenu.com/generated-docs/forgotten-pioneer/">The Forgotten Pioneer</a></p>
             </div>
         </div>
