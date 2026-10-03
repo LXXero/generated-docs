@@ -11,9 +11,12 @@
 set -e
 
 # Configuration
-SSH_HOST="${DEPLOY_SSH_HOST:-zx}"
-SSH_USER="claude"
-REMOTE_PARENT="/public_html/generated-docs"
+# Deploys over the box's normal SSH account with sudo rsync, per
+# ~/git/zaxxon/DEPLOY.md. The old chrooted "claude" SFTP user did not
+# survive the March 2026 kh rebuild.
+SSH_HOST="${DEPLOY_SSH_HOST:-kh}"
+REMOTE_PARENT="/srv/www/dosmenu/generated-docs"
+RSYNC_PATH="sudo rsync"
 BUILDS_DIR="builds"
 PARENT_README="parent-README.txt"
 BASE_URL="https://dosmenu.com/generated-docs"
@@ -69,17 +72,12 @@ deploy_project() {
     echo -e "${YELLOW}   Target: ${remote_path}/${NC}"
     echo -e "${YELLOW}   URL: ${public_url}${NC}"
 
-    # Create remote directories
-    echo -e "${GREEN}   Creating remote directories...${NC}"
-    sftp "${SSH_USER}@${SSH_HOST}" << EOF > /dev/null 2>&1
--mkdir ${REMOTE_PARENT}
--mkdir ${remote_path}
-bye
-EOF
-
-    # Upload project files
-    echo -e "${GREEN}   Uploading files...${NC}"
-    scp -r ${build_path}/* "${SSH_USER}@${SSH_HOST}:${remote_path}/"
+    # Sync the build, then relabel: SELinux is enforcing and files rsync
+    # creates in a new directory come up with the wrong context (403s).
+    echo -e "${GREEN}   Syncing files...${NC}"
+    ssh "${SSH_HOST}" "sudo mkdir -p '${remote_path}'"
+    rsync -az --delete --rsync-path="${RSYNC_PATH}" "${build_path}/" "${SSH_HOST}:${remote_path}/"
+    ssh "${SSH_HOST}" "sudo restorecon -R '${remote_path}'"
 
     echo -e "${GREEN}   ✓ Deployed successfully${NC}"
     echo -e "     ${public_url}"
@@ -87,15 +85,12 @@ EOF
 
 # Ensure parent directory structure exists
 echo -e "${GREEN}Setting up parent directory...${NC}"
-sftp "${SSH_USER}@${SSH_HOST}" << EOF > /dev/null 2>&1
--mkdir ${REMOTE_PARENT}
-bye
-EOF
+ssh "${SSH_HOST}" "sudo mkdir -p '${REMOTE_PARENT}'"
 
 # Upload parent README
 if [ -f "$PARENT_README" ]; then
     echo -e "${GREEN}Uploading parent README...${NC}"
-    scp "${PARENT_README}" "${SSH_USER}@${SSH_HOST}:${REMOTE_PARENT}/README.txt"
+    rsync -az --rsync-path="${RSYNC_PATH}" "${PARENT_README}" "${SSH_HOST}:${REMOTE_PARENT}/README.txt"
 fi
 
 # Deploy projects

@@ -35,8 +35,8 @@ scripts/         # Automation scripts
 - Sets base path to `/generated-docs/project-name/`
 
 ### Deployment (`scripts/deploy-projects.sh`)
-- Uses SFTP (server is chrooted, no SSH access)
-- Deploys to `/public_html/generated-docs/project-name/`
+- `rsync --rsync-path="sudo rsync"` over the normal `ssh kh` account (the `~/git/zaxxon/DEPLOY.md` convention)
+- Deploys to `/srv/www/dosmenu/generated-docs/project-name/` and runs `restorecon` (SELinux is enforcing)
 - Uploads parent README.txt
 - Purges Cloudflare cache (requires `CF_ZONE_ID` and `CF_API_TOKEN`)
 
@@ -48,11 +48,11 @@ scripts/         # Automation scripts
 
 ## Server Details
 
-- **SSH User:** `claude`
-- **Host:** `${DEPLOY_SSH_HOST}` (default: `zx`)
-- **Base Path:** `/public_html/generated-docs/`
-- **Access:** SFTP only (chrooted environment)
+- **Host:** `${DEPLOY_SSH_HOST}` (default: `kh`, your normal account with sudo)
+- **Base Path:** `/srv/www/dosmenu/generated-docs/`
+- **Access:** rsync over SSH with `sudo rsync`; new directories get `restorecon` because SELinux is enforcing
 - **Live URL:** https://dosmenu.com/generated-docs/
+- History: the chrooted `claude` SFTP user did not survive the March 2026 kh rebuild, and because the old script discarded SFTP errors, deploys silently failed from then on (last successful upload 2026-02-13) until the switch to rsync
 
 ## Key Files
 
@@ -95,39 +95,18 @@ When you rename a project (change the `name` field), the old directory remains o
 
 **Why not automated?** To prevent accidental deletions of content the user didn't intend to remove.
 
-**Manual cleanup process using SFTP:**
+**Manual cleanup process:**
 
 ```bash
-# 1. List files in the old directory
-sftp claude@zx <<'EOF'
-ls /public_html/generated-docs/old-project-name/
-bye
-EOF
+# 1. Look before you delete
+ssh kh 'ls -la /srv/www/dosmenu/generated-docs/old-project-name/'
 
-# 2. Remove each file one by one
-sftp claude@zx <<'EOF'
-rm /public_html/generated-docs/old-project-name/README.txt
-rm /public_html/generated-docs/old-project-name/index.html
-rm /public_html/generated-docs/old-project-name/index.css
-rm /public_html/generated-docs/old-project-name/main.tsx
-# ... remove any other files listed
-bye
-EOF
+# 2. Remove the directory
+ssh kh 'sudo rm -r /srv/www/dosmenu/generated-docs/old-project-name'
 
-# 3. Remove the now-empty directory
-sftp claude@zx <<'EOF'
-rmdir /public_html/generated-docs/old-project-name
-bye
-EOF
-
-# 4. Verify cleanup
-sftp claude@zx <<'EOF'
-ls /public_html/generated-docs/ | grep old-project-name
-bye
-EOF
+# 3. Verify cleanup
+ssh kh 'ls /srv/www/dosmenu/generated-docs/ | grep old-project-name'
 ```
-
-**Note:** SFTP batch commands require removing files one-by-one before removing the directory.
 
 ## README.txt Format (for server)
 
