@@ -76,7 +76,7 @@ deploy_project() {
     # creates in a new directory come up with the wrong context (403s).
     echo -e "${GREEN}   Syncing files...${NC}"
     ssh "${SSH_HOST}" "sudo mkdir -p '${remote_path}'"
-    rsync -az --delete --rsync-path="${RSYNC_PATH}" "${build_path}/" "${SSH_HOST}:${remote_path}/"
+    rsync -az --delete --chown=root:root --rsync-path="${RSYNC_PATH}" "${build_path}/" "${SSH_HOST}:${remote_path}/"
     ssh "${SSH_HOST}" "sudo restorecon -R '${remote_path}'"
 
     echo -e "${GREEN}   ✓ Deployed successfully${NC}"
@@ -90,7 +90,7 @@ ssh "${SSH_HOST}" "sudo mkdir -p '${REMOTE_PARENT}'"
 # Upload parent README
 if [ -f "$PARENT_README" ]; then
     echo -e "${GREEN}Uploading parent README...${NC}"
-    rsync -az --rsync-path="${RSYNC_PATH}" "${PARENT_README}" "${SSH_HOST}:${REMOTE_PARENT}/README.txt"
+    rsync -az --chown=root:root --rsync-path="${RSYNC_PATH}" "${PARENT_README}" "${SSH_HOST}:${REMOTE_PARENT}/README.txt"
 fi
 
 # Deploy projects
