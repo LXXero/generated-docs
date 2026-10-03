@@ -416,7 +416,7 @@
                 <div class="timeline">
                     <div class="timeline-item">
                         <div class="year">1927&ndash;1970s</div>
-                        <p><strong>Autocall-Howe Plant Protection System</strong> &mdash; <a href="https://dosmenu.com/generated-docs/forgotten-pioneer/">James R. Harrington</a> multiplexed fire, watchman rounds, tank levels, and pressure telemetry over one shared three-conductor circuit (conductors P, N and S: a box operating circuit and a signaling loop, per US 1,950,108 and US 2,202,853), arbitrated by the signaling loop's own state, with zero clocks anywhere. The 1936 patent even names the states outright, as a common wire, a trouble wire, and a trouble-corrected wire: normal, trouble, restored. Early SCADA, filed by history under fire alarms because it protected factories instead of cities. Watchman borrows its reference-broadcast slot anchoring, its deterministic backoff instead of random backoff, its repetition coding by priority, and its supervision principle: a supervised circuit in which silence is itself an alarm, which the 1936 patent's trouble wire and trouble-corrected wire make a citation rather than a slogan.</p>
+                        <p><strong>Autocall-Howe Plant Protection System</strong> &mdash; <a href="https://dosmenu.com/generated-docs/forgotten-pioneer/">James R. Harrington</a> multiplexed fire, watchman rounds, tank levels, and pressure telemetry over one shared three-conductor circuit (conductors P, N and S: a box operating circuit and a signaling loop, per US 1,950,108 and US 2,202,853), arbitrated by the signaling loop's own state, with zero clocks anywhere. Supervision was the conductors themselves: "under normal conditions a testing current is being passed continuously through this conductor" (US 1,950,108), held by test relays at the panel, so a break de-energizes a relay and reports trouble. A heartbeat, in 1927, with a relay as the watchdog. Early SCADA, filed by history under fire alarms because it protected factories instead of cities. Watchman borrows its reference-broadcast slot anchoring, its deterministic backoff instead of random backoff, its repetition coding by priority, and its supervision principle: a supervised circuit in which silence is itself an alarm, which the 1927 patent's continuous testing current makes a citation rather than a slogan.</p>
                     </div>
 
                     <div class="timeline-item">
@@ -479,7 +479,7 @@
 
                     <div class="tech-card">
                         <h4>Watchman Supervision</h4>
-                        <p>Repeaters and infrastructure nodes own scheduled check-in slots. A node that misses its round is flagged by its neighbors: silence is itself a supervisory signal, in the NFPA 72 sense of a supervised circuit, exactly as a missed watchman station was in 1933. Today's meshes lack this; a dead repeater is merely quiet.</p>
+                        <p>Repeaters and infrastructure nodes own scheduled check-in slots. A node that misses its round is flagged by its neighbors: silence is itself a supervisory signal, in the NFPA 72 sense of a supervised circuit, exactly as a lost testing current was in 1927. Supervision costs the supervisor, not the supervised: scheduled check-ins belong to mains-powered nodes, and a battery companion's existing periodic advert is its heartbeat. Today's meshes lack this; a dead repeater is merely quiet.</p>
                     </div>
                 </div>
 
@@ -580,7 +580,7 @@
                     </div>
                     <div class="timeline-item">
                         <div class="year">Phase 1</div>
-                        <p><strong>Full stratum hierarchy.</strong> Add the repeater as GPS-disciplined anchor broadcasting slot numbering; run the full 192-channel plan. Measure time error at each node versus GPS truth, cold-join time with and without GPS, throughput and loss versus the flat-channel baseline, and behavior beside a deliberate interferer parked on one channel.</p>
+                        <p><strong>Full stratum hierarchy.</strong> Add the repeater as GPS-disciplined anchor broadcasting slot numbering; run the full 192-channel plan. Measure time error at each node versus GPS truth, cold-join time with and without GPS, throughput and loss versus the flat-channel baseline, average current draw per node over 24 hours against stock firmware, and behavior beside a deliberate interferer parked on one channel.</p>
                     </div>
                     <div class="timeline-item">
                         <div class="year">Phase 2</div>
